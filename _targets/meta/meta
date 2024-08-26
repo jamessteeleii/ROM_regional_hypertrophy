@@ -1,0 +1,22 @@
+name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
+.Random.seed|object|e40324355173e7dd|||||||||||||||
+data|stem|99f9248a82c34e4f|3374fb4f7e8a56f4|90ce8d3c7e0dc92d|33550471||t19961.4654243701s|654861df3f096a02|10414|qs|local|vector|||0.109||
+file|stem|6b236b6d4cc80580|a80011998be61174|2c530c1562a7fbd1|1735323524|C:/Users/james/Dropbox/Research/ROM_regional_hypertrophy/data/ROM_regional_hypertrophy_data.csv|t19959.9228999486s|81d8ffd5856bffcd|39400|file|local|vector|||4.406||
+fit_main_model|function|10af0e043fbcd9ff|||||||||||||||
+fit_main_model_r_slopes|function|910ca909406581b4|||||||||||||||
+get_tidy_model|function|a271aae9af4b7d1b|||||||||||||||
+main_model|stem|06f70a7e88a81b7a|ad44192656e4335f|c7a2c9c9aacdd994|1534884991||t19961.4684483573s|754ff5186ef4718a|107248737|qs|local|vector|||251.922||
+main_model_r_slopes|stem|16b0f8bfb90cd3b2|eb2c65af3725d10a|e37282f1c7518c8d|-1870451490||t19961.4769450427s|f819bde17b3ca0b3|120735287|qs|local|vector|||351.875||
+make_plot_tiff|function|d824f2b8d85c6ffb|||||||||||||||
+make_pp_check|function|c79fbb38cad10d76|||||||||||||||
+make_rhat_plot|function|ff9978352d799ec0|||||||||||||||
+make_trace_plot|function|accba148807567de|||||||||||||||
+pp_check_main_model|stem|d40e7f5837261c58|87552a942211bf7d|a96c60956de2da11|1452863604||t19961.4685083358s|b5e998b111df3b06|171246|qs|local|vector|||0.953||
+pp_check_main_model_r_slopes|stem|b77a864f56a1c379|3a1965398fbfbef7|bf7bb8bf97b96ec8|-693983566||t19961.4769674248s|5d1257591d2c325d|179190|qs|local|vector|||1.156||
+read_prepare_data|function|13afd4887c866ea6|||||||||||||||
+rhat_main_model|stem|327ab1e3975d87ae|212f07daa9c761c7|00f8b30733152a31|-1168839758||t19961.4729359812s|9d9aea7c267ad7f2|107454984|qs|local|vector|||4.468|Dropped 1 NAs from new_rhatrhat.|
+rhat_main_model_r_slopes|stem|97178da23810048e|a0fa984da6ce43d3|164e2743772224b8|-1231365543||t19961.4770155562s|0548168c016f1d43|120908764|qs|local|vector|||4.828|Dropped 1 NAs from new_rhatrhat.|
+rstan|stem|da8966a62ca4e37b|066d3b705f07972a|845e01c6828f73f0|1919994806||t19961.4649162826s|a1d6ca5c0c2596ab|56|qs|local|vector|||4.468||
+rstan_setup|function|d82cad57281e544d|||||||||||||||
+trace_plot_main_model|stem|5c3870e736d3a504|98e5a6671660d27e|7d80e0ec5046f3c7|-136053382||t19961.4684910304s|5222057b4c9c5dc6|16049162|qs|local|vector|||2.844||
+trace_plot_main_model_r_slopes|stem|26de6b6f53f235ec|389fc14b542e9961|43757e09c552b9ef|-1309153496||t19961.477030956s|e914ddde3d286267|27314996|qs|local|vector|||4.516||
