@@ -109,6 +109,57 @@ fit_main_model_r_slopes <- function(data) {
     )
 }
 
+# Plot models
+plot_main_model <- function(data, model) {
+  
+  # Interaction plot
+  preds <- crossing(
+    mean_muscle_length_centred = seq(-35, 35, length = 101),
+    site_centred = c(-25,0,25),
+    vi = 0
+  ) |>
+    add_epred_draws(model, re_formula = NA)
+  
+  summary <- preds |>
+    group_by(mean_muscle_length_centred, site_centred) |>
+    mean_qi() 
+  
+  summary |>
+    ggplot(aes(x = mean_muscle_length_centred+50, y = .epred)) +
+    geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.75) +
+    geom_ribbon(aes(ymin = .epred.lower, ymax = .epred.upper,
+                    group = as.factor(site_centred+50), fill = site_centred+50),
+                alpha = 0.5, color = "black", size = 0.25) +
+    geom_line(aes(y = .epred,
+                  group = as.factor(site_centred+50)), size = 1, color = "black") +
+    geom_line(aes(y = .epred,
+                  group = as.factor(site_centred+50), color = site_centred+50)) +
+    geom_point(data = data,
+               aes(y = yi, size = size + 0.25), color = "black", fill = NA, shape = 21, alpha = 0.5) +
+    geom_point(data = data,
+               aes(y = yi, size = size, color = site_centred+50), alpha = 0.5) +
+    scale_color_viridis_c() +
+    scale_fill_viridis_c() +
+    scale_x_continuous(breaks = c(0,25,50,75,100)) +
+    scale_y_continuous(breaks = c(0,0.5,1,1.5,2,2.5)) +
+    guides(
+      size = "none",
+      color = "none"
+    ) +
+    labs(
+      x = "Mean Muscle Length",
+      y = "Standardised Mean Change",
+      fill = "Site of Measurement",
+      title = "Interaction between mean muscle length and site of measurement",
+      subtitle = "Global grand mean and 95% quantile intervals presented for predictions at 25%, 50%, and 75% of centred site of measurement"
+    ) +
+    theme_classic() +
+    theme(panel.border = element_rect(fill = NA),
+          legend.position = "bottom",
+          plot.subtitle = element_text(size=8))
+  
+}
+
 # Model checks
 make_rhat_plot <- function(model) {
   mod_rhat <- enframe(brms::rhat(model)) |>
