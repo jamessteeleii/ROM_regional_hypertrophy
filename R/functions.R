@@ -41,6 +41,13 @@ data <- escalc(
   data = data
 )
 
+data <- data |>
+  
+  # add study weights/sizes
+  mutate(
+    wi = 1/sqrt(vi),
+    size = 0.5 + 3.0 * (wi - min(wi, na.rm=TRUE))/(max(wi, na.rm=TRUE) - min(wi, na.rm=TRUE)))
+
 }
 
 # Setup rstan to run quicker
