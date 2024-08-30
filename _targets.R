@@ -59,7 +59,19 @@ list(
   tar_target(combined_main_model_r_slopes_plot, combine_main_model_plots(main_model_r_slopes_plot_preds, main_model_r_slopes_plot_slopes)),
   tar_target(tidy_main_model_r_slopes, get_tidy_model(main_model_r_slopes)),
   
+  # Fit, check, and plot main model with random slopes included and Steele priors 
+  tar_target(steele_priors_model, fit_steele_priors_model(data)),
+  tar_target(rhat_steele_priors_model, make_rhat_plot(steele_priors_model)),
+  tar_target(trace_plot_steele_priors_model, make_trace_plot(steele_priors_model)),
+  tar_target(pp_check_steele_priors_model, make_pp_check(steele_priors_model)),
+  tar_target(steele_priors_model_plot_preds, plot_main_model_preds(data, steele_priors_model)),
+  tar_target(steele_priors_model_plot_slopes, plot_main_model_slopes(steele_priors_model)),
+  tar_target(combined_steele_priors_model_plot, combine_main_model_plots(steele_priors_model_plot_preds, steele_priors_model_plot_slopes)),
+  tar_target(tidy_steele_priors_model, get_tidy_model(steele_priors_model)),
+  
   # Make plot tiffs
   tar_target(main_model_plot_tiff, make_plot_tiff(combined_main_model_plot, 10, 5, "plots/main_model.tiff")),
-  tar_target(main_model_r_slopes_plot_tiff, make_plot_tiff(combined_main_model_r_slopes_plot, 10, 5, "plots/main_model_r_slopes.tiff"))
+  tar_target(main_model_r_slopes_plot_tiff, make_plot_tiff(combined_main_model_r_slopes_plot, 10, 5, "plots/main_model_r_slopes.tiff")),
+  tar_target(steele_priors_model_plot_tiff, make_plot_tiff(combined_steele_priors_model_plot, 10, 5, "plots/steele_priors_model.tiff"))
+  
 )

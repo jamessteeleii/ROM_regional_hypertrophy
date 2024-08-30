@@ -109,8 +109,36 @@ fit_main_model_r_slopes <- function(data) {
     )
 }
 
+fit_steele_priors_model <- function(data) {
+  main_model_prior <-
+    c(
+      # set_prior("student_t(3, 0.001, 0.00025)", class = "b", coef = "mean_muscle_length_centred"),
+      set_prior("skew_normal(0, 0.0005, 2)", class = "b", coef = "mean_muscle_length_centred",),
+      set_prior("student_t(3, 0.34, 0.025)", class = "b", coef = "Intercept"),
+      set_prior("student_t(3, 0.21, 0.025)", class = "sd", coef = "Intercept", group = "study_number")
+      
+    )
+  
+  
+  main_model_w_prior <-
+    brm(yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * site_centred +
+          (mean_muscle_length_centred + site_centred | study_number) +
+          (1 | arm_number) +
+          (1 | effect_number),
+        data = data,
+        prior = main_model_prior,
+        chains = 4,
+        cores = 4,
+        seed = 1988,
+        warmup = 2000,
+        iter = 8000,
+        init = 0,
+        control = list(adapt_delta = 0.99)
+    )
+}
+
 # Plot models
-plot_main_model <- function(data, model) {
+plot_main_model_preds <- function(data, model) {
   
   # Interaction plot
   preds <- crossing(
@@ -140,24 +168,69 @@ plot_main_model <- function(data, model) {
                aes(y = yi, size = size, color = site_centred+50), alpha = 0.5) +
     scale_color_viridis_c() +
     scale_fill_viridis_c() +
-    scale_x_continuous(breaks = c(0,25,50,75,100)) +
-    scale_y_continuous(breaks = c(0,0.5,1,1.5,2,2.5)) +
+    scale_x_continuous(breaks = c(0,25,50,75,100), limits = c(0,100)) +
+    scale_y_continuous(breaks = c(-0.5,0,0.5,1,1.5,2,2.5)) +
     guides(
       size = "none",
       color = "none"
     ) +
     labs(
-      x = "Mean Muscle Length",
+      x = "Mean Muscle Length (%)",
       y = "Standardised Mean Change",
-      fill = "Site of Measurement",
-      title = "Interaction between mean muscle length and site of measurement",
-      subtitle = "Global grand mean and 95% quantile intervals presented for predictions at 25%, 50%, and 75% of centred site of measurement"
-    ) +
+      fill = "Site of Measurement (%)"
+      ) +
     theme_classic() +
     theme(panel.border = element_rect(fill = NA),
           legend.position = "bottom",
-          plot.subtitle = element_text(size=8))
+          axis.title = element_text(size=10))
   
+}
+
+plot_main_model_slopes <- function(model) {
+  
+  # Interaction plot - slopes
+  slopes <- avg_slopes(
+    model,
+    variables = "mean_muscle_length_centred",
+    newdata = datagrid(
+      mean_muscle_length_centred = seq(-35, 35, length = 101),
+      site_centred = c(-25,0,25),
+      vi = 0
+    ),
+    by = "site_centred"
+  ) |>
+    posterior_draws()
+  
+  slopes |>
+    ggplot(aes(x = site_centred+50, y = draw*50)) +
+    geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.75) +
+    stat_slabinterval(aes(fill = site_centred+50), alpha = 0.75) +
+    scale_fill_viridis_c() +
+    scale_x_continuous(breaks = c(0,25,50,75,100), limits = c(0,100)) +
+    scale_y_continuous(breaks = c(-1,-0.75,-0.5,-0.25,0,0.25,0.5,0.75,1)) +
+    guides(
+      color = "none"
+    ) +
+    labs(
+      x = "Site of Measurement (%)",
+      y = "Slope for Muscle Length",
+      fill = "Site of Measurement (%)"
+    ) +
+    theme_classic() +
+    theme(panel.border = element_rect(fill = NA),
+          axis.title = element_text(size=10))
+  
+  
+}
+
+combine_main_model_plots <- function(preds_plot, slopes_plot) {
+  (preds_plot + slopes_plot) +
+    plot_annotation(
+      title = "Interaction between mean muscle length and site of measurement",
+      subtitle = "Global grand mean and 95% quantile intervals presented for predictions and slopes at 25%, 50%, and 75% of centred site of measurement",
+      caption = "Note, the slopes have been transformed to the effect when increasing muscle length by 50% to reflect typical difference between short vs long lengths"
+    ) + 
+    plot_layout(guides = "collect") & theme(legend.position = "bottom")
 }
 
 # Model checks

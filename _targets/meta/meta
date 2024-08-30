@@ -1,38 +1,48 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|02b4637d48c92dfc|||||||||||||||
+.Random.seed|object|e7d69e7631d7ac21|||||||||||||||
 combine_main_model_plots|function|2ab56058b6aa847c|||||||||||||||
-combined_main_model_plot|stem|67cc69cf313d25d7|e3a3683aab619814|1660cf6cd74910d6|-795655413||t19965.4515220039s|9a9a26f8fee2f505|264036023|qs|local|vector|||0||
-combined_main_model_r_slopes_plot|stem|063f490d61700330|b282bcfa60004a52|bb8b5c9fd34130c5|1752435118||t19965.4515326027s|0fab836bde5eff85|291165730|qs|local|vector|||0||
+combined_main_model_plot|stem|f8a82e64ed16fb3f|e3a3683aab619814|860ae96c66219787|-795655413||t19965.4912762865s|ba308cf3546de690|264070538|qs|local|vector|||0||
+combined_main_model_r_slopes_plot|stem|5d7404e51868cf60|b282bcfa60004a52|d9e6d17bde38ef30|1752435118||t19965.4910827836s|802ec2e53d3b7a14|291134327|qs|local|vector|||0||
+combined_steele_priors_model_plot|stem|bd2d955b9a8b996e|07a928921489986e|5df56e4df0e9267a|1771292752||t19965.556500734s|7d982c35b3839fc5|289236397|qs|local|vector|||0.016||
 data|stem|8cdd9dcc4f3638a9|3374fb4f7e8a56f4|4841d67f23a0fae4|33550471||t19961.8008610458s|e8a676c8dde859c4|13126|qs|local|vector|||0.141||
 file|stem|6b236b6d4cc80580|a80011998be61174|2c530c1562a7fbd1|1735323524|C:/Users/james/Dropbox/Research/ROM_regional_hypertrophy/data/ROM_regional_hypertrophy_data.csv|t19959.9228999486s|81d8ffd5856bffcd|39400|file|local|vector|||4.406||
 fit_main_model|function|10af0e043fbcd9ff|||||||||||||||
 fit_main_model_r_slopes|function|910ca909406581b4|||||||||||||||
+fit_steele_priors_model|function|0ecb12eb68aca541|||||||||||||||
 get_tidy_model|function|a271aae9af4b7d1b|||||||||||||||
 main_model|stem|083a96064db53bf9|ad44192656e4335f|8407f3ee9ff3ae7b|1534884991||t19961.8038840696s|248abc03e246f60c|107251881|qs|local|vector|||252.11||
 main_model_plot|stem|b95a779d6019be22|6587544f75ad9592|960fd45321736d01|837691043||t19961.8155650591s|264573bc3e978155|153723801|qs|local|vector|||20.672|1m22mUsing size aesthetic for lines was deprecated in ggplot2 3.4.0.36mℹ39m Please use linewidth instead.|
-main_model_plot_preds|stem|5d03e22bddb7ba76|01db76f2af1e17f6|c14ad3470f251402|1808810108||t19965.4443494946s|c5d36325757a8091|153723706|qs|local|vector|||20.781|1m22mUsing size aesthetic for lines was deprecated in ggplot2 3.4.0.36mℹ39m Please use linewidth instead.|
-main_model_plot_slopes|stem|f957619fb6a45a68|ac5471f3d92ca5a1|dca2bf4a11a040a0|1220916452||t19965.4514785808s|8e40554c05b359ca|110202674|qs|local|vector|||10.172||
-main_model_plot_tiff|stem|72003195691e2867|5ea1ad23525b2204|952a2c6274005eb0|-1831950905||t19965.4515622545s|5af7efb62b7d05c3|60|qs|local|vector|||1.344||
+main_model_plot_preds|stem|7e162b59e0cc6c33|01db76f2af1e17f6|cada96cc36e03149|1808810108||t19965.4911695959s|bf95df5be26c2af4|153723716|qs|local|vector|||19.953||
+main_model_plot_slopes|stem|0cf6998819eedb27|ac5471f3d92ca5a1|8e4e3da4dee4a830|1220916452||t19965.4912374789s|2de3928cec45c1b1|110201335|qs|local|vector|||9.109||
+main_model_plot_tiff|stem|72003195691e2867|5ea1ad23525b2204|8892dddd1864b3fb|-1831950905||t19965.491306164s|5af7efb62b7d05c3|60|qs|local|vector|||0.75||
 main_model_r_slopes|stem|c05e46e47d089b45|eb2c65af3725d10a|6af787a091397754|-1870451490||t19961.8193506922s|934f0a82e8ec119f|120736750|qs|local|vector|||349.094||
 main_model_r_slopes_plot|stem|ecf782bf4055d048|f6e870c9156c854a|0192fde539ea4611|1473648644||t19961.8196068016s|8253e2d6d25971d5|167399809|qs|local|vector|||20.312||
-main_model_r_slopes_plot_preds|stem|3b3a231a1e6cd792|54d9ad2a3ee48890|362c53e61a8c6ff8|-131580767||t19965.444463714s|033817547755129a|167395005|qs|local|vector|||19.781|1m22mUsing size aesthetic for lines was deprecated in ggplot2 3.4.0.36mℹ39m Please use linewidth instead.|
-main_model_r_slopes_plot_slopes|stem|a99cd7e8a38665de|5657038214b07b93|709e6792bb301116|-507506250||t19965.4514852673s|fdeaa5a7204cfa76|123703992|qs|local|vector|||10.75||
-main_model_r_slopes_plot_tiff|stem|4f97e2ebc9028d18|ed6420df7e37e801|6b8c17cd2bd8ef67|1572197755||t19965.4515777649s|bab37a9db0a801a3|69|qs|local|vector|||1.328||
+main_model_r_slopes_plot_preds|stem|f00da04bc20e5581|54d9ad2a3ee48890|26c5eab5dad54e4f|-131580767||t19965.490915576s|7322aab2d55a7017|167395178|qs|local|vector|||21.235|1m22mUsing size aesthetic for lines was deprecated in ggplot2 3.4.0.36mℹ39m Please use linewidth instead.|
+main_model_r_slopes_plot_slopes|stem|092138b414571414|5657038214b07b93|9cc3ee2624d08553|-507506250||t19965.4910449377s|4f25c14a4272c2c1|123670518|qs|local|vector|||9.407||
+main_model_r_slopes_plot_tiff|stem|4f97e2ebc9028d18|ed6420df7e37e801|7a976c70934ab20f|1572197755||t19965.4911180417s|bab37a9db0a801a3|69|qs|local|vector|||0.938||
 make_plot_tiff|function|d824f2b8d85c6ffb|||||||||||||||
 make_pp_check|function|c79fbb38cad10d76|||||||||||||||
 make_rhat_plot|function|ff9978352d799ec0|||||||||||||||
 make_trace_plot|function|accba148807567de|||||||||||||||
 plot_main_model|function|a224f655761dc868|||||||||||||||
-plot_main_model_preds|function|dd8e1427f0fb2f14|||||||||||||||
-plot_main_model_slopes|function|6af9dafc57d65806|||||||||||||||
+plot_main_model_preds|function|bad4835b09b54f82|||||||||||||||
+plot_main_model_slopes|function|c6f017ce049709d4|||||||||||||||
 pp_check_main_model|stem|d40e7f5837261c58|87552a942211bf7d|4dd6bd190e9a60b0|1452863604||t19961.8156372398s|b5e998b111df3b06|171246|qs|local|vector|||0.688||
 pp_check_main_model_r_slopes|stem|b77a864f56a1c379|3a1965398fbfbef7|30c061628aaf4a4a|-693983566||t19961.8193767999s|5d1257591d2c325d|179190|qs|local|vector|||1.406||
+pp_check_steele_priors_model|stem|d95cbcbe79bcb5b5|c328b6d59203a70c|13f71c8baca631cb|1938557584||t19965.5560746269s|fda80fb3dc465408|179264|qs|local|vector|||1.015||
 read_prepare_data|function|465fb05e22a74b94|||||||||||||||
 rhat_main_model|stem|b849df2034ddf336|212f07daa9c761c7|8ef05569feffabb7|-1168839758||t19961.8156886641s|0267ee919924fb5d|107458684|qs|local|vector|||3.437|Dropped 1 NAs from new_rhatrhat.|
 rhat_main_model_r_slopes|stem|714a680b20f39048|a0fa984da6ce43d3|e7028e18173f9682|-1231365543||t19961.8194436063s|0a5b83d97d111a3b|120911564|qs|local|vector|||4.688|Dropped 1 NAs from new_rhatrhat.|
+rhat_steele_priors_model|stem|d473d0f7ee55c87e|697c18c7ddb0e750|5c26a347ed9c6d03|1004110136||t19965.5563175696s|98fadf93e953677a|120485953|qs|local|vector|||5.015|Dropped 1 NAs from new_rhatrhat.|
 rstan|stem|da8966a62ca4e37b|066d3b705f07972a|845e01c6828f73f0|1919994806||t19961.4649162826s|a1d6ca5c0c2596ab|56|qs|local|vector|||4.468||
 rstan_setup|function|d82cad57281e544d|||||||||||||||
+steele_priors_model|stem|03ae510c1afc66e1|f92343203ed2bc12|c4416d6e4b358f03|328866227||t19965.5560535s|8f6529d3cc5750de|120277838|qs|local|vector|||355.61|There were 2 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. Seehttpsmcstan.orgmiscwarnings.htmlmaximumtreedepthexceeded. Examine the pairs plot to diagnose sampling problems|
+steele_priors_model_plot_preds|stem|722b34e28eb0bcda|591591bd787aad08|891420d4fd847046|941953250||t19965.5563531088s|ae1debf3e89bdf29|165887979|qs|local|vector|||22.297|1m22mUsing size aesthetic for lines was deprecated in ggplot2 3.4.0.36mℹ39m Please use linewidth instead.|
+steele_priors_model_plot_slopes|stem|91f5a80eadae4eb0|9d97613bd4cf9734|37b32762976ccd73|661913580||t19965.5564502656s|3a43f83135d4fc4d|123296770|qs|local|vector|||10.094||
+steele_priors_model_plot_tiff|stem|4f3b7c85c92be6a1|c73e6680250277ce|cb72dd3b8a212dfa|-1366153580||t19965.5565407237s|bab37a9db0a801a3|69|qs|local|vector|||0.969||
 tidy_main_model|stem|743ff75192744cab|451d9dedddd32c7e|1df8ac377b8d4edc|203638725||t19961.8212981206s|0b511ff9f117fb66|620|qs|local|vector|||0.157|some parameter names contain underscores term naming may be unreliable|
 tidy_main_model_r_slopes|stem|236cd1473bcd2211|08db4e3ceb49cd11|fd25164eeef5849c|288992237||t19961.8213188989s|3048ba20aff44b78|842|qs|local|vector|||0.468|some parameter names contain underscores term naming may be unreliable|
+tidy_steele_priors_model|stem|b4dcf072176bef21|5cf19feb7bd9d04a|1fd6a4aee8a70970|-1382266990||t19965.5562474973s|3048ba20aff44b78|842|qs|local|vector|||0.203|some parameter names contain underscores term naming may be unreliable|
 trace_plot_main_model|stem|81eef13ad80d3149|98e5a6671660d27e|5b0789a4e7b17d0a|-136053382||t19961.8156224072s|d9b8f5c6e4c18c4d|16049377|qs|local|vector|||2.672||
 trace_plot_main_model_r_slopes|stem|26de6b6f53f235ec|389fc14b542e9961|cdc8d39181c8632a|-1309153496||t19961.8195027014s|e914ddde3d286267|27314996|qs|local|vector|||4.016||
+trace_plot_steele_priors_model|stem|b60d4bcd0e9907b1|1cdca329eddcdc64|46909699a36870d9|593859808||t19965.556238547s|40a2d6f5e83874f4|27222713|qs|local|vector|||4.594||
