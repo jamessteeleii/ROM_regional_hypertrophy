@@ -201,10 +201,24 @@ plot_main_model_slopes <- function(model) {
   ) |>
     posterior_draws()
   
+  summary <- avg_slopes(
+    model,
+    variables = "mean_muscle_length_centred",
+    newdata = datagrid(
+      mean_muscle_length_centred = seq(-35, 35, length = 101),
+      site_centred = c(-25,0,25),
+      vi = 0
+    ),
+    by = "site_centred"
+  )
+  
   slopes |>
     ggplot(aes(x = site_centred+50, y = draw*50)) +
     geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.75) +
     stat_slabinterval(aes(fill = site_centred+50), alpha = 0.75) +
+    annotate("text", summary$site_centred+45, summary$estimate*50, label = round(summary$estimate*50,2), size = 3) +
+    annotate("text", summary$site_centred+45, summary$conf.low*50, label = round(summary$conf.low*50,2), size = 3) +
+    annotate("text", summary$site_centred+45, summary$conf.high*50, label = round(summary$conf.high*50,2), size = 3) +
     scale_fill_viridis_c() +
     scale_x_continuous(breaks = c(0,25,50,75,100), limits = c(0,100)) +
     scale_y_continuous(breaks = c(-1,-0.75,-0.5,-0.25,0,0.25,0.5,0.75,1)) +
