@@ -25,8 +25,8 @@ tar_option_set(
   format = "qs",
   garbage_collection = TRUE,
   storage = "worker",
-  retrieval = "worker",
-  controller = crew_controller_local(workers = 2, launch_max = 10)
+  retrieval = "worker"
+  # controller = crew_controller_local(workers = 2, launch_max = 10)
 )
 
 # Targets list
@@ -59,8 +59,11 @@ list(
   tar_target(combined_main_model_r_slopes_plot, combine_main_model_plots(main_model_r_slopes_plot_preds, main_model_r_slopes_plot_slopes)),
   tar_target(tidy_main_model_r_slopes, get_tidy_model(main_model_r_slopes)),
   
-  # Fit, check, and plot main model with random slopes included and Steele priors 
-  tar_target(steele_priors_model, fit_steele_priors_model(data)),
+  # Fit, check, and plot main model with random slopes included and Steele priors
+  tar_target(steele_priors, set_steele_priors()),
+  tar_target(steele_priors_only_model, fit_steele_priors_only_model(data, steele_priors)),
+  tar_target(steele_priors_plot, sample_and_plot_priors(steele_priors_only_model)),
+  tar_target(steele_priors_model, fit_steele_priors_model(data, steele_priors)),
   tar_target(rhat_steele_priors_model, make_rhat_plot(steele_priors_model)),
   tar_target(trace_plot_steele_priors_model, make_trace_plot(steele_priors_model)),
   tar_target(pp_check_steele_priors_model, make_pp_check(steele_priors_model)),
@@ -72,6 +75,7 @@ list(
   # Make plot tiffs
   tar_target(main_model_plot_tiff, make_plot_tiff(combined_main_model_plot, 10, 5, "plots/main_model.tiff")),
   tar_target(main_model_r_slopes_plot_tiff, make_plot_tiff(combined_main_model_r_slopes_plot, 10, 5, "plots/main_model_r_slopes.tiff")),
+  tar_target(steele_priors_plot_tiff, make_plot_tiff(steele_priors_plot, 7.5, 5, "plots/steele_priors.tiff")),
   tar_target(steele_priors_model_plot_tiff, make_plot_tiff(combined_steele_priors_model_plot, 10, 5, "plots/steele_priors_model.tiff"))
   
 )
