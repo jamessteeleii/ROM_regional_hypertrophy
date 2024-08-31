@@ -288,9 +288,14 @@ plot_main_model_slopes <- function(model) {
   rope_percents <- tibble(
     site_centred = c(-0.25,0,0.25),
     rope_percent = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25)$draw/2, range = c(-0.1, 0.1))$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0)$draw/2, range = c(-0.1, 0.1))$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25)$draw/2, range = c(-0.1, 0.1))$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25)$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0)$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25)$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage
+    ),
+    pd = c(
+      bayestestR::rope(filter(slopes, site_centred == -0.25)$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0)$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25)$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage
     )
   )
   
@@ -310,12 +315,18 @@ plot_main_model_slopes <- function(model) {
     geom_hline(yintercept = 0, linetype = "dotted", alpha = 0.75) +
     geom_hline(yintercept = c(-0.1,0.1), linetype = "dashed") +
     stat_slabinterval(aes(fill = (site_centred*100)+50), alpha = 0.75) +
+    # add mean and qi
     annotate("text", (summary$site_centred*100)+45, summary$estimate/2, label = round(summary$estimate/2,2), size = 3) +
     annotate("text", (summary$site_centred*100)+45, summary$conf.low/2, label = round(summary$conf.low/2,2), size = 3) +
     annotate("text", (summary$site_centred*100)+45, summary$conf.high/2, label = round(summary$conf.high/2,2), size = 3) +
+    # add percent in rope
+    annotate("rect", xmin = 10, xmax = 90, ymin = -1.125, ymax = -0.825, color = "black", fill = "white") +
+    annotate("text", (rope_percents$site_centred*100)+50, -1.05, label = glue::glue("{round(rope_percents$rope_percent*100,2)}%"), size = 3) +
+    annotate("text", x=50, y=-0.9, label="Percentage of Posterior Distibution Within ROPE [-0.1,0.1]", size = 3) +
+    # add probability of positive effect
     annotate("rect", xmin = 10, xmax = 90, ymin = 0.825, ymax = 1.125, color = "black", fill = "white") +
-    annotate("text", (rope_percents$site_centred*100)+50, 0.9, label = glue::glue("{round(rope_percents$rope_percent*100,2)}%"), size = 3) +
-    annotate("text", x=50, y=1.05, label="Percentage of Posterior Distibution within ROPE [-0.1,0.1]", size = 3) +
+    annotate("text", (rope_percents$site_centred*100)+50, 0.9, label = glue::glue("{round(rope_percents$pd*100,2)}%"), size = 3) +
+    annotate("text", x=50, y=1.05, label="Probability of Meaningful Positive Effect (i.e., >0.1)", size = 3) +
     scale_fill_viridis_c() +
     scale_x_continuous(breaks = c(0,25,50,75,100), limits = c(0,100)) +
     scale_y_continuous(breaks = c(-1,-0.75,-0.5,-0.25,0,0.25,0.5,0.75,1), limits = c(-1.15,1.15)) +

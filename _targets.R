@@ -73,9 +73,9 @@ list(
   tar_target(tidy_steele_priors_model, get_tidy_model(steele_priors_model)),
   
   # Make plot tiffs
-  tar_target(main_model_plot_tiff, make_plot_tiff(combined_main_model_plot, 10, 5, "plots/main_model.tiff")),
-  tar_target(main_model_r_slopes_plot_tiff, make_plot_tiff(combined_main_model_r_slopes_plot, 10, 5, "plots/main_model_r_slopes.tiff")),
+  tar_target(main_model_plot_tiff, make_plot_tiff(combined_main_model_plot, 10, 5.5, "plots/main_model.tiff")),
+  tar_target(main_model_r_slopes_plot_tiff, make_plot_tiff(combined_main_model_r_slopes_plot, 10, 5.5, "plots/main_model_r_slopes.tiff")),
   tar_target(steele_priors_plot_tiff, make_plot_tiff(steele_priors_plot, 7.5, 5, "plots/steele_priors.tiff")),
-  tar_target(steele_priors_model_plot_tiff, make_plot_tiff(combined_steele_priors_model_plot, 10, 5, "plots/steele_priors_model.tiff"))
+  tar_target(steele_priors_model_plot_tiff, make_plot_tiff(combined_steele_priors_model_plot, 10, 5.5, "plots/steele_priors_model.tiff"))
   
 )
