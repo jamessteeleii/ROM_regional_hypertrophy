@@ -7,6 +7,7 @@ library(brms)
 library(tidybayes)
 library(marginaleffects)
 library(patchwork)
+library(bayestestR)
 
 rstan::rstan_options(auto_write = TRUE)
 options(mc.cores = parallel::detectCores()-1)
@@ -233,26 +234,31 @@ default_prior(yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * s
                 (1 | effect_number),
               data = data)
 
-x <- seq(-0.2, 0.2, length=1000)
+x <- seq(-0.05, 0.1, length=1000)
 
 plot(x,
      dskew_normal(
        x,
-       mu = 0.04,
-       sigma = 0.05,
+       mu = 0.003,
+       sigma = 0.006,
        alpha = 5
      ))
 
 mode_hdi(rskew_normal(
   1e6,
-  mu = 0.04,
-  sigma = 0.05,
+  mu = 0.003,
+  sigma = 0.006,
   alpha = 5
 ))
 
 plot(
   x,
-  dstudent_t(x, 3, 0, 0.02)
+  dstudent_t(x, 3, 0.2, 0.1)
+)
+
+plot(
+  x,
+  dnorm(x, 0.05, 0.02)
 )
 
 main_model_prior <-
