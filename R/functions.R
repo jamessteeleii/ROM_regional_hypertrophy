@@ -162,6 +162,62 @@ fit_main_model_r_slopes <- function(data) {
 
 
 # Models with informed priors
+
+sample_and_plot_priors_SMD <- function(model) {
+  
+  model |>
+    gather_draws(b_Intercept, b_mean_muscle_length_centred, b_site_centred, `b_mean_muscle_length_centred:site_centred`) |>
+    mutate(.value = case_when(
+      .variable == "b_mean_muscle_length_centred" ~ .value/2,
+      .variable == "b_site_centred" ~ .value/2,
+      .variable == "b_mean_muscle_length_centred:site_centred" ~ .value/2,
+      .variable == "b_Intercept" ~ .value
+      
+    )) |>
+    ggplot(aes(x=.value)) +
+    geom_vline(xintercept = 0, linetype = "dashed", alpha = 0.75) +
+    stat_slab(alpha = 0.75, normalize = "panels") + 
+    facet_wrap(".variable") +
+    scale_x_continuous(limits = c(-0.1,0.5), breaks = seq(-0.5,0.5, length = 11)) +
+    labs(
+      x = "Model Coefficients",
+      y = "Density",
+      title = "Prior distribution for fixed (i.e., population level) effects",
+      subtitle = "Note, with the exception of the Intercept, coefficients have been halved to reflect a typical short vs long length/site difference of 50%"
+    ) +
+    theme_classic() +
+    theme(panel.border = element_rect(fill = NA),
+          plot.subtitle = element_text(size = 8))
+}
+
+sample_and_plot_priors_lnRR <- function(model) {
+  
+  model |>
+    gather_draws(b_Intercept, b_mean_muscle_length_centred, b_site_centred, `b_mean_muscle_length_centred:site_centred`) |>
+    mutate(.value = case_when(
+      .variable == "b_mean_muscle_length_centred" ~ .value/2,
+      .variable == "b_site_centred" ~ .value/2,
+      .variable == "b_mean_muscle_length_centred:site_centred" ~ .value/2,
+      .variable == "b_Intercept" ~ .value
+      
+    )) |>
+    ggplot(aes(x=.value)) +
+    geom_vline(xintercept = 0, linetype = "dashed", alpha = 0.75) +
+    stat_slab(alpha = 0.75, normalize = "panels") + 
+    facet_wrap(".variable") +
+    scale_x_continuous(limits = c(-0.05,0.075), breaks = c(-0.05,-0.025,0,0.025,0.05,0.075,0.1)) +
+    labs(
+      x = "Model Coefficients",
+      y = "Density",
+      title = "Prior distribution for fixed (i.e., population level) effects",
+      subtitle = "Note, with the exception of the Intercept, coefficients have been halved to reflect a typical short vs long length/site difference of 50%"
+    ) +
+    theme_classic() +
+    theme(panel.border = element_rect(fill = NA),
+          plot.subtitle = element_text(size = 8))
+}
+
+# James Steele priors
 set_steele_priors_SMD <- function() {
   prior <-
     c(
@@ -175,15 +231,15 @@ set_steele_priors_SMD <- function() {
       # Given constraints on interaction effects, the estimate for long vs short from this is implausibly large given general 0.34 effects for RT on hypertrophy
       # It would seem more reasonable to have more mass on a null effect, but slightly more weight towards small (<0.1) effects for muscle length
       # This prior is set such that a difference of 50% in length reflecting a typical difference in short vs long training (at a site of 50%) produces effects of the magnitudes ~0 to ~0.05
-      set_prior("skew_normal(0.04, 0.05, 5)", class = "b", coef = "mean_muscle_length_centred",),
+      set_prior("skew_normal(0, 0.1, 5)", class = "b", coef = "mean_muscle_length_centred",),
       
       # It is unclear (DOI: 10.1519/SSC.0000000000000574) whether hypertrophy differs by site of measurement overall 
       # Thus we set a prior centred on null effects but allowing for effects of similar magnitude (~0.05) in either direction
-      set_prior("student_t(3, 0, 0.02)", class = "b", coef = "site_centred"),
+      set_prior("student_t(3, 0, 0.04)", class = "b", coef = "site_centred"),
       
       # Lastly given interaction constraints, the interaction of length and site must necessarily be small given other priors
       # Thus we set this to have half the width of the prior for site
-      set_prior("student_t(3, 0, 0.01)", class = "b", coef = "mean_muscle_length_centred:site_centred")
+      set_prior("student_t(3, 0, 0.02)", class = "b", coef = "mean_muscle_length_centred:site_centred")
       
       # All other priors for variance parameters are kept as default weakly regularising
     )
@@ -207,33 +263,6 @@ fit_steele_priors_only_model_SMD <- function(data, prior) {
     )
 }
 
-sample_and_plot_priors_SMD <- function(model) {
-  
-  model |>
-    gather_draws(b_Intercept, b_mean_muscle_length_centred, b_site_centred, `b_mean_muscle_length_centred:site_centred`) |>
-    mutate(.value = case_when(
-      .variable == "b_mean_muscle_length_centred" ~ .value/2,
-      .variable == "b_site_centred" ~ .value/2,
-      .variable == "b_mean_muscle_length_centred:site_centred" ~ .value/2,
-      .variable == "b_Intercept" ~ .value
-      
-    )) |>
-    ggplot(aes(x=.value)) +
-    geom_vline(xintercept = 0, linetype = "dashed", alpha = 0.75) +
-    stat_slab(alpha = 0.75) + 
-    facet_wrap(".variable") +
-    scale_x_continuous(limits = c(-0.1,0.4), breaks = seq(-0.5,0.5, length = 11)) +
-    labs(
-      x = "Model Coefficients",
-      y = "Density",
-      title = "Prior distribution for fixed (i.e., population level) effects",
-      subtitle = "Note, with the exception of the Intercept, coefficients have been halved to reflect a typical short vs long length/site difference of 50%"
-    ) +
-    theme_classic() +
-    theme(panel.border = element_rect(fill = NA),
-          plot.subtitle = element_text(size = 8))
-}
-
 fit_steele_priors_model_SMD <- function(data, prior) {
   
   # Set initial values to improve chain convergence
@@ -242,7 +271,7 @@ fit_steele_priors_model_SMD <- function(data, prior) {
     set.seed(seed)
     list(
       beta = rnorm(n = 1, mean = 0.3, sd = 0.1),
-      sd = runif(n = 1, min = 0, max = 1)
+      sd = runif(n = 1, min = 0, max = 0.5)
     )
     
   }
@@ -285,15 +314,15 @@ set_steele_priors_lnRR <- function() {
       # Given constraints on interaction effects, the estimate for long vs short from this is implausibly large given general 0.0525 lnRR effects for RT on hypertrophy
       # It would seem more reasonable to have more mass on a null effect, but slightly more weight towards small (<0.015) effects for muscle length
       # This prior is set such that a difference of 50% in length reflecting a typical difference in short vs long training (at a site of 50%) produces effects of the magnitudes ~0 to ~0.0075
-      set_prior("skew_normal(0.003, 0.006, 5)", class = "b", coef = "mean_muscle_length_centred",),
+      set_prior("skew_normal(0, 0.016, 5)", class = "b", coef = "mean_muscle_length_centred",),
       
       # It is unclear (DOI: 10.1519/SSC.0000000000000574) whether hypertrophy differs by site of measurement overall 
       # Thus we set a prior centred on null effects but allowing for effects of similar magnitude (~0.0075) in either direction
-      set_prior("student_t(3, 0, 0.005)", class = "b", coef = "site_centred"),
+      set_prior("student_t(3, 0, 0.008)", class = "b", coef = "site_centred"),
       
       # Lastly given interaction constraints, the interaction of length and site must necessarily be small given other priors
       # Thus we set this to have half the width of the prior for site
-      set_prior("student_t(3, 0, 0.0025)", class = "b", coef = "mean_muscle_length_centred:site_centred")
+      set_prior("student_t(3, 0, 0.004)", class = "b", coef = "mean_muscle_length_centred:site_centred")
       
       # All other priors for variance parameters are kept as default weakly regularising
     )
@@ -317,33 +346,6 @@ fit_steele_priors_only_model_lnRR <- function(data, prior) {
     )
 }
 
-sample_and_plot_priors_lnRR <- function(model) {
-  
-  model |>
-    gather_draws(b_Intercept, b_mean_muscle_length_centred, b_site_centred, `b_mean_muscle_length_centred:site_centred`) |>
-    mutate(.value = case_when(
-      .variable == "b_mean_muscle_length_centred" ~ .value/2,
-      .variable == "b_site_centred" ~ .value/2,
-      .variable == "b_mean_muscle_length_centred:site_centred" ~ .value/2,
-      .variable == "b_Intercept" ~ .value
-      
-    )) |>
-    ggplot(aes(x=.value)) +
-    geom_vline(xintercept = 0, linetype = "dashed", alpha = 0.75) +
-    stat_slab(alpha = 0.75) + 
-    facet_wrap(".variable") +
-    scale_x_continuous(limits = c(-0.05,0.075), breaks = c(-0.05,-0.025,0,0.025,0.05,0.075,0.1)) +
-    labs(
-      x = "Model Coefficients",
-      y = "Density",
-      title = "Prior distribution for fixed (i.e., population level) effects",
-      subtitle = "Note, with the exception of the Intercept, coefficients have been halved to reflect a typical short vs long length/site difference of 50%"
-    ) +
-    theme_classic() +
-    theme(panel.border = element_rect(fill = NA),
-          plot.subtitle = element_text(size = 8))
-}
-
 fit_steele_priors_model_lnRR <- function(data, prior) {
   
   # Set initial values to improve chain convergence
@@ -351,8 +353,163 @@ fit_steele_priors_model_lnRR <- function(data, prior) {
     
     set.seed(seed)
     list(
-      beta = rnorm(n = 1, mean = 0.05, sd = 0.02),
-      sd = runif(n = 1, min = 0, max = 1)
+      beta = rnorm(n = 1, mean = 0.05, sd = 0.004),
+      sd = runif(n = 1, min = 0, max = 0.05)
+    )
+    
+  }
+  
+  list_of_inits <- list(
+    # different seed values will return different results
+    set_inits(seed = 1),
+    set_inits(seed = 2),
+    set_inits(seed = 3),
+    set_inits(seed = 4)
+  )
+  
+  model <-
+    brm(yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * site_centred +
+          (mean_muscle_length_centred + site_centred | study_number) +
+          (1 | arm_number) +
+          (1 | effect_number),
+        data = data,
+        prior = prior,
+        chains = 4,
+        cores = 4,
+        seed = 1988,
+        warmup = 2000,
+        iter = 8000,
+        init = list_of_inits,
+        control = list(adapt_delta = 0.99)
+    )
+}
+
+# Dorian Varovic and Brad Schoenfeld priors
+set_DV_BS_priors_SMD <- function() {
+  prior <-
+    c(
+      # Priors set for Intercept (overall fixed mean) and tau at study level from Steele et al., (2023) DOI: 10.1080/02640414.2023.2286748
+      set_prior("student_t(103, 0.3372, 0.0253)", class = "b", coef = "Intercept"),
+      set_prior("student_t(3, 0.2111, 0.048)", class = "sd", coef = "Intercept", group = "study_number"),
+      set_prior("student_t(3, 0.0224, 0.0517)", class = "sd", coef = "Intercept", group = "arm_number"),
+      set_prior("student_t(3, 0.0477, 0.0401)", class = "sd", coef = "Intercept", group = "effect_number"),
+      
+      # DV & BS had more optimistic priors than JS for both length and site
+      set_prior("student_t(3, 0.4, 0.2)", class = "b", coef = "mean_muscle_length_centred",),
+      set_prior("student_t(3, 0.4, 0.2)", class = "b", coef = "site_centred"),
+      
+      # But again given interaction constraints, the interaction of length and site must necessarily be small given other priors
+      # Thus we set this to have half the width of the prior for site
+      set_prior("student_t(3, 0.2, 0.1)", class = "b", coef = "mean_muscle_length_centred:site_centred")
+      
+      # All other priors for variance parameters are kept as default weakly regularising
+    )
+}
+
+fit_DV_BS_priors_only_model_SMD <- function(data, prior) {
+  model <-
+    brm(yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * site_centred +
+          (mean_muscle_length_centred + site_centred | study_number) +
+          (1 | arm_number) +
+          (1 | effect_number),
+        data = data,
+        prior = prior,
+        chains = 4,
+        cores = 4,
+        seed = 1988,
+        warmup = 2000,
+        iter = 8000,
+        control = list(adapt_delta = 0.99),
+        sample_prior = "only"
+    )
+}
+
+fit_DV_BS_priors_model_SMD <- function(data, prior) {
+  
+  # Set initial values to improve chain convergence
+  set_inits <- function(seed = 1) {
+    
+    set.seed(seed)
+    list(
+      beta = rnorm(n = 1, mean = 0.3, sd = 0.1),
+      sd = runif(n = 1, min = 0, max = 0.5)
+    )
+    
+  }
+  
+  list_of_inits <- list(
+    # different seed values will return different results
+    set_inits(seed = 1),
+    set_inits(seed = 2),
+    set_inits(seed = 3),
+    set_inits(seed = 4)
+  )
+  
+  model <-
+    brm(yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * site_centred +
+          (mean_muscle_length_centred + site_centred | study_number) +
+          (1 | arm_number) +
+          (1 | effect_number),
+        data = data,
+        prior = prior,
+        chains = 4,
+        cores = 4,
+        seed = 1988,
+        warmup = 2000,
+        iter = 8000,
+        init = list_of_inits,
+        control = list(adapt_delta = 0.99)
+    )
+}
+
+set_DV_BS_priors_lnRR <- function() {
+  prior <-
+    c(
+      # Priors set for Intercept (overall fixed mean) and tau at study level from Steele et al., (2023) DOI: 10.1080/02640414.2023.2286748
+      set_prior("student_t(103, 0.0525, 0.0046)", class = "b", coef = "Intercept"),
+      set_prior("student_t(3, 0.0235, 0.0047)", class = "sd", coef = "Intercept", group = "study_number"),
+      set_prior("student_t(3, 0, 0.0064)", class = "sd", coef = "Intercept", group = "arm_number"),
+      set_prior("student_t(3, 0, 0.0058)", class = "sd", coef = "Intercept", group = "effect_number"),
+      
+      # DV & BS had more optimistic priors than JS for both length and site set to about a 5% effect for a change in 50% of length/site form short/proximal to long/distal
+      set_prior("student_t(3, 0.09531018, 0.04)", class = "b", coef = "mean_muscle_length_centred",),
+      set_prior("student_t(3, 0.09531018, 0.04)", class = "b", coef = "site_centred"),
+      
+      # But again given interaction constraints, the interaction of length and site must necessarily be small given other priors
+      # Thus we set this to have half the width of the prior for site
+      set_prior("student_t(3, 0.04765509, 0.02)", class = "b", coef = "mean_muscle_length_centred:site_centred")
+      
+      # All other priors for variance parameters are kept as default weakly regularising
+    )
+}
+
+fit_DV_BS_priors_only_model_lnRR <- function(data, prior) {
+  model <-
+    brm(yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * site_centred +
+          (mean_muscle_length_centred + site_centred | study_number) +
+          (1 | arm_number) +
+          (1 | effect_number),
+        data = data,
+        prior = prior,
+        chains = 4,
+        cores = 4,
+        seed = 1988,
+        warmup = 2000,
+        iter = 8000,
+        control = list(adapt_delta = 0.99),
+        sample_prior = "only"
+    )
+}
+
+fit_DV_BS_priors_model_lnRR <- function(data, prior) {
+  
+  # Set initial values to improve chain convergence
+  set_inits <- function(seed = 1) {
+    
+    set.seed(seed)
+    list(
+      beta = rnorm(n = 1, mean = 0.005, sd = 0.008),
+      sd = runif(n = 1, min = 0, max = 0.05)
     )
     
   }
@@ -509,18 +666,7 @@ plot_main_model_slopes_SMD <- function(model) {
 
 plot_main_model_preds_lnRR <- function(data, model) {
   
-  var_cor <- VarCorr(model)
-  
-  if (length(var_cor$study_number$sd) == 12) {
-    
-    total_var <- var_cor$arm_number$sd[1] + var_cor$effect_number$sd[1] + var_cor$study_number$sd[1,1] + var_cor$study_number$sd[2,1] + var_cor$study_number$sd[3,1]
-    
-  } else {
-    
-    total_var <- var_cor$arm_number$sd[1] + var_cor$effect_number$sd[1] + var_cor$study_number$sd[1,1]
-  }
-  
-  total_var <- total_var^2
+  total_var <- get_variance_random(model)
   
   # Interaction plot
   preds <- crossing(
@@ -571,18 +717,7 @@ plot_main_model_preds_lnRR <- function(data, model) {
 
 plot_main_model_slopes_lnRR <- function(model) {
   
-  var_cor <- VarCorr(model)
-
-  if (length(var_cor$study_number$sd) == 12) {
-
-    total_var <- var_cor$arm_number$sd[1] + var_cor$effect_number$sd[1] + var_cor$study_number$sd[1,1] + var_cor$study_number$sd[2,1] + var_cor$study_number$sd[3,1]
-
-  } else {
-
-    total_var <- var_cor$arm_number$sd[1] + var_cor$effect_number$sd[1] + var_cor$study_number$sd[1,1]
-  }
-
-  total_var <- total_var^2
+  total_var <- get_variance_random(model)
   
   # Interaction plot - slopes
   slopes <- avg_slopes(
@@ -602,14 +737,14 @@ plot_main_model_slopes_lnRR <- function(model) {
   rope_percents <- tibble(
     site_centred = c(-0.25,0,0.25),
     rope_percent = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25)$draw/2, range = c(-10,10), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0)$draw/2, range = c(-10,10), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25)$draw/2, range = c(-10,10), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25)$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0)$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25)$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage
     ),
     pd = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25)$draw/2, range = c(10, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0)$draw/2, range = c(10, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25)$draw/2, range = c(10, Inf), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25)$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0)$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25)$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage
     )
   )
   
@@ -632,23 +767,23 @@ plot_main_model_slopes_lnRR <- function(model) {
   slopes |>
     ggplot(aes(x = (site_centred*100)+50, y = draw/2)) +
     geom_hline(yintercept = 0, linetype = "dotted", alpha = 0.75) +
-    geom_hline(yintercept = c(-10,10), linetype = "dashed") +
+    geom_hline(yintercept = c(-3,3), linetype = "dashed") +
     stat_slabinterval(aes(fill = (site_centred*100)+50), alpha = 0.75) +
     # add mean and qi
     annotate("text", (summary$site_centred*100)+45, summary$estimate/2, label = round(summary$estimate/2,2), size = 3) +
     annotate("text", (summary$site_centred*100)+45, summary$conf.low/2, label = round(summary$conf.low/2,2), size = 3) +
     annotate("text", (summary$site_centred*100)+45, summary$conf.high/2, label = round(summary$conf.high/2,2), size = 3) +
     # add percent in rope
-    annotate("rect", xmin = 7.5, xmax = 92.5, ymin = -62.5, ymax = -45.83333, color = "black", fill = "white") +
-    annotate("text", (rope_percents$site_centred*100)+50, -58.33333, label = glue::glue("{round(rope_percents$rope_percent*100,2)}%"), size = 3) +
-    annotate("text", x=50, y=-50, label="Percentage of Posterior Distibution Within ROPE [-10%,10%]", size = 3) +
+    annotate("rect", xmin = 7.5, xmax = 92.5, ymin = -52.5, ymax = -35.83333, color = "black", fill = "white") +
+    annotate("text", (rope_percents$site_centred*100)+50, -48.33333, label = glue::glue("{round(rope_percents$rope_percent*100,2)}%"), size = 3) +
+    annotate("text", x=50, y=-40, label="Percentage of Posterior Distibution Within ROPE [-3%,3%]", size = 3) +
     # add probability of positive effect
-    annotate("rect", xmin = 10, xmax = 90, ymin = 45.83333, ymax = 62.5, color = "black", fill = "white") +
-    annotate("text", (rope_percents$site_centred*100)+50, 50, label = glue::glue("{round(rope_percents$pd*100,2)}%"), size = 3) +
-    annotate("text", x=50, y=58.33333, label="Probability of Meaningful Positive Effect (i.e., >10%)", size = 3) +
+    annotate("rect", xmin = 10, xmax = 90, ymin = 35.83333, ymax = 52.5, color = "black", fill = "white") +
+    annotate("text", (rope_percents$site_centred*100)+50, 40, label = glue::glue("{round(rope_percents$pd*100,2)}%"), size = 3) +
+    annotate("text", x=50, y=48.33333, label="Probability of Meaningful Positive Effect (i.e., >3%)", size = 3) +
     scale_fill_viridis_c() +
     scale_x_continuous(breaks = c(0,25,50,75,100), limits = c(0,100)) +
-    scale_y_continuous(breaks = c(-60,-50,-40,-30,-20,-10,0,10,20,30,40,50,60), limits = c(-65,65)) +
+    scale_y_continuous(breaks = c(-50,-40,-30,-20,-10,0,10,20,30,40,50), limits = c(-55,55)) +
     guides(
       color = "none"
     ) +
