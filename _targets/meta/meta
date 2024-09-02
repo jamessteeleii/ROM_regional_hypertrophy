@@ -1,5 +1,5 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|ff6b48ad5b7df876|||||||||||||||
+.Random.seed|object|f6706389077861ff|||||||||||||||
 combine_main_model_plots|function|2ab56058b6aa847c|||||||||||||||
 combined_DV_BS_priors_model_plot_lnRR|stem|f0daef1760300a6c|1ae7f646baf27f10|877a1e37977e598a|1302217896||t19967.9508215514s|141749deca54f72f|292152384|qs|local|vector|||0||
 combined_DV_BS_priors_model_plot_SMD|stem|ca248c2d625bccb7|d6abc2dacf7a2e8c|68b7e114711ce328|1367766139||t19967.9356026184s|6953f92a06f786dc|410721467|qs|local|vector|||0||
@@ -71,7 +71,7 @@ main_model_r_slopes_plot_preds_SMD|stem|1088f9ad73d12409|4aabec4c23456194|944fa9
 main_model_r_slopes_plot_slopes|stem|1b8d4482d9d1ffa2|5657038214b07b93|ddb5bd0d826f5886|-507506250||t19966.5927616106s|4eb963a87c7e5324|244204331|qs|local|vector|||15.859||
 main_model_r_slopes_plot_slopes_lnRR|stem|7479a0825bc886f8|ec967f612fb8abb0|82d39ee912950e9d|-1922346540||t19967.9499722508s|92ca588bc89b4ef1|124199142|qs|local|vector|||18.578||
 main_model_r_slopes_plot_slopes_SMD|stem|dcd1b0de5c58cde2|8204647968bf95b9|6294549c24ba5aaa|-994916136||t19967.4384218885s|08690e434e8a3eb1|244203511|qs|local|vector|||19.969||
-main_model_r_slopes_plot_SMD_tiff|stem|fd14f86357161f1a|5d846e9872554969|dfd60c6048725263|1346121077||t19968.741981174s|4be831169559909a|74|qs|local|vector|||0.828||
+main_model_r_slopes_plot_SMD_tiff|stem|fd14f86357161f1a|3bbffe8e8e78dd74|dfd60c6048725263|1346121077||t19968.8891798975s|4be831169559909a|74|qs|local|vector|||0.797||
 main_model_r_slopes_plot_tiff|stem|4f97e2ebc9028d18|5ce027691f88d1f5|8764d501140ca6b2|1572197755||t19966.5930010236s|bab37a9db0a801a3|69|qs|local|vector|||0.781||
 main_model_r_slopes_SMD|stem|b276bfd7cfff4197|f0f6ff5f23d6df0f|9744856e4b2398e7|-1025739798||t19967.4311091529s|2fa49f393c142b88|120913805|qs|local|vector|||157.25||
 main_model_SMD|stem|d4209e543e2170eb|c355ec8fd137a9b4|848be030e5ec8dc4|-60374978||t19967.4356129745s|620dec4f0b5b7900|107453279|qs|local|vector|||122.047||
@@ -80,16 +80,16 @@ make_pp_check|function|c79fbb38cad10d76|||||||||||||||
 make_rhat_plot|function|ff9978352d799ec0|||||||||||||||
 make_trace_plot|function|accba148807567de|||||||||||||||
 muscle_action_model_lnRR|stem|27ae1a1a30af60d0|2d9cea0a0a26b44e|fa8c9b64bd447edf|1453266400||t19968.5702083974s|c3cea89fbc08d018|113167948|qs|local|vector|||140.125||
-muscle_action_model_plot_preds_lnRR|stem|bfa22ca0ab224f4d|6c7eb4e6857ac503|2655cd2a3170bf91|104402174||t19968.6262055521s|666f9c32957f3364|135358291|qs|local|vector|||9.86||
-muscle_action_model_plot_preds_lnRR_tiff|stem|90499f4a123eb2d3|b6165fbea93495aa|5d03186e82d3a1bf|-987414610||t19968.7418922022s|2b07dbd8c37abf3d|86|qs|local|vector|||0.343||
-muscle_action_model_plot_preds_SMD|stem|c0953468a3e3a6b0|e7b9cd9b7195b83e|4a7b26cc911f824b|1209164470||t19968.6267237043s|377219309619d5ff|135177507|qs|local|vector|||9.766||
-muscle_action_model_plot_preds_SMD_tiff|stem|c5394f9b714d3471|23ea6bd9b9759a51|fc74a96c8b445192|1345099198||t19968.7419085581s|afe1c0564fcfafab|85|qs|local|vector|||0.359||
+muscle_action_model_plot_preds_lnRR|stem|5408ec413fcbfa50|258a8a3ddee501a3|23af4bde5d8a1acc|104402174||t19968.8906312057s|5353bc0583a5ce3b|135518639|qs|local|vector|||11.485||
+muscle_action_model_plot_preds_lnRR_tiff|stem|90499f4a123eb2d3|68837244b6cbfa73|30e70c903087fca5|-987414610||t19968.8920670699s|2b07dbd8c37abf3d|86|qs|local|vector|||0.563||
+muscle_action_model_plot_preds_SMD|stem|3457f08162eb9255|69984bef62c5e302|4c84e10cc7917568|1209164470||t19968.8886457496s|e9cebc36c5b42f70|135177639|qs|local|vector|||9.375||
+muscle_action_model_plot_preds_SMD_tiff|stem|c5394f9b714d3471|a36ac99118693da9|b0e4c6c66fdb225b|1345099198||t19968.8920881818s|afe1c0564fcfafab|85|qs|local|vector|||0.406||
 muscle_action_model_SMD|stem|03bf06b644776379|6c2a51317ef86137|2da93fadea7b396e|-717538828||t19968.5668562988s|7f0b0dc3c575e88c|112959194|qs|local|vector|||117.016||
 muscle_model_lnRR|stem|b4935fae25b3ab8e|62a5f87434f9dd78|e2dffeac8d188047|-307784724||t19968.5726386998s|51be0521deb1b2c3|124318683|qs|local|vector|||209.015|There were 1 divergent transitions after warmup. Seehttpsmcstan.orgmiscwarnings.htmldivergenttransitionsafterwarmupto find out why this is a problem and how to eliminate them.. Examine the pairs plot to diagnose sampling problems|
-muscle_model_plot_preds_lnRR|stem|65099ce2d3f095e9|fbc04131c803fc3e|a62ad23472f33ace|-822304224||t19968.6259935595s|63aa98781b277f90|179500937|qs|local|vector|||25.844|Using size aesthetic for lines was deprecated in ggplot2 3.4.0.ℹ Please use linewidth instead.|
-muscle_model_plot_preds_lnRR_tiff|stem|9a2b0d4e6136308c|de94b56d0af098a4|d390f45e3c91d84c|-1802585237||t19968.7418785172s|abfed6147cb58a5b|79|qs|local|vector|||0.985||
-muscle_model_plot_preds_SMD|stem|2ea086f30d165db7|3c77e6c3668f56fe|1fcc976ea27be000|607286438||t19968.62659092s|e834261b91d9864d|179426587|qs|local|vector|||24.313||
-muscle_model_plot_preds_SMD_tiff|stem|eca90fa6cf93d402|38fcadf3cac9ba68|e13c7eb528d6a2c6|-505505410||t19968.7419491911s|d22c29dc585b97b0|78|qs|local|vector|||0.875||
+muscle_model_plot_preds_lnRR|stem|ac29b927888ca155|88f3370061747a5d|1dc79166c2f7d28a|-822304224||t19968.8904791858s|6eadd900cf174eb2|179921036|qs|local|vector|||26.75||
+muscle_model_plot_preds_lnRR_tiff|stem|9a2b0d4e6136308c|64245872de9df0c5|e349d488c65dab80|-1802585237||t19968.8906748989s|abfed6147cb58a5b|79|qs|local|vector|||0.687||
+muscle_model_plot_preds_SMD|stem|7a729b3f39af45eb|b830a105256d7ebb|bc2b6d46a10678fe|607286438||t19968.8890271879s|f7ed5d933c9c1bec|179426718|qs|local|vector|||23.922||
+muscle_model_plot_preds_SMD_tiff|stem|eca90fa6cf93d402|5d0e88c780689301|6f98e95d0a012d04|-505505410||t19968.8891448537s|d22c29dc585b97b0|78|qs|local|vector|||0.64||
 muscle_model_SMD|stem|9020f6398ca8a37d|98eb33841c7dee49|d248813d9ae79372|487719557||t19968.568575635s|b7aba5b923ca6d82|124132421|qs|local|vector|||147.687||
 plot_main_model|function|a224f655761dc868|||||||||||||||
 plot_main_model_preds|function|23f937e56d24dc49|||||||||||||||
@@ -99,8 +99,14 @@ plot_main_model_slopes|function|f24aaea3919fb995|||||||||||||||
 plot_main_model_slopes_lnRR|function|027b7e49b0b33451|||||||||||||||
 plot_main_model_slopes_SMD|function|f24aaea3919fb995|||||||||||||||
 plot_muscle_action_model_preds|function|c7b3e7f5346b0099|||||||||||||||
+plot_muscle_action_model_preds_lnRR|function|7ca3b19be9de0362|||||||||||||||
+plot_muscle_action_model_preds_SMD|function|4b35313d7db058f1|||||||||||||||
 plot_muscle_model_preds|function|030f86645eac7465|||||||||||||||
+plot_muscle_model_preds_lnRR|function|a589b5928a1932a5|||||||||||||||
+plot_muscle_model_preds_SMD|function|6f255ee49df1b7f9|||||||||||||||
 plot_upper_lower_model_preds|function|c8986e33c589acc6|||||||||||||||
+plot_upper_lower_model_preds_lnRR|function|008893a4f27497cd|||||||||||||||
+plot_upper_lower_model_preds_SMD|function|1463b122c0c464f7|||||||||||||||
 pp_check_DV_BS_priors_model_lnRR|stem|af40b683b27ec1d7|70d1164f6b9ddbf4|79ab7ee401978e4c|1277559574||t19967.9330587992s|fd3e40498b8e673d|171000|qs|local|vector|||0.641||
 pp_check_DV_BS_priors_model_SMD|stem|fb9a9d8bc683174a|67909086b9450cc8|313448f2f90dced9|2026839739||t19967.9340212184s|0072edca320cb441|171105|qs|local|vector|||0.703||
 pp_check_main_model|stem|929445bc0ab4b8c8|87552a942211bf7d|89c29c7807eebbf8|1452863604||t19966.510058528s|d0e121bf2857fe45|171315|qs|local|vector|||0.578||
@@ -207,8 +213,8 @@ trace_plot_steele_priors_model_SMD|stem|eef53a9f6c50da55|1e5e6c7dd20c659a|23aefd
 trace_plot_upper_lower_model_lnRR|stem|3902d6479ab51d1e|5e8ccf237dbe0bee|938585b426df9337|-621679756||t19968.5752862479s|b7cbcb225c44ce1b|24957086|qs|local|vector|||3.485||
 trace_plot_upper_lower_model_SMD|stem|82a0c3f12d4be92d|fa33276763f648cc|1bc51d784343a56b|1558070873||t19968.5636185614s|4b98ce6ec4cc18a7|25052807|qs|local|vector|||3.969||
 upper_lower_model_lnRR|stem|92853aed72590ff6|bad5c460706af89c|7a4d4a7935682b87|1744345176||t19968.5742254743s|3320ef1bc79f4020|109521290|qs|local|vector|||136.11||
-upper_lower_model_plot_preds_lnRR|stem|9bc3a6660ec277c9|c61e37a023e4fba2|538a485ed01e202b|-1234250261||t19968.6260721186s|94543e467445a6a1|120515198|qs|local|vector|||5.281||
-upper_lower_model_plot_preds_lnRR_tiff|stem|834ab7c564688338|2e521e3001cb67af|c7024c75400023ee|-682254217||t19968.7418415923s|e5403c57657c131e|84|qs|local|vector|||0.812||
-upper_lower_model_plot_preds_SMD|stem|81d688d8b75404a1|9edda3f775cbfe43|a09c6b3e4c4b8dee|565340070||t19968.6262834879s|d20635a37140291e|120218152|qs|local|vector|||5.281||
-upper_lower_model_plot_preds_SMD_tiff|stem|4eca4e9657926c7c|971992ffc470e7b7|d5d4dfff0f36c12e|-1947256659||t19968.7419197137s|988429bb6428792b|83|qs|local|vector|||0.25||
+upper_lower_model_plot_preds_lnRR|stem|07537ff2aeaef377|63c222fc182f676e|86856eddb825c0d2|-1234250261||t19968.8901432357s|8263270cbbba250e|120554102|qs|local|vector|||8.531|Using size aesthetic for lines was deprecated in ggplot2 3.4.0.ℹ Please use linewidth instead.|
+upper_lower_model_plot_preds_lnRR_tiff|stem|834ab7c564688338|d47edbc6443c88fc|9134bfdeacf91c92|-682254217||t19968.8906481253s|e5403c57657c131e|84|qs|local|vector|||0.422||
+upper_lower_model_plot_preds_SMD|stem|e30290e76ffc5a73|6bb07ca272ddd8f4|91e0cf5e32dcb3e0|565340070||t19968.8887200171s|a5242d4177514d27|120218261|qs|local|vector|||5.062||
+upper_lower_model_plot_preds_SMD_tiff|stem|4eca4e9657926c7c|f18af2d216f8aab3|66a67d7181329087|-1947256659||t19968.8891177978s|988429bb6428792b|83|qs|local|vector|||0.25||
 upper_lower_model_SMD|stem|cfcb1701af3f8d84|794e47759ec6b18f|a83f5d338c2f9717|-1102020807||t19968.5634961259s|a1a9937e322b00b4|109231931|qs|local|vector|||136.718||

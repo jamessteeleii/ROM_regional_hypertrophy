@@ -59,7 +59,7 @@ list(
   tar_target(rhat_upper_lower_model_SMD, make_rhat_plot(upper_lower_model_SMD)),
   tar_target(trace_plot_upper_lower_model_SMD, make_trace_plot(upper_lower_model_SMD)),
   tar_target(pp_check_upper_lower_model_SMD, make_pp_check(upper_lower_model_SMD)),
-  tar_target(upper_lower_model_plot_preds_SMD, plot_upper_lower_model_preds(data_SMD, upper_lower_model_SMD)),
+  tar_target(upper_lower_model_plot_preds_SMD, plot_upper_lower_model_preds_SMD(data_SMD, upper_lower_model_SMD)),
   tar_target(tidy_upper_lower_model_SMD, get_tidy_model(upper_lower_model_SMD)),
   
   # Fit, check, and plot muscle model with uninformed priors
@@ -67,7 +67,7 @@ list(
   tar_target(rhat_muscle_model_SMD, make_rhat_plot(muscle_model_SMD)),
   tar_target(trace_plot_muscle_model_SMD, make_trace_plot(muscle_model_SMD)),
   tar_target(pp_check_muscle_model_SMD, make_pp_check(muscle_model_SMD)),
-  tar_target(muscle_model_plot_preds_SMD, plot_muscle_model_preds(data_SMD, muscle_model_SMD)),
+  tar_target(muscle_model_plot_preds_SMD, plot_muscle_model_preds_SMD(data_SMD, muscle_model_SMD)),
   tar_target(tidy_muscle_model_SMD, get_tidy_model(muscle_model_SMD)),
   
   # Fit, check, and plot muscle action model with uninformed priors
@@ -75,7 +75,7 @@ list(
   tar_target(rhat_muscle_action_model_SMD, make_rhat_plot(muscle_action_model_SMD)),
   tar_target(trace_plot_muscle_action_model_SMD, make_trace_plot(muscle_action_model_SMD)),
   tar_target(pp_check_muscle_action_model_SMD, make_pp_check(muscle_action_model_SMD)),
-  tar_target(muscle_action_model_plot_preds_SMD, plot_muscle_action_model_preds(data_SMD, muscle_action_model_SMD)),
+  tar_target(muscle_action_model_plot_preds_SMD, plot_muscle_action_model_preds_SMD(data_SMD, muscle_action_model_SMD)),
   tar_target(tidy_muscle_action_model_SMD, get_tidy_model(muscle_action_model_SMD)),
   
   # Fit, check, and plot main model with random slopes included with uninformed priors
@@ -131,7 +131,7 @@ list(
   tar_target(rhat_upper_lower_model_lnRR, make_rhat_plot(upper_lower_model_lnRR)),
   tar_target(trace_plot_upper_lower_model_lnRR, make_trace_plot(upper_lower_model_lnRR)),
   tar_target(pp_check_upper_lower_model_lnRR, make_pp_check(upper_lower_model_lnRR)),
-  tar_target(upper_lower_model_plot_preds_lnRR, plot_upper_lower_model_preds(data_lnRR, upper_lower_model_lnRR)),
+  tar_target(upper_lower_model_plot_preds_lnRR, plot_upper_lower_model_preds_lnRR(data_lnRR, upper_lower_model_lnRR)),
   tar_target(tidy_upper_lower_model_lnRR, get_tidy_model(upper_lower_model_lnRR)),
   
   # Fit, check, and plot muscle model with uninformed priors
@@ -139,7 +139,7 @@ list(
   tar_target(rhat_muscle_model_lnRR, make_rhat_plot(muscle_model_lnRR)),
   tar_target(trace_plot_muscle_model_lnRR, make_trace_plot(muscle_model_lnRR)),
   tar_target(pp_check_muscle_model_lnRR, make_pp_check(muscle_model_lnRR)),
-  tar_target(muscle_model_plot_preds_lnRR, plot_muscle_model_preds(data_lnRR, muscle_model_lnRR)),
+  tar_target(muscle_model_plot_preds_lnRR, plot_muscle_model_preds_lnRR(data_lnRR, muscle_model_lnRR)),
   tar_target(tidy_muscle_model_lnRR, get_tidy_model(muscle_model_lnRR)),
   
   # Fit, check, and plot muscle action model with uninformed priors
@@ -147,7 +147,7 @@ list(
   tar_target(rhat_muscle_action_model_lnRR, make_rhat_plot(muscle_action_model_lnRR)),
   tar_target(trace_plot_muscle_action_model_lnRR, make_trace_plot(muscle_action_model_lnRR)),
   tar_target(pp_check_muscle_action_model_lnRR, make_pp_check(muscle_action_model_lnRR)),
-  tar_target(muscle_action_model_plot_preds_lnRR, plot_muscle_action_model_preds(data_lnRR, muscle_action_model_lnRR)),
+  tar_target(muscle_action_model_plot_preds_lnRR, plot_muscle_action_model_preds_lnRR(data_lnRR, muscle_action_model_lnRR)),
   tar_target(tidy_muscle_action_model_lnRR, get_tidy_model(muscle_action_model_lnRR)),
   
   # Fit, check, and plot main model with random slopes included with uninformed priors
@@ -188,13 +188,13 @@ list(
   
   # Make plot tiffs
   tar_target(main_model_plot_SMD_tiff, make_plot_tiff(combined_main_model_plot_SMD, 10, 5.5, "plots/main_model_SMD.tiff")),
-  tar_target(main_model_r_slopes_plot_SMD_tiff, make_plot_tiff(combined_main_model_r_slopes_plot_SMD, 5.5, 5.5, "plots/main_model_r_slopes_SMD.tiff")),
-  tar_target(upper_lower_model_plot_preds_SMD_tiff, make_plot_tiff(upper_lower_model_plot_preds_SMD, 5.5, 5.5, "plots/upper_lower_model_plot_preds_SMD.tiff")),
-  tar_target(muscle_model_plot_preds_SMD_tiff, make_plot_tiff(muscle_model_plot_preds_SMD, 5.5, 5.5, "plots/muscle_model_plot_preds_SMD.tiff")),
-  tar_target(muscle_action_model_plot_preds_SMD_tiff, make_plot_tiff(muscle_action_model_plot_preds_SMD, 5.5, 5.5, "plots/muscle_action_model_plot_preds_SMD.tiff")),
-  tar_target(upper_lower_model_plot_preds_lnRR_tiff, make_plot_tiff(upper_lower_model_plot_preds_lnRR, 5.5, 5.5, "plots/upper_lower_model_plot_preds_lnRR.tiff")),
-  tar_target(muscle_model_plot_preds_lnRR_tiff, make_plot_tiff(muscle_model_plot_preds_lnRR, 5.5, 5.5, "plots/muscle_model_plot_preds_lnRR.tiff")),
-  tar_target(muscle_action_model_plot_preds_lnRR_tiff, make_plot_tiff(muscle_action_model_plot_preds_lnRR, 5.5, 5.5, "plots/muscle_action_model_plot_preds_lnRR.tiff")),
+  tar_target(main_model_r_slopes_plot_SMD_tiff, make_plot_tiff(combined_main_model_r_slopes_plot_SMD, 10, 5.5, "plots/main_model_r_slopes_SMD.tiff")),
+  tar_target(upper_lower_model_plot_preds_SMD_tiff, make_plot_tiff(upper_lower_model_plot_preds_SMD, 10, 5.5, "plots/upper_lower_model_plot_preds_SMD.tiff")),
+  tar_target(muscle_model_plot_preds_SMD_tiff, make_plot_tiff(muscle_model_plot_preds_SMD, 10, 5.5, "plots/muscle_model_plot_preds_SMD.tiff")),
+  tar_target(muscle_action_model_plot_preds_SMD_tiff, make_plot_tiff(muscle_action_model_plot_preds_SMD, 7.5, 5, "plots/muscle_action_model_plot_preds_SMD.tiff")),
+  tar_target(upper_lower_model_plot_preds_lnRR_tiff, make_plot_tiff(upper_lower_model_plot_preds_lnRR, 10, 5.5, "plots/upper_lower_model_plot_preds_lnRR.tiff")),
+  tar_target(muscle_model_plot_preds_lnRR_tiff, make_plot_tiff(muscle_model_plot_preds_lnRR, 10, 5.5, "plots/muscle_model_plot_preds_lnRR.tiff")),
+  tar_target(muscle_action_model_plot_preds_lnRR_tiff, make_plot_tiff(muscle_action_model_plot_preds_lnRR, 7.5, 5, "plots/muscle_action_model_plot_preds_lnRR.tiff")),
   tar_target(DV_BS_priors_plot_SMD_tiff, make_plot_tiff(DV_BS_priors_plot_SMD, 7.5, 5, "plots/DV_BS_priors_SMD.tiff")),
   tar_target(DV_BS_priors_model_plot_SMD_tiff, make_plot_tiff(combined_DV_BS_priors_model_plot_SMD, 10, 5.5, "plots/DV_BS_priors_model_SMD.tiff")),
   tar_target(steele_priors_plot_SMD_tiff, make_plot_tiff(steele_priors_plot_SMD, 7.5, 5, "plots/steele_priors_SMD.tiff")),
