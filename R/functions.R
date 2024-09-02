@@ -160,6 +160,90 @@ fit_main_model_r_slopes <- function(data) {
     )
 }
 
+fit_upper_lower_model <- function(data) {
+  
+  # assigning the deviation contrasts
+  
+  data$body_region <- as.factor(data$body_region)
+  
+  contrasts(data$body_region) = contr.sum(length(unique(data$body_region)))
+  
+  model <-
+    brm(
+      yi | se(sqrt(vi)) ~ mean_muscle_length_centred * site_centred * body_region +
+        (1 | study_number) +
+        (1 | arm_number) +
+        (1 | effect_number),
+      data = data,
+      chains = 4,
+      cores = 4,
+      seed = 1988,
+      warmup = 2000,
+      iter = 8000,
+      control = list(adapt_delta = 0.99)
+    )
+}
+
+fit_muscle_model <- function(data) {
+  
+  data <- data |>
+    
+    # relabel secondary predictors
+    mutate(muscle = case_when(
+      muscle == "VL" ~ "Vastus Lateralis",
+      muscle == "BFL" ~ "Biceps femoris Long Head",
+      muscle == "ST" ~ "Semitendinosus",
+      muscle == "RF" ~ "Rectus Femoris",
+      muscle == "VM" ~ "Vastus Medialis",
+      muscle == "VI" ~ "Vastus intermedius",
+      .default = muscle
+    )) 
+  
+    # assigning the deviation contrasts
+    
+    data$muscle <- as.factor(data$muscle)
+    
+    contrasts(data$muscle) = contr.sum(length(unique(data$muscle)))
+    
+    model <-
+      brm(
+        yi | se(sqrt(vi)) ~ mean_muscle_length_centred * site_centred * muscle +
+          (1 | study_number) +
+          (1 | arm_number) +
+          (1 | effect_number),
+        data = data,
+        chains = 4,
+        cores = 4,
+        seed = 1988,
+        warmup = 2000,
+        iter = 8000,
+        control = list(adapt_delta = 0.99)
+      )
+}
+
+fit_muscle_action_model <- function(data) {
+  
+  # assigning the deviation contrasts
+  
+  data$muscle_action <- as.factor(data$muscle_action)
+  
+  contrasts(data$muscle_action) = contr.sum(length(unique(data$muscle_action)))
+  
+  model <-
+    brm(
+      yi | se(sqrt(vi)) ~ mean_muscle_length_centred * site_centred * muscle_action +
+        (1 | study_number) +
+        (1 | arm_number) +
+        (1 | effect_number),
+      data = data,
+      chains = 4,
+      cores = 4,
+      seed = 1988,
+      warmup = 2000,
+      iter = 8000,
+      control = list(adapt_delta = 0.99)
+    )
+}
 
 # Models with informed priors
 
@@ -808,6 +892,170 @@ combine_main_model_plots <- function(preds_plot, slopes_plot) {
     ) + 
     plot_layout(guides = "collect") & theme(legend.position = "bottom")
 }
+
+plot_upper_lower_model_preds<- function(data, model) {
+  
+  # Interaction plot
+  preds <- crossing(
+    mean_muscle_length_centred = seq(-0.35, 0.35, length = 11),
+    site_centred = c(-0.25,0,0.25),
+    body_region = unique(data$body_region),
+    vi = 0
+  ) |>
+    add_epred_draws(model, re_formula = NA)
+  
+  summary <- preds |>
+    group_by(mean_muscle_length_centred, site_centred, body_region) |>
+    mean_qi() 
+  
+  summary |>
+    ggplot(aes(x = (mean_muscle_length_centred*100)+50, y = .epred)) +
+    geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.75) +
+    geom_ribbon(aes(ymin = .epred.lower, ymax = .epred.upper,
+                    group = as.factor((site_centred*100)+50), fill = (site_centred*100)+50),
+                alpha = 0.5, color = "black", size = 0.25) +
+    geom_line(aes(y = .epred,
+                  group = as.factor((site_centred*100)+50)), size = 1, color = "black") +
+    geom_line(aes(y = .epred,
+                  group = as.factor((site_centred*100)+50), color = (site_centred*100)+50)) +
+    geom_point(data = data,
+               aes(y = yi, size = size + 0.25), color = "black", fill = NA, shape = 21, alpha = 0.5) +
+    geom_point(data = data,
+               aes(y = yi, size = size, color = (site_centred*100)+50), alpha = 0.5) +
+    scale_color_viridis_c() +
+    scale_fill_viridis_c() +
+    scale_x_continuous(breaks = c(0,25,50,75,100)) +
+    # scale_y_continuous(breaks = c(0,0.5,1,1.5,2,2.5)) +
+    facet_wrap("body_region") +
+    guides(
+      size = "none",
+      color = "none"
+    ) +
+    labs(
+      x = "Mean Muscle Length (%)",
+      y = "Standardised Mean Change",
+      fill = "Site of Measurement (%)"
+    ) +
+    theme_classic() +
+    theme(panel.border = element_rect(fill = NA),
+          legend.position = "bottom",
+          axis.title = element_text(size=10))
+  
+}
+
+plot_muscle_model_preds<- function(data, model) {
+  
+  data <- data |>
+    
+    # relabel secondary predictors
+    mutate(muscle = case_when(
+      muscle == "VL" ~ "Vastus Lateralis",
+      muscle == "BFL" ~ "Biceps femoris Long Head",
+      muscle == "ST" ~ "Semitendinosus",
+      muscle == "RF" ~ "Rectus Femoris",
+      muscle == "VM" ~ "Vastus Medialis",
+      muscle == "VI" ~ "Vastus intermedius",
+      .default = muscle
+    )) 
+  
+  # Interaction plot
+  preds <- crossing(
+    mean_muscle_length_centred = seq(-0.35, 0.35, length = 11),
+    site_centred = c(-0.25,0,0.25),
+    muscle = unique(data$muscle),
+    vi = 0
+  ) |>
+    add_epred_draws(model, re_formula = NA)
+  
+  summary <- preds |>
+    group_by(mean_muscle_length_centred, site_centred, muscle) |>
+    mean_qi() 
+  
+  summary |>
+    ggplot(aes(x = (mean_muscle_length_centred*100)+50, y = .epred)) +
+    geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.75) +
+    geom_ribbon(aes(ymin = .epred.lower, ymax = .epred.upper,
+                    group = as.factor((site_centred*100)+50), fill = (site_centred*100)+50),
+                alpha = 0.5, color = "black", size = 0.25) +
+    geom_line(aes(y = .epred,
+                  group = as.factor((site_centred*100)+50)), size = 1, color = "black") +
+    geom_line(aes(y = .epred,
+                  group = as.factor((site_centred*100)+50), color = (site_centred*100)+50)) +
+    geom_point(data = data,
+               aes(y = yi, size = size + 0.25), color = "black", fill = NA, shape = 21, alpha = 0.5) +
+    geom_point(data = data,
+               aes(y = yi, size = size, color = (site_centred*100)+50), alpha = 0.5) +
+    scale_color_viridis_c() +
+    scale_fill_viridis_c() +
+    scale_x_continuous(breaks = c(0,25,50,75,100)) +
+    # scale_y_continuous(breaks = c(0,0.5,1,1.5,2,2.5)) +
+    facet_wrap("muscle") +
+    guides(
+      size = "none",
+      color = "none"
+    ) +
+    labs(
+      x = "Mean Muscle Length (%)",
+      y = "Standardised Mean Change",
+      fill = "Site of Measurement (%)"
+    ) +
+    theme_classic() +
+    theme(panel.border = element_rect(fill = NA),
+          legend.position = "bottom",
+          axis.title = element_text(size=10))
+  
+}
+
+plot_muscle_action_model_preds<- function(data, model) {
+  
+  # Interaction plot
+  preds <- crossing(
+    mean_muscle_length_centred = seq(-0.35, 0.35, length = 11),
+    site_centred = c(-0.25,0,0.25),
+    muscle_action = unique(data$muscle_action),
+    vi = 0
+  ) |>
+    add_epred_draws(model, re_formula = NA)
+  
+  summary <- preds |>
+    group_by(mean_muscle_length_centred, site_centred, muscle_action) |>
+    mean_qi() 
+  
+  summary |>
+    ggplot(aes(x = (mean_muscle_length_centred*100)+50, y = .epred)) +
+    geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.75) +
+    geom_ribbon(aes(ymin = .epred.lower, ymax = .epred.upper,
+                    group = as.factor((site_centred*100)+50), fill = (site_centred*100)+50),
+                alpha = 0.5, color = "black", size = 0.25) +
+    geom_line(aes(y = .epred,
+                  group = as.factor((site_centred*100)+50)), size = 1, color = "black") +
+    geom_line(aes(y = .epred,
+                  group = as.factor((site_centred*100)+50), color = (site_centred*100)+50)) +
+    geom_point(data = data,
+               aes(y = yi, size = size + 0.25), color = "black", fill = NA, shape = 21, alpha = 0.5) +
+    geom_point(data = data,
+               aes(y = yi, size = size, color = (site_centred*100)+50), alpha = 0.5) +
+    scale_color_viridis_c() +
+    scale_fill_viridis_c() +
+    scale_x_continuous(breaks = c(0,25,50,75,100)) +
+    # scale_y_continuous(breaks = c(0,0.5,1,1.5,2,2.5)) +
+    facet_wrap("muscle_action") +
+    guides(
+      size = "none",
+      color = "none"
+    ) +
+    labs(
+      x = "Mean Muscle Length (%)",
+      y = "Standardised Mean Change",
+      fill = "Site of Measurement (%)"
+    ) +
+    theme_classic() +
+    theme(panel.border = element_rect(fill = NA),
+          legend.position = "bottom",
+          axis.title = element_text(size=10))
+  
+}
+
 
 # Model checks
 make_rhat_plot <- function(model) {
