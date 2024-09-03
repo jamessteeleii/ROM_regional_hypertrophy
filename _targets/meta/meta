@@ -1,10 +1,12 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|e0bb3585132eedb7|||||||||||||||
-BF_model_comparisons_plot_lnRR|stem|5223181404e4b26f|4fa79a2128ef48ad|84d4a3e930c27811|1555024304||t19969.6616412292s|c48e3cc411673e27|915584903|qs|local|vector|||46.156|Bayes factors might not be precise.  For precise Bayes factors, sampling at least 40,000 posterior samples is  recommended.. The x argument of as_tibble.matrix must have unique column names if.name_repair is omitted as of tibble 2.0.0.ℹ Using compatibility .name_repair.. The size argument of element_rect is deprecated as of ggplot2 3.4.0.ℹ Please use the linewidth argument instead.|
-BF_model_comparisons_plot_lnRR_tiff|stem|86446c908d6ccda2|ab44df5dbe1dbbcd|bb079d8605e4d2e7|137161055||t19969.6623150728s|4179e472436f3418|81|qs|local|vector|||0.235||
-BF_model_comparisons_plot_SMD|stem|7657991be523b3fa|816a32a9c0b4ab99|389537be9ce44a32|2100828243||t19969.6622732355s|079ed6bf6190cd3c|915183691|qs|local|vector|||47.032|Bayes factors might not be precise.  For precise Bayes factors, sampling at least 40,000 posterior samples is  recommended.|
-BF_model_comparisons_plot_SMD_tiff|stem|6182668ba5f9f561|827fde75d2f3e0a1|c7a6003b5732ca42|-1186081232||t19969.6623612s|87bbe5f41aaaedf6|80|qs|local|vector|||0.219||
+.Random.seed|object|f6fdb43d7855716f|||||||||||||||
+BF_model_comparisons_plot_lnRR|stem|59783cc9bfa87855|7b783153e0417f74|893774aab16774c4|1555024304||t19969.6892420678s|bd961ee8c3e0f081|915569917|qs|local|vector|||44.922|Bayes factors might not be precise.  For precise Bayes factors, sampling at least 40,000 posterior samples is  recommended.. The x argument of as_tibble.matrix must have unique column names if.name_repair is omitted as of tibble 2.0.0.ℹ Using compatibility .name_repair.. The size argument of element_rect is deprecated as of ggplot2 3.4.0.ℹ Please use the linewidth argument instead.|
+BF_model_comparisons_plot_lnRR_tiff|stem|86446c908d6ccda2|ab44df5dbe1dbbcd|020661b493597daa|137161055||t19969.6898997141s|4179e472436f3418|81|qs|local|vector|||0.25||
+BF_model_comparisons_plot_SMD|stem|9a089adf26bd1ccf|a4ae27805384a188|1231d0d8c8175ee8|2100828243||t19969.6898561133s|e1553cf39bdb252f|915091190|qs|local|vector|||46.109|Bayes factors might not be precise.  For precise Bayes factors, sampling at least 40,000 posterior samples is  recommended.|
+BF_model_comparisons_plot_SMD_tiff|stem|6182668ba5f9f561|827fde75d2f3e0a1|cc58b7566d81cefa|-1186081232||t19969.6899489293s|87bbe5f41aaaedf6|80|qs|local|vector|||0.235||
 combine_main_model_plots|function|2ab56058b6aa847c|||||||||||||||
+combined_DV_BS_PM_priors_model_plot_lnRR|stem|3e856b7f54a7852e|46c6f4c8a7c1dc7d|8a5b39ff0feee8b6|1753571847||t19969.684034747s|c7954fad96350900|521416076|qs|local|vector|||0.015||
+combined_DV_BS_PM_priors_model_plot_SMD|stem|469c09ae159dc310|6d1d08a9a73f67a6|0185705b149eb304|1955532130||t19969.6841740338s|202442923279b07e|754858192|qs|local|vector|||0.015||
 combined_DV_BS_priors_model_plot_lnRR|stem|e98ccb4b896333c3|1ae7f646baf27f10|521f936c01e69a42|1302217896||t19969.6500322437s|00729deb07244d59|521564813|qs|local|vector|||0||
 combined_DV_BS_priors_model_plot_SMD|stem|b2731f388415cece|d6abc2dacf7a2e8c|ed641ea110913763|1367766139||t19969.6504699169s|30da05f00660ce04|755078670|qs|local|vector|||0||
 combined_main_model_plot|stem|36a843ed3f9d077c|e3a3683aab619814|3d654a58f712d7eb|-795655413||t19966.5928580442s|be7832c988de033d|371208502|qs|local|vector|||0||
@@ -19,7 +21,23 @@ combined_steele_priors_model_plot_SMD|stem|6aba97a2bd95dd77|1b42f84b1e5a9dd5|1b1
 data|stem|7bbf4cb649c75dc6|3374fb4f7e8a56f4|87338aa5fcbf539d|33550471||t19966.4842211161s|eab107e8a20bb9e1|13243|qs|local|vector|||0.094||
 data_lnRR|stem|ec950394317dae07|3ac058ca4c3e1b64|3a56599eae3aec00|-224819188||t19967.4204440111s|7d50f60c12d99e05|13196|qs|local|vector|||0.125||
 data_SMD|stem|7bbf4cb649c75dc6|c5fd0bec1845e7b8|1aa7cc04b89981a6|1558862474||t19967.4204469928s|eab107e8a20bb9e1|13243|qs|local|vector|||0.063||
-diagnostic_plots|stem|5ef735fbd24d492f|2a57b5ea7e0df0f6|c5452bd350f339ad|610771223|plots/diagnostic_plots.pdf*plots/diagnostic_plots.qmd|t19969.6524056507s|ed5a10367cc392af|30064651|file|local|vector|||126.812||
+diagnostic_plots|stem|27587bdfe1d1902e|2a57b5ea7e0df0f6|f5123a704accf79a|610771223|plots/diagnostic_plots.pdf*plots/diagnostic_plots.qmd|t19969.6859215031s|f51e381f0621f55e|30064655|file|local|vector|||125.25||
+DV_BS_PM_priors_lnRR|stem|6c82032b6a28f03c|a461b7bd03dc1308|105d59c153cfd3ae|433772534||t19969.6755363823s|852ca65165b9cec5|312|qs|local|vector|||4.984||
+DV_BS_PM_priors_model_lnRR|stem|01fe01d761b96c17|aef2ed25c3b3cac3|9c753e1207c96fb1|-662525570||t19969.6773856759s|859a0f0764ccfa8e|235413593|qs|local|vector|||158.594||
+DV_BS_PM_priors_model_plot_lnRR_tiff|stem|808e94bb9603e709|347f670b71c1b63e|817e6eaeba2ceeda|-1568510704||t19969.6860403615s|04fcf8b2530d31e5|77|qs|local|vector|||0.86||
+DV_BS_PM_priors_model_plot_preds_lnRR|stem|4228db1a011a30f5|ac7463fc749bc0a9|f4ce5a250c6f7b2c|-532739980||t19969.6814830467s|e6955ad10336e113|283003284|qs|local|vector|||24.531|Using size aesthetic for lines was deprecated in ggplot2 3.4.0.ℹ Please use linewidth instead.|
+DV_BS_PM_priors_model_plot_preds_SMD|stem|74fdab3712a1a85c|9f1b7350b9f6e8b0|2cf10d8bd2935ae2|-548183099||t19969.6828415194s|d54fd67cb0474845|282105002|qs|local|vector|||20.484||
+DV_BS_PM_priors_model_plot_slopes_lnRR|stem|a5f6054b94bd4df4|e694b619369da86d|936b45ea3b355483|17015299||t19969.6818361236s|bbb636d86c3d235e|238329997|qs|local|vector|||18.891||
+DV_BS_PM_priors_model_plot_slopes_SMD|stem|9351463753e45770|0e8e6617570bee2a|f1cfd115e6f7ce54|-1706410313||t19969.6831409376s|97eabbb474f88c1a|472703681|qs|local|vector|||16.656||
+DV_BS_PM_priors_model_plot_SMD_tiff|stem|5cd0e0a793998149|a6cd2b2d0e9404d6|b8d4af8255c416a3|693655602||t19969.6860977258s|e12065d620e41fd5|76|qs|local|vector|||0.766||
+DV_BS_PM_priors_model_SMD|stem|66341cfafb63818a|be16516fdf9fc01a|61bcadc275c87cf4|-1949861905||t19969.6801083457s|84a4ece001e42a24|235193300|qs|local|vector|||140.672||
+DV_BS_PM_priors_only_model_lnRR|stem|1e7236c6eb47f3f7|1d460ddcc11f63e3|e1a25a570922abd2|1926235501||t19969.6784664073s|ed9b896b78f4aef4|121009162|qs|local|vector|||92.453||
+DV_BS_PM_priors_only_model_SMD|stem|382b3bb3f067b341|f8a6144f996c6acd|fce181f7b599b9c1|-494454278||t19969.6811750953s|167f67dd47fa2524|120714006|qs|local|vector|||91.109||
+DV_BS_PM_priors_plot_lnRR|stem|67217c64a47129d5|61b0d0342ddcfe5d|da5d92dd8ae46255|-1704924461||t19969.6825656197s|b1c19202b6aa54c0|123222508|qs|local|vector|||0.234||
+DV_BS_PM_priors_plot_lnRR_tiff|stem|57c1009cd5cf0cbd|4419d77c97d5bc4c|93ec678310e1fa16|1968207502||t19969.6841013924s|580e0375f1117643|70|qs|local|vector|||0.687|Removed 3427 rows containing missing values or values outside the scale rangestat_slabinterval.. Removed 290 rows containing missing values or values outside the scale rangestat_slabinterval.. Removed 3388 rows containing missing values or values outside the scale rangestat_slabinterval.|
+DV_BS_PM_priors_plot_SMD|stem|fa7620b974694471|d1d4b1ab513b772a|8650f209caa9d3a4|-341874052||t19969.6832996096s|396428ecc5922785|122915588|qs|local|vector|||0.188||
+DV_BS_PM_priors_plot_SMD_tiff|stem|a618d8891d693b17|7dd896d4384a4172|1461ae60d84af044|-236378389||t19969.6841992144s|bab37a9db0a801a3|69|qs|local|vector|||0.625|Removed 1328 rows containing missing values or values outside the scale rangestat_slabinterval.. Removed 403 rows containing missing values or values outside the scale rangestat_slabinterval.. Removed 1463 rows containing missing values or values outside the scale rangestat_slabinterval.|
+DV_BS_PM_priors_SMD|stem|e00d9e010e61f9d6|ff49c1ad5dd869ba|5d1230d8e73cc1b5|1012911468||t19969.675539042s|7449f782a65b6575|313|qs|local|vector|||0.016||
 DV_BS_priors_lnRR|stem|6c82032b6a28f03c|875e784af1e7878c|09917b007ebf31a5|747755087||t19967.9211810625s|852ca65165b9cec5|312|qs|local|vector|||0.016||
 DV_BS_priors_model_lnRR|stem|7b32df66b64b6667|fc518c9ad86fdd84|595789d99b192c2e|-1408367767||t19969.5926726985s|adc848a516744df6|235433583|qs|local|vector|||154.547||
 DV_BS_priors_model_plot_lnRR_tiff|stem|b013023828eda88f|f013c5d32a829bff|8a496001c20ad483|-1776192526||t19969.6527578686s|4be831169559909a|74|qs|local|vector|||0.844||
@@ -37,6 +55,10 @@ DV_BS_priors_plot_SMD|stem|39a67f5abef2eac7|c48e021dec3f35b2|ab9341bdbcc505f6|-6
 DV_BS_priors_plot_SMD_tiff|stem|02a2a3ef73c51a2d|81f60572dc06b2b7|84cb3260ab0ff085|-1987427776||t19967.9510011026s|7b8a7f5d937ff9ae|66|qs|local|vector|||0.609|Removed 1328 rows containing missing values or values outside the scale rangestat_slabinterval.. Removed 403 rows containing missing values or values outside the scale rangestat_slabinterval.. Removed 1463 rows containing missing values or values outside the scale rangestat_slabinterval.|
 DV_BS_priors_SMD|stem|e00d9e010e61f9d6|84ba3cba82b5be5f|a5006922103aa3c9|566075278||t19967.9211857827s|7449f782a65b6575|313|qs|local|vector|||0.016||
 file|stem|6b236b6d4cc80580|a80011998be61174|2c530c1562a7fbd1|1735323524|C:/Users/james/Dropbox/Research/ROM_regional_hypertrophy/data/ROM_regional_hypertrophy_data.csv|t19959.9228999486s|81d8ffd5856bffcd|39400|file|local|vector|||4.406||
+fit_DV_BS_PM_priors_model_lnRR|function|5e46deaba8f4391d|||||||||||||||
+fit_DV_BS_PM_priors_model_SMD|function|9323a14aafbf1fb4|||||||||||||||
+fit_DV_BS_PM_priors_only_model_lnRR|function|290272c0a2b0a098|||||||||||||||
+fit_DV_BS_PM_priors_only_model_SMD|function|290272c0a2b0a098|||||||||||||||
 fit_DV_BS_priors_model_lnRR|function|5e46deaba8f4391d|||||||||||||||
 fit_DV_BS_priors_model_SMD|function|9323a14aafbf1fb4|||||||||||||||
 fit_DV_BS_priors_only_model_lnRR|function|290272c0a2b0a098|||||||||||||||
@@ -97,7 +119,7 @@ muscle_model_plot_preds_lnRR_tiff|stem|9a2b0d4e6136308c|64245872de9df0c5|a09ea36
 muscle_model_plot_preds_SMD|stem|ccac246b7fb541ac|b830a105256d7ebb|658a92250284161a|607286438||t19969.6498578877s|efb7f52d6d000a9b|280896824|qs|local|vector|||25.14||
 muscle_model_plot_preds_SMD_tiff|stem|eca90fa6cf93d402|5d0e88c780689301|edafa6a5b20846c8|-505505410||t19969.6526528413s|d22c29dc585b97b0|78|qs|local|vector|||0.672||
 muscle_model_SMD|stem|a34746c5610409f6|98eb33841c7dee49|f2d2978252f8acdf|487719557||t19969.6110157795s|98c4f8b839d0bc0e|225575384|qs|local|vector|||149.312||
-plot_BF_model_comparisons|function|d349e4fa1c669db2|||||||||||||||
+plot_BF_model_comparisons|function|7a08c9981b348a4e|||||||||||||||
 plot_main_model|function|a224f655761dc868|||||||||||||||
 plot_main_model_preds|function|23f937e56d24dc49|||||||||||||||
 plot_main_model_preds_lnRR|function|18318b5ad9f83fe3|||||||||||||||
@@ -114,6 +136,8 @@ plot_muscle_model_preds_SMD|function|6f255ee49df1b7f9|||||||||||||||
 plot_upper_lower_model_preds|function|c8986e33c589acc6|||||||||||||||
 plot_upper_lower_model_preds_lnRR|function|008893a4f27497cd|||||||||||||||
 plot_upper_lower_model_preds_SMD|function|1463b122c0c464f7|||||||||||||||
+pp_check_DV_BS_PM_priors_model_lnRR|stem|0f38d91c1bab8237|f6439144728d8973|15b58e30e2193175|-1929082478||t19969.6819287746s|7fee38d148e3c0da|170990|qs|local|vector|||0.734||
+pp_check_DV_BS_PM_priors_model_SMD|stem|96f827b9ea6caa14|e31d9e3dbe5e1ae0|b08536f49c40be70|-148554509||t19969.6829212799s|851ce2cb44d4036f|171132|qs|local|vector|||0.75||
 pp_check_DV_BS_priors_model_lnRR|stem|af40b683b27ec1d7|70d1164f6b9ddbf4|d8bdae28ffd1069b|1277559574||t19969.6124254414s|fd3e40498b8e673d|171000|qs|local|vector|||0.797||
 pp_check_DV_BS_priors_model_SMD|stem|fb9a9d8bc683174a|67909086b9450cc8|a108de6203a071cf|2026839739||t19969.6457660587s|0072edca320cb441|171105|qs|local|vector|||0.797||
 pp_check_main_model|stem|929445bc0ab4b8c8|87552a942211bf7d|89c29c7807eebbf8|1452863604||t19966.510058528s|d0e121bf2857fe45|171315|qs|local|vector|||0.578||
@@ -134,6 +158,8 @@ pp_check_upper_lower_model_SMD|stem|4b55aeeb22e3250d|73d8b7d14db1c3bc|11f98491f6
 read_prepare_data|function|9de90fe846cd4cde|||||||||||||||
 read_prepare_data_lnRR|function|ab09d380e015a44f|||||||||||||||
 read_prepare_data_SMD|function|9de90fe846cd4cde|||||||||||||||
+rhat_DV_BS_PM_priors_model_lnRR|stem|b58d639745cd7825|0e313ecc2e15c8e1|63df50369cc6a782|-1013471733||t19969.681595638s|5ebdb75a35dbab32|235590237|qs|local|vector|||7.969|Dropped 5 NAs from new_rhatrhat.|
+rhat_DV_BS_PM_priors_model_SMD|stem|b6f23594f70aa41b|e3b44b6990606283|e73d5c3a0ca37f06|-1100522078||t19969.6832678875s|9b1e79ce76ce8907|235404664|qs|local|vector|||8.89|Dropped 5 NAs from new_rhatrhat.|
 rhat_DV_BS_priors_model_lnRR|stem|ab80ba119b4bc8a8|a16f5d3d6e105dda|b5017803296761f9|1286076685||t19969.6125429305s|f48b0d36e32ca9ef|235647408|qs|local|vector|||8.594|Dropped 5 NAs from new_rhatrhat.|
 rhat_DV_BS_priors_model_SMD|stem|cdb10e2709723dc1|ab4b6e0efcef3c81|fc96941b217114d0|606294854||t19969.6458939193s|5eeac8575e6c2ff9|235492202|qs|local|vector|||8.641|Dropped 5 NAs from new_rhatrhat.|
 rhat_main_model|stem|32a9c86a80a3e37d|212f07daa9c761c7|c0a5a76a23f9a941|-1168839758||t19966.5100084388s|fd25c583c0c1f2f9|107560509|qs|local|vector|||3.64|Dropped 1 NAs from new_rhatrhat.|
@@ -156,6 +182,8 @@ rstan_setup|function|d82cad57281e544d|||||||||||||||
 sample_and_plot_priors|function|3695a33d37842fed|||||||||||||||
 sample_and_plot_priors_lnRR|function|2d177a9c9e5d8a27|||||||||||||||
 sample_and_plot_priors_SMD|function|ba2e6b78458117cc|||||||||||||||
+set_DV_BS_PM_priors_lnRR|function|c96a1652fb4ec108|||||||||||||||
+set_DV_BS_PM_priors_SMD|function|4cf48f740338dd32|||||||||||||||
 set_DV_BS_priors_lnRR|function|c96a1652fb4ec108|||||||||||||||
 set_DV_BS_priors_SMD|function|4cf48f740338dd32|||||||||||||||
 set_steele_priors|function|ebda3a5870bf6449|||||||||||||||
@@ -185,6 +213,8 @@ steele_priors_plot_SMD|stem|e4b4320a41c8d40d|bddaebd1fbefe1be|a98c65c6c740c563|-
 steele_priors_plot_SMD_tiff|stem|2eff1a0b69f01fe0|152119781eed2d6a|f753d3205e9e1843|-1830799323||t19967.9509264509s|4d3508554cc2b0df|67|qs|local|vector|||0.594|Removed 20 rows containing missing values or values outside the scale rangestat_slabinterval.. Removed 218 rows containing missing values or values outside the scale rangestat_slabinterval.|
 steele_priors_plot_tiff|stem|b99908612ea758fe|1f02df5d8ac45962|adc2b47b7fc0de6c|952334179||t19966.5176245973s|a306d1d3a97c75cf|63|qs|local|vector|||1.204|Removed 1352 rows containing missing values or values outside the scale rangestat_slabinterval.. Removed 27 rows containing missing values or values outside the scale rangestat_slabinterval.|
 steele_priors_SMD|stem|df03c65f7531d855|3e20eaa065ac04cd|d62294dc638531dc|-692592645||t19967.9420219361s|e4e35ba89377bb93|326|qs|local|vector|||7.109||
+tidy_DV_BS_PM_priors_model_lnRR|stem|6ea13910311db5a3|0e1c2ace967a7e7c|e46b389208499af0|1202298856||t19969.6819112237s|fca8c75bc58a7799|830|qs|local|vector|||0.188|some parameter names contain underscores term naming may be unreliable|
+tidy_DV_BS_PM_priors_model_SMD|stem|c89f0d8b04a6cb69|71ecee725a8d4d0a|95b054858f48345e|-2092418432||t19969.6832824374s|2e113267a0140a4c|839|qs|local|vector|||0.172|some parameter names contain underscores term naming may be unreliable|
 tidy_DV_BS_priors_model_lnRR|stem|6ea13910311db5a3|16b7b35276bb1a21|df22303f1dd5755b|-1504731487||t19969.6131463795s|fca8c75bc58a7799|830|qs|local|vector|||0.172|some parameter names contain underscores term naming may be unreliable|
 tidy_DV_BS_priors_model_SMD|stem|c89f0d8b04a6cb69|d06623fc29789be6|e5fd10b9976d19d9|723534350||t19969.6462430387s|2e113267a0140a4c|839|qs|local|vector|||0.157|some parameter names contain underscores term naming may be unreliable|
 tidy_main_model|stem|56faea89f9d43ce0|451d9dedddd32c7e|bb764adc66cf088f|203638725||t19966.5094972456s|0b511ff9f117fb66|620|qs|local|vector|||0.14|some parameter names contain underscores term naming may be unreliable|
@@ -202,6 +232,8 @@ tidy_steele_priors_model_lnRR|stem|9e94faab5d41fdad|6a29ebbd1142b8ee|2f95869d96e
 tidy_steele_priors_model_SMD|stem|d9fada8cfd6c01d3|21500fa2bd12f30b|2eafe586ea1be48d|292357183||t19969.6455044612s|3048ba20aff44b78|842|qs|local|vector|||0.156|some parameter names contain underscores term naming may be unreliable|
 tidy_upper_lower_model_lnRR|stem|2ccbf03292628296|1803eb73e5905bee|df56aa3ed92be582|967768158||t19969.6444915872s|ffea6765275caf20|787|qs|local|vector|||0.234|some parameter names contain underscores term naming may be unreliable|
 tidy_upper_lower_model_SMD|stem|4a695e7f0484c510|344405087861cbdb|f87c14294827c5d5|1340013175||t19969.6445034745s|340fcdd08c153d07|793|qs|local|vector|||0.188|some parameter names contain underscores term naming may be unreliable|
+trace_plot_DV_BS_PM_priors_model_lnRR|stem|9bf9a9e47254e8f4|a66aa0702c5596f2|cc7230afa06f8a4b|1636132186||t19969.6818985654s|1f496ec9d343eaad|26998333|qs|local|vector|||3.953||
+trace_plot_DV_BS_PM_priors_model_SMD|stem|1406e56be7792edc|34866631c6ad8628|4626e6ad62e3b58a|-2105655614||t19969.6829003708s|8a0b26a9be2b43ad|26953270|qs|local|vector|||3.735||
 trace_plot_DV_BS_priors_model_lnRR|stem|6f7288585f40ad26|730630487071349d|1b1e7788a05889b6|-1247248634||t19969.6125992791s|fd4fa19cdcadd921|26997382|qs|local|vector|||3.609||
 trace_plot_DV_BS_priors_model_SMD|stem|0f033b10e05c8462|0081ec012223caa8|1bbc02a4de67373b|-1169926386||t19969.6459559482s|deb9de5f550418d8|26956998|qs|local|vector|||3.859||
 trace_plot_main_model|stem|e71daa0734222fb9|98e5a6671660d27e|74eab99782402016|-136053382||t19966.5100442033s|df7ac6e86f4d2d93|15905779|qs|local|vector|||2.203||

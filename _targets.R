@@ -92,17 +92,17 @@ list(
   tar_target(tidy_main_model_r_slopes_SMD, get_tidy_model(main_model_r_slopes_SMD)),
   
   # Fit, check, and plot main model with random slopes included with Dorian Varovic and Brad Schoenfeld priors for Standarised Mean Changes
-  tar_target(DV_BS_priors_SMD, set_DV_BS_priors_SMD()),
-  tar_target(DV_BS_priors_only_model_SMD, fit_DV_BS_priors_only_model_SMD(data_SMD, DV_BS_priors_SMD)),
-  tar_target(DV_BS_priors_plot_SMD, sample_and_plot_priors_SMD(DV_BS_priors_only_model_SMD)),
-  tar_target(DV_BS_priors_model_SMD, fit_DV_BS_priors_model_SMD(data_SMD, DV_BS_priors_SMD)),
-  tar_target(rhat_DV_BS_priors_model_SMD, make_rhat_plot(DV_BS_priors_model_SMD)),
-  tar_target(trace_plot_DV_BS_priors_model_SMD, make_trace_plot(DV_BS_priors_model_SMD)),
-  tar_target(pp_check_DV_BS_priors_model_SMD, make_pp_check(DV_BS_priors_model_SMD)),
-  tar_target(DV_BS_priors_model_plot_preds_SMD, plot_main_model_preds_SMD(data_SMD, DV_BS_priors_model_SMD)),
-  tar_target(DV_BS_priors_model_plot_slopes_SMD, plot_main_model_slopes_SMD(DV_BS_priors_model_SMD)),
-  tar_target(combined_DV_BS_priors_model_plot_SMD, combine_main_model_plots(DV_BS_priors_model_plot_preds_SMD, DV_BS_priors_model_plot_slopes_SMD)),
-  tar_target(tidy_DV_BS_priors_model_SMD, get_tidy_model(DV_BS_priors_model_SMD)),
+  tar_target(DV_BS_PM_priors_SMD, set_DV_BS_PM_priors_SMD()),
+  tar_target(DV_BS_PM_priors_only_model_SMD, fit_DV_BS_PM_priors_only_model_SMD(data_SMD, DV_BS_PM_priors_SMD)),
+  tar_target(DV_BS_PM_priors_plot_SMD, sample_and_plot_priors_SMD(DV_BS_PM_priors_only_model_SMD)),
+  tar_target(DV_BS_PM_priors_model_SMD, fit_DV_BS_PM_priors_model_SMD(data_SMD, DV_BS_PM_priors_SMD)),
+  tar_target(rhat_DV_BS_PM_priors_model_SMD, make_rhat_plot(DV_BS_PM_priors_model_SMD)),
+  tar_target(trace_plot_DV_BS_PM_priors_model_SMD, make_trace_plot(DV_BS_PM_priors_model_SMD)),
+  tar_target(pp_check_DV_BS_PM_priors_model_SMD, make_pp_check(DV_BS_PM_priors_model_SMD)),
+  tar_target(DV_BS_PM_priors_model_plot_preds_SMD, plot_main_model_preds_SMD(data_SMD, DV_BS_PM_priors_model_SMD)),
+  tar_target(DV_BS_PM_priors_model_plot_slopes_SMD, plot_main_model_slopes_SMD(DV_BS_PM_priors_model_SMD)),
+  tar_target(combined_DV_BS_PM_priors_model_plot_SMD, combine_main_model_plots(DV_BS_PM_priors_model_plot_preds_SMD, DV_BS_PM_priors_model_plot_slopes_SMD)),
+  tar_target(tidy_DV_BS_PM_priors_model_SMD, get_tidy_model(DV_BS_PM_priors_model_SMD)),
   
   # Fit, check, and plot main model with random slopes included with Steele priors for Standarised Mean Changes
   tar_target(steele_priors_SMD, set_steele_priors_SMD()),
@@ -120,7 +120,7 @@ list(
   # Compare Standardised Mean Difference Models
   tar_target(BF_model_comparisons_plot_SMD, plot_BF_model_comparisons(main_model_SMD,
                                                                       main_model_r_slopes_SMD,
-                                                                      DV_BS_priors_model_SMD,
+                                                                      DV_BS_PM_priors_model_SMD,
                                                                       steele_priors_model_SMD)),
   
   # Log Response Ratios Models
@@ -170,17 +170,17 @@ list(
   tar_target(tidy_main_model_r_slopes_lnRR, get_tidy_model(main_model_r_slopes_lnRR)),
   
   # Fit, check, and plot main model with random slopes included with Dorian Varovic and Brad Schoenfeld priors for Log Response Ratio
-  tar_target(DV_BS_priors_lnRR, set_DV_BS_priors_lnRR()),
-  tar_target(DV_BS_priors_only_model_lnRR, fit_DV_BS_priors_only_model_lnRR(data_lnRR, DV_BS_priors_lnRR)),
-  tar_target(DV_BS_priors_plot_lnRR, sample_and_plot_priors_lnRR(DV_BS_priors_only_model_lnRR)),
-  tar_target(DV_BS_priors_model_lnRR, fit_DV_BS_priors_model_lnRR(data_lnRR, DV_BS_priors_lnRR)),
-  tar_target(rhat_DV_BS_priors_model_lnRR, make_rhat_plot(DV_BS_priors_model_lnRR)),
-  tar_target(trace_plot_DV_BS_priors_model_lnRR, make_trace_plot(DV_BS_priors_model_lnRR)),
-  tar_target(pp_check_DV_BS_priors_model_lnRR, make_pp_check(DV_BS_priors_model_lnRR)),
-  tar_target(DV_BS_priors_model_plot_preds_lnRR, plot_main_model_preds_lnRR(data_lnRR, DV_BS_priors_model_lnRR)),
-  tar_target(DV_BS_priors_model_plot_slopes_lnRR, plot_main_model_slopes_lnRR(DV_BS_priors_model_lnRR)),
-  tar_target(combined_DV_BS_priors_model_plot_lnRR, combine_main_model_plots(DV_BS_priors_model_plot_preds_lnRR, DV_BS_priors_model_plot_slopes_lnRR)),
-  tar_target(tidy_DV_BS_priors_model_lnRR, get_tidy_model(DV_BS_priors_model_lnRR)),
+  tar_target(DV_BS_PM_priors_lnRR, set_DV_BS_PM_priors_lnRR()),
+  tar_target(DV_BS_PM_priors_only_model_lnRR, fit_DV_BS_PM_priors_only_model_lnRR(data_lnRR, DV_BS_PM_priors_lnRR)),
+  tar_target(DV_BS_PM_priors_plot_lnRR, sample_and_plot_priors_lnRR(DV_BS_PM_priors_only_model_lnRR)),
+  tar_target(DV_BS_PM_priors_model_lnRR, fit_DV_BS_PM_priors_model_lnRR(data_lnRR, DV_BS_PM_priors_lnRR)),
+  tar_target(rhat_DV_BS_PM_priors_model_lnRR, make_rhat_plot(DV_BS_PM_priors_model_lnRR)),
+  tar_target(trace_plot_DV_BS_PM_priors_model_lnRR, make_trace_plot(DV_BS_PM_priors_model_lnRR)),
+  tar_target(pp_check_DV_BS_PM_priors_model_lnRR, make_pp_check(DV_BS_PM_priors_model_lnRR)),
+  tar_target(DV_BS_PM_priors_model_plot_preds_lnRR, plot_main_model_preds_lnRR(data_lnRR, DV_BS_PM_priors_model_lnRR)),
+  tar_target(DV_BS_PM_priors_model_plot_slopes_lnRR, plot_main_model_slopes_lnRR(DV_BS_PM_priors_model_lnRR)),
+  tar_target(combined_DV_BS_PM_priors_model_plot_lnRR, combine_main_model_plots(DV_BS_PM_priors_model_plot_preds_lnRR, DV_BS_PM_priors_model_plot_slopes_lnRR)),
+  tar_target(tidy_DV_BS_PM_priors_model_lnRR, get_tidy_model(DV_BS_PM_priors_model_lnRR)),
   
   # Fit, check, and plot main model with random slopes included with Steele priors for Log Response Ratio
   tar_target(steele_priors_lnRR, set_steele_priors_lnRR()),
@@ -198,7 +198,7 @@ list(
   # Compare Log Response Ratio Models
   tar_target(BF_model_comparisons_plot_lnRR, plot_BF_model_comparisons(main_model_lnRR,
                                                                       main_model_r_slopes_lnRR,
-                                                                      DV_BS_priors_model_lnRR,
+                                                                      DV_BS_PM_priors_model_lnRR,
                                                                       steele_priors_model_lnRR)),
   
   # Make plot tiffs
@@ -210,16 +210,16 @@ list(
   tar_target(upper_lower_model_plot_preds_lnRR_tiff, make_plot_tiff(upper_lower_model_plot_preds_lnRR, 10, 5.5, "plots/upper_lower_model_plot_preds_lnRR.tiff")),
   tar_target(muscle_model_plot_preds_lnRR_tiff, make_plot_tiff(muscle_model_plot_preds_lnRR, 10, 5.5, "plots/muscle_model_plot_preds_lnRR.tiff")),
   tar_target(muscle_action_model_plot_preds_lnRR_tiff, make_plot_tiff(muscle_action_model_plot_preds_lnRR, 10, 7.5, "plots/muscle_action_model_plot_preds_lnRR.tiff")),
-  tar_target(DV_BS_priors_plot_SMD_tiff, make_plot_tiff(DV_BS_priors_plot_SMD, 7.5, 5, "plots/DV_BS_priors_SMD.tiff")),
-  tar_target(DV_BS_priors_model_plot_SMD_tiff, make_plot_tiff(combined_DV_BS_priors_model_plot_SMD, 10, 5.5, "plots/DV_BS_priors_model_SMD.tiff")),
+  tar_target(DV_BS_PM_priors_plot_SMD_tiff, make_plot_tiff(DV_BS_PM_priors_plot_SMD, 7.5, 5, "plots/DV_BS_PM_priors_SMD.tiff")),
+  tar_target(DV_BS_PM_priors_model_plot_SMD_tiff, make_plot_tiff(combined_DV_BS_PM_priors_model_plot_SMD, 10, 5.5, "plots/DV_BS_PM_priors_model_SMD.tiff")),
   tar_target(steele_priors_plot_SMD_tiff, make_plot_tiff(steele_priors_plot_SMD, 7.5, 5, "plots/steele_priors_SMD.tiff")),
   tar_target(steele_priors_model_plot_SMD_tiff, make_plot_tiff(combined_steele_priors_model_plot_SMD, 10, 5.5, "plots/steele_priors_model_SMD.tiff")),
   tar_target(main_model_plot_lnRR_tiff, make_plot_tiff(combined_main_model_plot_lnRR, 10, 5.5, "plots/main_model_lnRR.tiff")),
   tar_target(main_model_r_slopes_plot_lnRR_tiff, make_plot_tiff(combined_main_model_r_slopes_plot_lnRR, 10, 5.5, "plots/main_model_r_slopes_lnRR.tiff")),
   tar_target(steele_priors_plot_lnRR_tiff, make_plot_tiff(steele_priors_plot_lnRR, 7.5, 5, "plots/steele_priors_lnRR.tiff")),
   tar_target(steele_priors_model_plot_lnRR_tiff, make_plot_tiff(combined_steele_priors_model_plot_lnRR, 10, 5.5, "plots/steele_priors_model_lnRR.tiff")),
-  tar_target(DV_BS_priors_plot_lnRR_tiff, make_plot_tiff(DV_BS_priors_plot_lnRR, 7.5, 5, "plots/DV_BS_priors_lnRR.tiff")),
-  tar_target(DV_BS_priors_model_plot_lnRR_tiff, make_plot_tiff(combined_DV_BS_priors_model_plot_lnRR, 10, 5.5, "plots/DV_BS_priors_model_lnRR.tiff")),
+  tar_target(DV_BS_PM_priors_plot_lnRR_tiff, make_plot_tiff(DV_BS_PM_priors_plot_lnRR, 7.5, 5, "plots/DV_BS_PM_priors_lnRR.tiff")),
+  tar_target(DV_BS_PM_priors_model_plot_lnRR_tiff, make_plot_tiff(combined_DV_BS_PM_priors_model_plot_lnRR, 10, 5.5, "plots/DV_BS_PM_priors_model_lnRR.tiff")),
   tar_target(BF_model_comparisons_plot_SMD_tiff, make_plot_tiff(BF_model_comparisons_plot_SMD, 10, 5.5, "plots/BF_model_comparisons_plot_SMD.tiff")),
   tar_target(BF_model_comparisons_plot_lnRR_tiff, make_plot_tiff(BF_model_comparisons_plot_lnRR, 10, 5.5, "plots/BF_model_comparisons_plot_lnRR.tiff")),
   

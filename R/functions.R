@@ -476,7 +476,7 @@ fit_steele_priors_model_lnRR <- function(data, prior) {
 }
 
 # Dorian Varovic and Brad Schoenfeld priors
-set_DV_BS_priors_SMD <- function() {
+set_DV_BS_PM_priors_SMD <- function() {
   prior <-
     c(
       # Priors set for Intercept (overall fixed mean) and tau at study level from Steele et al., (2023) DOI: 10.1080/02640414.2023.2286748
@@ -497,7 +497,7 @@ set_DV_BS_priors_SMD <- function() {
     )
 }
 
-fit_DV_BS_priors_only_model_SMD <- function(data, prior) {
+fit_DV_BS_PM_priors_only_model_SMD <- function(data, prior) {
   model <-
     brm(yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * site_centred +
           (mean_muscle_length_centred + site_centred | study_number) +
@@ -515,7 +515,7 @@ fit_DV_BS_priors_only_model_SMD <- function(data, prior) {
     )
 }
 
-fit_DV_BS_priors_model_SMD <- function(data, prior) {
+fit_DV_BS_PM_priors_model_SMD <- function(data, prior) {
   
   # Set initial values to improve chain convergence
   set_inits <- function(seed = 1) {
@@ -554,7 +554,7 @@ fit_DV_BS_priors_model_SMD <- function(data, prior) {
     )
 }
 
-set_DV_BS_priors_lnRR <- function() {
+set_DV_BS_PM_priors_lnRR <- function() {
   prior <-
     c(
       # Priors set for Intercept (overall fixed mean) and tau at study level from Steele et al., (2023) DOI: 10.1080/02640414.2023.2286748
@@ -575,7 +575,7 @@ set_DV_BS_priors_lnRR <- function() {
     )
 }
 
-fit_DV_BS_priors_only_model_lnRR <- function(data, prior) {
+fit_DV_BS_PM_priors_only_model_lnRR <- function(data, prior) {
   model <-
     brm(yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * site_centred +
           (mean_muscle_length_centred + site_centred | study_number) +
@@ -593,7 +593,7 @@ fit_DV_BS_priors_only_model_lnRR <- function(data, prior) {
     )
 }
 
-fit_DV_BS_priors_model_lnRR <- function(data, prior) {
+fit_DV_BS_PM_priors_model_lnRR <- function(data, prior) {
   
   # Set initial values to improve chain convergence
   set_inits <- function(seed = 1) {
@@ -1266,32 +1266,32 @@ plot_BF_model_comparisons <- function(model1,
     mutate(Denominator = case_when(
       Denominator == 1 ~ "Main Model - Uninformed Priors",
       Denominator == 2 ~  "Main Model with Random Slopes - Uninformed Priors",
-      Denominator == 3 ~  "Main Model with Random Slopes - D Varovic & B Schoenfeld Priors",
-      Denominator == 4 ~ "Main Model with Random Slopes - J Steele Priors"
+      Denominator == 3 ~  "Main Model with Random Slopes - D. Varovic, B. Schoenfeld, & P. Mikulic Priors",
+      Denominator == 4 ~ "Main Model with Random Slopes - J. Steele Priors"
     )) |>
     rename("Main Model - Uninformed Priors" = 2,
            "Main Model with Random Slopes - Uninformed Priors" = 3,
-           "Main Model with Random Slopes - D Varovic & B Schoenfeld Priors" = 4,
-           "Main Model with Random Slopes - J Steele Priors" = 5) |>
+           "Main Model with Random Slopes - D. Varovic, B. Schoenfeld, & P. Mikulic Priors" = 4,
+           "Main Model with Random Slopes - J. Steele Priors" = 5) |>
     pivot_longer(2:5, names_to = "Numerator", values_to = "logBF")
   
   BF_mean_models$Denominator <-  recode(BF_mean_models$Denominator,
                                         "main_model_lnRR" = "Main Model - Uninformed Priors",
                                         "main_model_r_slopes_lnRR" = "Main Model with Random Slopes - Uninformed Priors",
-                                        "DV_BS_priors_model_lnRR" = "Main Model with Random Slopes - D Varovic & B Schoenfeld Priors",
-                                        "steele_priors_model_lnRR" = "Main Model with Random Slopes - J Steele Priors")
+                                        "DV_BS_PM_priors_model_lnRR" = "Main Model with Random Slopes - D. Varovic, B. Schoenfeld, & P. Mikulic Priors",
+                                        "steele_priors_model_lnRR" = "Main Model with Random Slopes - J. Steele Priors")
   
   BF_mean_models |> 
     mutate(Denominator = factor(Denominator, levels= c( 
       "Main Model - Uninformed Priors",
       "Main Model with Random Slopes - Uninformed Priors",
-      "Main Model with Random Slopes - D Varovic & B Schoenfeld Priors",
-      "Main Model with Random Slopes - J Steele Priors")),
+      "Main Model with Random Slopes - D. Varovic, B. Schoenfeld, & P. Mikulic Priors",
+      "Main Model with Random Slopes - J. Steele Priors")),
       Numerator = factor(Numerator, levels= c( 
         "Main Model - Uninformed Priors",
         "Main Model with Random Slopes - Uninformed Priors",
-        "Main Model with Random Slopes - D Varovic & B Schoenfeld Priors",
-        "Main Model with Random Slopes - J Steele Priors")),
+        "Main Model with Random Slopes - D. Varovic, B. Schoenfeld, & P. Mikulic Priors",
+        "Main Model with Random Slopes - J. Steele Priors")),
       logBF = as.numeric(logBF)) |>
     ggplot(aes(x=Numerator, y=Denominator, fill=logBF)) +
     geom_tile() +
@@ -1299,7 +1299,7 @@ plot_BF_model_comparisons <- function(model1,
     geom_text(aes(label = round(logBF,2))) +
     scale_fill_gradient2(low = "#E69F00", mid="white", high = "#56B4E9") +
     scale_y_discrete(limits=rev, labels = function(x) str_wrap(x, width = 25)) +
-    scale_x_discrete(position = "top", labels = function(x) str_wrap(x, width = 20)) +
+    scale_x_discrete(position = "top", labels = function(x) str_wrap(x, width = 25)) +
     labs(title = "Comparing models using 2×log(BF)",
          fill = "2×log(BF)",
          caption = "Kass and Raferty (1995) scale:
