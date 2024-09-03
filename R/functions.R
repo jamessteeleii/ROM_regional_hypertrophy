@@ -138,7 +138,8 @@ fit_main_model <- function(data) {
       seed = 1988,
       warmup = 2000,
       iter = 8000,
-      control = list(adapt_delta = 0.99)
+      control = list(adapt_delta = 0.99),
+      save_pars = save_pars(all = TRUE)
     )
 }
 
@@ -156,7 +157,8 @@ fit_main_model_r_slopes <- function(data) {
       seed = 1988,
       warmup = 2000,
       iter = 8000,
-      control = list(adapt_delta = 0.99)
+      control = list(adapt_delta = 0.99),
+      save_pars = save_pars(all = TRUE)
     )
 }
 
@@ -180,7 +182,8 @@ fit_upper_lower_model <- function(data) {
       seed = 1988,
       warmup = 2000,
       iter = 8000,
-      control = list(adapt_delta = 0.99)
+      control = list(adapt_delta = 0.99),
+      save_pars = save_pars(all = TRUE)
     )
 }
 
@@ -217,7 +220,8 @@ fit_muscle_model <- function(data) {
         seed = 1988,
         warmup = 2000,
         iter = 8000,
-        control = list(adapt_delta = 0.99)
+        control = list(adapt_delta = 0.99),
+        save_pars = save_pars(all = TRUE)
       )
 }
 
@@ -241,7 +245,8 @@ fit_muscle_action_model <- function(data) {
       seed = 1988,
       warmup = 2000,
       iter = 8000,
-      control = list(adapt_delta = 0.99)
+      control = list(adapt_delta = 0.99),
+      save_pars = save_pars(all = TRUE)
     )
 }
 
@@ -381,7 +386,8 @@ fit_steele_priors_model_SMD <- function(data, prior) {
         warmup = 2000,
         iter = 8000,
         init = list_of_inits,
-        control = list(adapt_delta = 0.99)
+        control = list(adapt_delta = 0.99),
+        save_pars = save_pars(all = TRUE)
     )
 }
 
@@ -464,7 +470,8 @@ fit_steele_priors_model_lnRR <- function(data, prior) {
         warmup = 2000,
         iter = 8000,
         init = list_of_inits,
-        control = list(adapt_delta = 0.99)
+        control = list(adapt_delta = 0.99),
+        save_pars = save_pars(all = TRUE)
     )
 }
 
@@ -542,7 +549,8 @@ fit_DV_BS_priors_model_SMD <- function(data, prior) {
         warmup = 2000,
         iter = 8000,
         init = list_of_inits,
-        control = list(adapt_delta = 0.99)
+        control = list(adapt_delta = 0.99),
+        save_pars = save_pars(all = TRUE)
     )
 }
 
@@ -619,7 +627,8 @@ fit_DV_BS_priors_model_lnRR <- function(data, prior) {
         warmup = 2000,
         iter = 8000,
         init = list_of_inits,
-        control = list(adapt_delta = 0.99)
+        control = list(adapt_delta = 0.99),
+        save_pars = save_pars(all = TRUE)
     )
 }
 
@@ -1238,6 +1247,65 @@ plot_muscle_action_model_preds_lnRR <- function(data, model) {
           legend.position = "bottom",
           axis.title = element_text(size=10))
   
+}
+
+plot_BF_model_comparisons <- function(model1,
+                                      model2,
+                                      model3,
+                                      model4) {
+  
+  BF_mean_models <- bayesfactor_models(model1,
+                                       model2,
+                                       model3,
+                                       model4)
+  BF_2log <- function(x) (2*x)
+  
+  BF_mean_models <-as_tibble(as.matrix(BF_mean_models))  |>
+    mutate_at(1:4, BF_2log) |>
+    rowid_to_column("Denominator") |>
+    mutate(Denominator = case_when(
+      Denominator == 1 ~ "Main Model - Uninformed Priors",
+      Denominator == 2 ~  "Main Model with Random Slopes - Uninformed Priors",
+      Denominator == 3 ~  "Main Model with Random Slopes - D Varovic & B Schoenfeld Priors",
+      Denominator == 4 ~ "Main Model with Random Slopes - J Steele Priors"
+    )) |>
+    rename("Main Model - Uninformed Priors" = 2,
+           "Main Model with Random Slopes - Uninformed Priors" = 3,
+           "Main Model with Random Slopes - D Varovic & B Schoenfeld Priors" = 4,
+           "Main Model with Random Slopes - J Steele Priors" = 5) |>
+    pivot_longer(2:5, names_to = "Numerator", values_to = "logBF")
+  
+  BF_mean_models$Denominator <-  recode(BF_mean_models$Denominator,
+                                        "main_model_lnRR" = "Main Model - Uninformed Priors",
+                                        "main_model_r_slopes_lnRR" = "Main Model with Random Slopes - Uninformed Priors",
+                                        "DV_BS_priors_model_lnRR" = "Main Model with Random Slopes - D Varovic & B Schoenfeld Priors",
+                                        "steele_priors_model_lnRR" = "Main Model with Random Slopes - J Steele Priors")
+  
+  BF_mean_models |> 
+    mutate(Denominator = factor(Denominator, levels= c( 
+      "Main Model - Uninformed Priors",
+      "Main Model with Random Slopes - Uninformed Priors",
+      "Main Model with Random Slopes - D Varovic & B Schoenfeld Priors",
+      "Main Model with Random Slopes - J Steele Priors")),
+      Numerator = factor(Numerator, levels= c( 
+        "Main Model - Uninformed Priors",
+        "Main Model with Random Slopes - Uninformed Priors",
+        "Main Model with Random Slopes - D Varovic & B Schoenfeld Priors",
+        "Main Model with Random Slopes - J Steele Priors")),
+      logBF = as.numeric(logBF)) |>
+    ggplot(aes(x=Numerator, y=Denominator, fill=logBF)) +
+    geom_tile() +
+    geom_raster() +
+    geom_text(aes(label = round(logBF,2))) +
+    scale_fill_gradient2(low = "#E69F00", mid="white", high = "#56B4E9") +
+    scale_y_discrete(limits=rev, labels = function(x) str_wrap(x, width = 25)) +
+    scale_x_discrete(position = "top", labels = function(x) str_wrap(x, width = 20)) +
+    labs(title = "Comparing models using 2×log(BF)",
+         fill = "2×log(BF)",
+         caption = "Kass and Raferty (1995) scale:
+       -Inf to 0 = Negative; 0 to 2 = Weak; 2 to 6 = Positive; 6 to 10 = Strong; 10 to +Inf = Very Strong") +
+    theme_classic() +
+    theme(panel.border = element_rect(colour = "black", fill=NA, size=2.5))
 }
 
 # Model checks

@@ -20,7 +20,10 @@ tar_option_set(
     "tidybayes",
     "broom.mixed",
     "insight",
-    "patchwork"
+    "patchwork",
+    "bayestestR",
+    "quarto",
+    "grateful"
   ),
   memory = "transient",
   format = "qs",
@@ -114,6 +117,12 @@ list(
   tar_target(combined_steele_priors_model_plot_SMD, combine_main_model_plots(steele_priors_model_plot_preds_SMD, steele_priors_model_plot_slopes_SMD)),
   tar_target(tidy_steele_priors_model_SMD, get_tidy_model(steele_priors_model_SMD)),
   
+  # Compare Standardised Mean Difference Models
+  tar_target(BF_model_comparisons_plot_SMD, plot_BF_model_comparisons(main_model_SMD,
+                                                                      main_model_r_slopes_SMD,
+                                                                      DV_BS_priors_model_SMD,
+                                                                      steele_priors_model_SMD)),
+  
   # Log Response Ratios Models
   
   # Fit, check, and plot main model with uninformed priors
@@ -186,15 +195,21 @@ list(
   tar_target(combined_steele_priors_model_plot_lnRR, combine_main_model_plots(steele_priors_model_plot_preds_lnRR, steele_priors_model_plot_slopes_lnRR)),
   tar_target(tidy_steele_priors_model_lnRR, get_tidy_model(steele_priors_model_lnRR)),
   
+  # Compare Log Response Ratio Models
+  tar_target(BF_model_comparisons_plot_lnRR, plot_BF_model_comparisons(main_model_lnRR,
+                                                                      main_model_r_slopes_lnRR,
+                                                                      DV_BS_priors_model_lnRR,
+                                                                      steele_priors_model_lnRR)),
+  
   # Make plot tiffs
   tar_target(main_model_plot_SMD_tiff, make_plot_tiff(combined_main_model_plot_SMD, 10, 5.5, "plots/main_model_SMD.tiff")),
   tar_target(main_model_r_slopes_plot_SMD_tiff, make_plot_tiff(combined_main_model_r_slopes_plot_SMD, 10, 5.5, "plots/main_model_r_slopes_SMD.tiff")),
   tar_target(upper_lower_model_plot_preds_SMD_tiff, make_plot_tiff(upper_lower_model_plot_preds_SMD, 10, 5.5, "plots/upper_lower_model_plot_preds_SMD.tiff")),
   tar_target(muscle_model_plot_preds_SMD_tiff, make_plot_tiff(muscle_model_plot_preds_SMD, 10, 5.5, "plots/muscle_model_plot_preds_SMD.tiff")),
-  tar_target(muscle_action_model_plot_preds_SMD_tiff, make_plot_tiff(muscle_action_model_plot_preds_SMD, 7.5, 5, "plots/muscle_action_model_plot_preds_SMD.tiff")),
+  tar_target(muscle_action_model_plot_preds_SMD_tiff, make_plot_tiff(muscle_action_model_plot_preds_SMD, 10, 7.5, "plots/muscle_action_model_plot_preds_SMD.tiff")),
   tar_target(upper_lower_model_plot_preds_lnRR_tiff, make_plot_tiff(upper_lower_model_plot_preds_lnRR, 10, 5.5, "plots/upper_lower_model_plot_preds_lnRR.tiff")),
   tar_target(muscle_model_plot_preds_lnRR_tiff, make_plot_tiff(muscle_model_plot_preds_lnRR, 10, 5.5, "plots/muscle_model_plot_preds_lnRR.tiff")),
-  tar_target(muscle_action_model_plot_preds_lnRR_tiff, make_plot_tiff(muscle_action_model_plot_preds_lnRR, 7.5, 5, "plots/muscle_action_model_plot_preds_lnRR.tiff")),
+  tar_target(muscle_action_model_plot_preds_lnRR_tiff, make_plot_tiff(muscle_action_model_plot_preds_lnRR, 10, 7.5, "plots/muscle_action_model_plot_preds_lnRR.tiff")),
   tar_target(DV_BS_priors_plot_SMD_tiff, make_plot_tiff(DV_BS_priors_plot_SMD, 7.5, 5, "plots/DV_BS_priors_SMD.tiff")),
   tar_target(DV_BS_priors_model_plot_SMD_tiff, make_plot_tiff(combined_DV_BS_priors_model_plot_SMD, 10, 5.5, "plots/DV_BS_priors_model_SMD.tiff")),
   tar_target(steele_priors_plot_SMD_tiff, make_plot_tiff(steele_priors_plot_SMD, 7.5, 5, "plots/steele_priors_SMD.tiff")),
@@ -204,7 +219,12 @@ list(
   tar_target(steele_priors_plot_lnRR_tiff, make_plot_tiff(steele_priors_plot_lnRR, 7.5, 5, "plots/steele_priors_lnRR.tiff")),
   tar_target(steele_priors_model_plot_lnRR_tiff, make_plot_tiff(combined_steele_priors_model_plot_lnRR, 10, 5.5, "plots/steele_priors_model_lnRR.tiff")),
   tar_target(DV_BS_priors_plot_lnRR_tiff, make_plot_tiff(DV_BS_priors_plot_lnRR, 7.5, 5, "plots/DV_BS_priors_lnRR.tiff")),
-  tar_target(DV_BS_priors_model_plot_lnRR_tiff, make_plot_tiff(combined_DV_BS_priors_model_plot_lnRR, 10, 5.5, "plots/DV_BS_priors_model_lnRR.tiff"))
+  tar_target(DV_BS_priors_model_plot_lnRR_tiff, make_plot_tiff(combined_DV_BS_priors_model_plot_lnRR, 10, 5.5, "plots/DV_BS_priors_model_lnRR.tiff")),
+  tar_target(BF_model_comparisons_plot_SMD_tiff, make_plot_tiff(BF_model_comparisons_plot_SMD, 10, 5.5, "plots/BF_model_comparisons_plot_SMD.tiff")),
+  tar_target(BF_model_comparisons_plot_lnRR_tiff, make_plot_tiff(BF_model_comparisons_plot_lnRR, 10, 5.5, "plots/BF_model_comparisons_plot_lnRR.tiff")),
   
+  # Reporting
+  tar_target(grateful_report, cite_packages(out.dir = ".", cite.tidyverse = TRUE, out.format = "pdf")),
+  tar_quarto(diagnostic_plots, path = "plots/diagnostic_plots.qmd")
 )
 
