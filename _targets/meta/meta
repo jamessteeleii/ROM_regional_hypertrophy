@@ -1,5 +1,6 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|239343610268296d|||||||||||||||
+.Random.seed|object|7d871283e33d4106|||||||||||||||
+analysis_results|stem||b0ab53c531a3b7bc|4a5def682a4c40fb|-1628769239||t19975.6932350484s||0|file|local|vector|||663.391||Error running quarto cli.ℹ Rerun with quiet  FALSE to see the full error message.Caused by error System command quarto.exe failed
 authors_priors_lnRR|stem|6c82032b6a28f03c|8056f8cd29cb280f|5cff7a2c57ab0ea1|484400923||t19974.6664078988s|852ca65165b9cec5|312|qs|local|vector|||7.281||
 authors_priors_model_diagnostic_plots|stem|cd622a8f2f06a70c|44b5d2803eb5af46|3680693fb0ea0e7a|396348338|plots/authors_priors_model_diagnostic_plots.pdf*plots/authors_priors_model_diagnostic_plots.qmd|t19975.3263855664s|6d02b3057499d3d2|17297654|file|local|vector|||85.172||
 authors_priors_model_lnRR|stem|8c43e7387865b97d|55d835194197a38a|d2aeb382885856eb|1101073311||t19974.6794061631s|ed160f8f9dd48b90|1221687169|qs|local|vector|||495.047||
@@ -32,6 +33,12 @@ combined_wolf_priors_model_plot_lnRR|stem|71849923410d1f88|0ab7d3c4ad1d74eb|170b
 combined_wolf_priors_model_plot_SMD|stem|fed1a1ff55788a52|60402c3821d35a4a|2316008ca29c4806|660887951||t19974.8384713364s|c2bb431e1e72347f|3581277200|qs|local|vector|||0||
 combined_wolf_priors_model_slopes_plot_lnRR|stem|a6e62d968ff3173b|4b0f7ea1393c78b6|0bc7bdacb18f92ac|-1519290978||t19974.832183306s|4df62ae0d67b365d|2781740060|qs|local|vector|||0.015||
 combined_wolf_priors_model_slopes_plot_SMD|stem|9e03acb7746dd9e2|adae0bf6e8af695c|6a8d4bfdfbc409fd|-1722525096||t19974.8399548048s|e591f6e0dbe1386b|4002209494|qs|local|vector|||0.015||
+compare_wolf_steele_priors_lnRR|function|28f5b3fefbcd2c4a|||||||||||||||
+compare_wolf_steele_priors_SMD|function|28f5b3fefbcd2c4a|||||||||||||||
+comparison_wolf_steele_priors_lnRR|stem|254e4abb4c2d38d5|79f9dba37432f908|1d855a19caf2888a|-751113655||t19975.8372013645s|0bcfcf6d3312b930|33856023|qs|local|vector|||0.859||
+comparison_wolf_steele_priors_lnRR_tiff|stem|7e25f686e60bc0f2|8de7f33616c3af50|90048787db39cc37|2026397878||t19975.8385838711s|afe1c0564fcfafab|85|qs|local|vector|||1.781||
+comparison_wolf_steele_priors_SMD|stem|5fecc09710495abd|e5f159319982ba16|2c78078e4bfc0f40|-1137443686||t19975.8372237378s|0ba97dff67f4505f|33768345|qs|local|vector|||0.594||
+comparison_wolf_steele_priors_SMD_tiff|stem|d98138279fbb517f|db9cc1097742ab41|90dd009c31ee25ab|-1336794281||t19975.8386146033s|e5403c57657c131e|84|qs|local|vector|||1.734||
 data_lnRR|stem|ec950394317dae07|3ac058ca4c3e1b64|3a56599eae3aec00|-224819188||t19967.4204440111s|7d50f60c12d99e05|13196|qs|local|vector|||0.125||
 data_SMD|stem|7bbf4cb649c75dc6|c5fd0bec1845e7b8|1aa7cc04b89981a6|1558862474||t19967.4204469928s|eab107e8a20bb9e1|13243|qs|local|vector|||0.063||
 data_wolf_lnRR|stem|c8f51481e59b74b4|934eb5393e64c26e|c8069a88cfe3dd0f|67578024||t19973.8332156786s|71d8a27d37dd8112|5162|qs|local|vector|||0.047||
@@ -77,6 +84,10 @@ fit_wolf_priors_only_model_lnRR|function|de2247cc041e996b|||||||||||||||
 fit_wolf_priors_only_model_slopes_lnRR|function|290272c0a2b0a098|||||||||||||||
 fit_wolf_priors_only_model_slopes_SMD|function|290272c0a2b0a098|||||||||||||||
 fit_wolf_priors_only_model_SMD|function|de2247cc041e996b|||||||||||||||
+fit_wolf_steele_priors_model_lnRR|function|b0272e8cb6eeafdc|||||||||||||||
+fit_wolf_steele_priors_model_SMD|function|0044ad25a92a53fe|||||||||||||||
+fit_wolf_steele_priors_only_model_lnRR|function|3d951808316bbf8e|||||||||||||||
+fit_wolf_steele_priors_only_model_SMD|function|5d1009642ea5d8d3|||||||||||||||
 get_tidy_model|function|a271aae9af4b7d1b|||||||||||||||
 grateful_report|stem|2b0f5a12ff452fa0|33e4d47b6dd00477|2c530c1562a7fbd1|1345217321||t19969.5723242477s|5af7efb62b7d05c3|60|qs|local|vector|||6.75||
 make_plot_tiff|function|d824f2b8d85c6ffb|||||||||||||||
@@ -244,7 +255,7 @@ wolf_priors_model_plot_slopes_SMD|stem|a1f9838c809a010d|4ae3dd83ccabfc06|a9179b1
 wolf_priors_model_plot_SMD_tiff|stem|89e3eb54561fb329|ce2f8983bae571d7|6906107a917e47ca|1457325215||t19974.8457218869s|3ed5ce5eeeea6e9a|72|qs|local|vector|||1.922||
 wolf_priors_model_slopes_diagnostic_plots|stem|64ab1a38a18a4a05|56b535feef037790|3b89cd33b4be749c|1084350592|plots/wolf_priors_model_slopes_diagnostic_plots.pdf*plots/wolf_priors_model_slopes_diagnostic_plots.qmd|t19975.3421196948s|52fb824efa00eeee|17311301|file|local|vector|||86.781||
 wolf_priors_model_slopes_lnRR|stem|280b744652ab84cf|3085a5bba0101a6a|ed4165449bf7eaaf|-637271966||t19974.7391000721s|218aa01c238a341d|1221257668|qs|local|vector|||824.782||
-wolf_priors_model_slopes_plot_lnRR_tiff|stem|6b7920918bd68e68|806513cbc58529b0|df3d9355374ea4cb|-909209262||t19974.8452331441s|87bbe5f41aaaedf6|80|qs|local|vector|||2.11||
+wolf_priors_model_slopes_plot_lnRR_tiff|stem|6b7920918bd68e68|806513cbc58529b0|df3d9355374ea4cb|-909209262||t19975.8387634477s|87bbe5f41aaaedf6|80|qs|local|vector|||1.875||
 wolf_priors_model_slopes_plot_preds_lnRR|stem|9e3c6f0d47fee71f|409be921d074d29a|c1b58540cbed5809|788406120||t19974.7943332941s|88eea3daaba77819|1542675059|qs|local|vector|||143.656||
 wolf_priors_model_slopes_plot_preds_SMD|stem|107787b96cc9377e|8158839660a177ed|a04d3a3a554836f4|-423066550||t19974.8263316592s|0aadfb93ee5eaa5b|1541599566|qs|local|vector|||133.484||
 wolf_priors_model_slopes_plot_slopes_lnRR|stem|25516394dfff8686|7a357c7ed7c9f6b8|86b868fec7b8639e|-612733937||t19974.7965838023s|ca64c35b95d42e64|1238858566|qs|local|vector|||106.796||
@@ -259,3 +270,7 @@ wolf_priors_plot_lnRR_tiff|stem|bff806c17c85e03b|d9f327e13e32805e|d82ad6eb429417
 wolf_priors_plot_SMD|stem|92f577c1720f022e|de085a24085344f5|b0df357b55c6ba86|104113247||t19974.8301343285s|da3837357dca7af1|109566733|qs|local|vector|||0.266||
 wolf_priors_plot_SMD_tiff|stem|a75b757599711ea7|b3b5cf4664c9ecb0|c17d79e08a922a6a|1587768769||t19974.845051323s|eca7fdce75d9dbfb|65|qs|local|vector|||0.797||
 wolf_priors_SMD|stem|bb173f380964c3cd|90dd08165640556e|f35852ab0181dac5|1169943022||t19974.3550610966s|9a88baf1d8e34286|512|qs|local|vector|||105.609|Rows containing NAs were excluded from the model.. There were 91 divergent transitions after warmup. Seehttpsmcstan.orgmiscwarnings.htmldivergenttransitionsafterwarmupto find out why this is a problem and how to eliminate them.. Examine the pairs plot to diagnose sampling problems. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced|
+wolf_steele_priors_model_lnRR|stem|656bc1e2ee69639e|b5131ecec1c3a83e|f41e031a6d008f33|-848630835||t19975.8313856694s|56e7994296fa3c59|14117113|qs|local|vector|||76.609|Rows containing NAs were excluded from the model.|
+wolf_steele_priors_model_SMD|stem|82185cdae5a6674d|85d4f073027de483|a976297f680ef4e2|-1577062176||t19975.8322776428s|63fa5d2de38d7222|14086580|qs|local|vector|||76.5|Rows containing NAs were excluded from the model.|
+wolf_steele_priors_only_model_lnRR|stem|286e3a34a42f61fd|f981ebcca900eaef|0d23be9bb7a6ced0|2346435||t19975.8304923424s|bb24b5718f9127e0|14089495|qs|local|vector|||100|Rows containing NAs were excluded from the model.|
+wolf_steele_priors_only_model_SMD|stem|7eefd29a44b80380|11a1b2ffce0c8daf|d4bdb5509cd1a896|225002166||t19975.8331660665s|562f9f8fe9a5ecda|14092462|qs|local|vector|||76.203|Rows containing NAs were excluded from the model.|

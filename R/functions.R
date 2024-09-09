@@ -632,6 +632,128 @@ fit_wolf_priors_model_slopes_lnRR <- function(data, prior) {
 }
 
 # James Steele priors
+fit_wolf_steele_priors_only_model_SMD <- function(data) {
+  
+  prior <-
+    c(
+      # Priors set for Intercept (overall fixed mean) and tau at study level from Steele et al., (2023) DOI: 10.1080/02640414.2023.2286748
+      set_prior("student_t(103, 0.3372, 0.0253)", class = "b", coef = "Intercept"),
+      set_prior("student_t(3, 0.2111, 0.048)", class = "sd", coef = "Intercept", group = "study_number"),
+      set_prior("student_t(3, 0.0224, 0.0517)", class = "sd", coef = "Intercept", group = "arm_number"),
+      set_prior("student_t(3, 0.0477, 0.0401)", class = "sd", coef = "Intercept", group = "effect_number"),
+      
+      # Wolf et al (2023) DOI: https://doi.org/10.47206/ijsc.v3i1.182 found similar (point estimate withing 0.1 SESOI) effects for short length partial vs full ROM
+      # Given constraints on interaction effects, the estimate for long vs short from this is implausibly large given general 0.34 effects for RT on hypertrophy
+      # It would seem more reasonable to have more mass on a null effect, but slightly more weight towards small (<0.1) effects for muscle length
+      # This prior is set such that a difference of 50% in length reflecting a typical difference in short vs long training (at a site of 50%) produces effects of the magnitudes ~0 to ~0.05
+      set_prior("skew_normal(0, 0.1, 5)", class = "b", coef = "muscle_length",),
+      
+      # It is unclear (DOI: 10.1519/SSC.0000000000000574) whether hypertrophy differs by site of measurement overall 
+      # Thus we set a prior centred on null effects but allowing for effects of similar magnitude (~0.05) in either direction
+      set_prior("student_t(3, 0, 0.04)", class = "b", coef = "site_centred"),
+      
+      # Lastly given interaction constraints, the interaction of length and site must necessarily be small given other priors
+      # Thus we set this to have half the width of the prior for site
+      set_prior("student_t(3, 0, 0.02)", class = "b", coef = "muscle_length:site_centred")
+      
+      # All other priors for variance parameters are kept as default weakly regularising
+    )
+  
+  # We fit a model to the within arm/group changes with muscle length as categorical (short vs long), site centred and scaled (-0.5,0.5), and their interaction
+  wolf_model <- brm(yi|se(sqrt(vi)) ~ 0 + Intercept + muscle_length * site_centred + (1 | study_number) + (1|arm_number) + (1|effect_number),
+                    data=data,
+                    chains = 4,
+                    cores = 4,
+                    seed = 1988,
+                    warmup = 2000,
+                    iter = 8000,
+                    prior = prior,
+                    control = list(adapt_delta = 0.99),
+                    sample_prior = "only"
+  )
+}
+
+fit_wolf_steele_priors_model_SMD <- function(data) {
+  
+  prior <-
+    c(
+      # Priors set for Intercept (overall fixed mean) and tau at study level from Steele et al., (2023) DOI: 10.1080/02640414.2023.2286748
+      set_prior("student_t(103, 0.3372, 0.0253)", class = "b", coef = "Intercept"),
+      set_prior("student_t(3, 0.2111, 0.048)", class = "sd", coef = "Intercept", group = "study_number"),
+      set_prior("student_t(3, 0.0224, 0.0517)", class = "sd", coef = "Intercept", group = "arm_number"),
+      set_prior("student_t(3, 0.0477, 0.0401)", class = "sd", coef = "Intercept", group = "effect_number"),
+      
+      # Wolf et al (2023) DOI: https://doi.org/10.47206/ijsc.v3i1.182 found similar (point estimate withing 0.1 SESOI) effects for short length partial vs full ROM
+      # Given constraints on interaction effects, the estimate for long vs short from this is implausibly large given general 0.34 effects for RT on hypertrophy
+      # It would seem more reasonable to have more mass on a null effect, but slightly more weight towards small (<0.1) effects for muscle length
+      # This prior is set such that a difference of 50% in length reflecting a typical difference in short vs long training (at a site of 50%) produces effects of the magnitudes ~0 to ~0.05
+      set_prior("skew_normal(0, 0.1, 5)", class = "b", coef = "muscle_length",),
+      
+      # It is unclear (DOI: 10.1519/SSC.0000000000000574) whether hypertrophy differs by site of measurement overall 
+      # Thus we set a prior centred on null effects but allowing for effects of similar magnitude (~0.05) in either direction
+      set_prior("student_t(3, 0, 0.04)", class = "b", coef = "site_centred"),
+      
+      # Lastly given interaction constraints, the interaction of length and site must necessarily be small given other priors
+      # Thus we set this to have half the width of the prior for site
+      set_prior("student_t(3, 0, 0.02)", class = "b", coef = "muscle_length:site_centred")
+      
+      # All other priors for variance parameters are kept as default weakly regularising
+    )
+  
+  # We fit a model to the within arm/group changes with muscle length as categorical (short vs long), site centred and scaled (-0.5,0.5), and their interaction
+  wolf_model <- brm(yi|se(sqrt(vi)) ~ 0 + Intercept + muscle_length * site_centred + (1 | study_number) + (1|arm_number) + (1|effect_number),
+                    data=data,
+                    chains = 4,
+                    cores = 4,
+                    seed = 1988,
+                    warmup = 2000,
+                    iter = 8000,
+                    prior = prior,
+                    control = list(adapt_delta = 0.99),
+  )
+}
+
+compare_wolf_steele_priors_SMD <- function(prior_model, posterior_model) {
+  
+  prior_model_draws <- prior_model |>
+    gather_draws(b_Intercept, b_muscle_length, b_site_centred, `b_muscle_length:site_centred`) |>
+    mutate(.value = case_when(
+      .variable == "b_muscle_length" ~ .value/2,
+      .variable == "b_site_centred" ~ .value/2,
+      .variable == "b_muscle_length:site_centred" ~ .value/2,
+      .variable == "b_Intercept" ~ .value),
+      model = "J. Steele Informed Prior")
+  
+  posterior_model_draws <- posterior_model |>
+    gather_draws(b_Intercept, b_muscle_length, b_site_centred, `b_muscle_length:site_centred`) |>
+    mutate(.value = case_when(
+      .variable == "b_muscle_length" ~ .value/2,
+      .variable == "b_site_centred" ~ .value/2,
+      .variable == "b_muscle_length:site_centred" ~ .value/2,
+      .variable == "b_Intercept" ~ .value),
+      model = "Posterior After Wolf et al. (2023) Data") 
+  
+  rbind(prior_model_draws, posterior_model_draws) |>
+    ggplot(aes(x=.value, color = model, fill = model)) +
+    geom_vline(xintercept = 0, linetype = "dashed", alpha = 0.75) +
+    stat_slab(alpha = 0.5, normalize = "panels", linewidth = 0) + 
+    facet_wrap(".variable") +
+    scale_color_manual(values = c("#0072B2", "#D55E00")) +
+    scale_fill_manual(values = c("#0072B2", "#D55E00")) +
+    scale_x_continuous(expand = expansion(-0.1,0.1)) +
+    labs(
+      x = "Model Coefficients",
+      y = "Density",
+      title = "Influence of Wolf et al. (2023) data on J. Steele informed prior for fixed (i.e., population level) effects",
+      subtitle = "Note, with the exception of the Intercept, coefficients have been halved to reflect a typical short vs long length/site difference of 50%"
+    ) +
+    theme_classic() +
+    theme(panel.border = element_rect(fill = NA),
+          plot.subtitle = element_text(size = 8),
+          legend.position = "bottom")
+  
+}
+
 set_steele_priors_SMD <- function() {
   prior <-
     c(
@@ -714,6 +836,128 @@ fit_steele_priors_model_SMD <- function(data, prior) {
         control = list(adapt_delta = 0.99),
         save_pars = save_pars(all = TRUE)
     )
+}
+
+fit_wolf_steele_priors_only_model_lnRR <- function(data) {
+  
+  prior <-
+    c(
+      # Priors set for Intercept (overall fixed mean) and tau at study level from Steele et al., (2023) DOI: 10.1080/02640414.2023.2286748
+      set_prior("student_t(103, 0.0525, 0.0046)", class = "b", coef = "Intercept"),
+      set_prior("student_t(3, 0.0235, 0.0047)", class = "sd", coef = "Intercept", group = "study_number"),
+      set_prior("student_t(3, 0, 0.0064)", class = "sd", coef = "Intercept", group = "arm_number"),
+      set_prior("student_t(3, 0, 0.0058)", class = "sd", coef = "Intercept", group = "effect_number"),
+      
+      # Wolf et al (2023) DOI: https://doi.org/10.47206/ijsc.v3i1.182 found similar effects for short length partial vs full ROM, but the long vs short effect was 0.10 lnRR
+      # Given constraints on interaction effects, the estimate for long vs short from this is implausibly large given general 0.0525 lnRR effects for RT on hypertrophy
+      # It would seem more reasonable to have more mass on a null effect, but slightly more weight towards small (<0.015) effects for muscle length
+      # This prior is set such that a difference of 50% in length reflecting a typical difference in short vs long training (at a site of 50%) produces effects of the magnitudes ~0 to ~0.0075
+      set_prior("skew_normal(0, 0.016, 5)", class = "b", coef = "muscle_length",),
+      
+      # It is unclear (DOI: 10.1519/SSC.0000000000000574) whether hypertrophy differs by site of measurement overall 
+      # Thus we set a prior centred on null effects but allowing for effects of similar magnitude (~0.0075) in either direction
+      set_prior("student_t(3, 0, 0.008)", class = "b", coef = "site_centred"),
+      
+      # Lastly given interaction constraints, the interaction of length and site must necessarily be small given other priors
+      # Thus we set this to have half the width of the prior for site
+      set_prior("student_t(3, 0, 0.004)", class = "b", coef = "muscle_length:site_centred")
+      
+      # All other priors for variance parameters are kept as default weakly regularising
+    )
+  
+  # We fit a model to the within arm/group changes with muscle length as categorical (short vs long), site centred and scaled (-0.5,0.5), and their interaction
+  wolf_model <- brm(yi|se(sqrt(vi)) ~ 0 + Intercept + muscle_length * site_centred + (1 | study_number) + (1|arm_number) + (1|effect_number),
+                    data=data,
+                    chains = 4,
+                    cores = 4,
+                    seed = 1988,
+                    warmup = 2000,
+                    iter = 8000,
+                    prior = prior,
+                    control = list(adapt_delta = 0.99),
+                    sample_prior = "only"
+  )
+}
+
+fit_wolf_steele_priors_model_lnRR <- function(data) {
+  
+  prior <-
+    c(
+      # Priors set for Intercept (overall fixed mean) and tau at study level from Steele et al., (2023) DOI: 10.1080/02640414.2023.2286748
+      set_prior("student_t(103, 0.0525, 0.0046)", class = "b", coef = "Intercept"),
+      set_prior("student_t(3, 0.0235, 0.0047)", class = "sd", coef = "Intercept", group = "study_number"),
+      set_prior("student_t(3, 0, 0.0064)", class = "sd", coef = "Intercept", group = "arm_number"),
+      set_prior("student_t(3, 0, 0.0058)", class = "sd", coef = "Intercept", group = "effect_number"),
+      
+      # Wolf et al (2023) DOI: https://doi.org/10.47206/ijsc.v3i1.182 found similar effects for short length partial vs full ROM, but the long vs short effect was 0.10 lnRR
+      # Given constraints on interaction effects, the estimate for long vs short from this is implausibly large given general 0.0525 lnRR effects for RT on hypertrophy
+      # It would seem more reasonable to have more mass on a null effect, but slightly more weight towards small (<0.015) effects for muscle length
+      # This prior is set such that a difference of 50% in length reflecting a typical difference in short vs long training (at a site of 50%) produces effects of the magnitudes ~0 to ~0.0075
+      set_prior("skew_normal(0, 0.016, 5)", class = "b", coef = "muscle_length",),
+      
+      # It is unclear (DOI: 10.1519/SSC.0000000000000574) whether hypertrophy differs by site of measurement overall 
+      # Thus we set a prior centred on null effects but allowing for effects of similar magnitude (~0.0075) in either direction
+      set_prior("student_t(3, 0, 0.008)", class = "b", coef = "site_centred"),
+      
+      # Lastly given interaction constraints, the interaction of length and site must necessarily be small given other priors
+      # Thus we set this to have half the width of the prior for site
+      set_prior("student_t(3, 0, 0.004)", class = "b", coef = "muscle_length:site_centred")
+      
+      # All other priors for variance parameters are kept as default weakly regularising
+    )
+  
+  # We fit a model to the within arm/group changes with muscle length as categorical (short vs long), site centred and scaled (-0.5,0.5), and their interaction
+  wolf_model <- brm(yi|se(sqrt(vi)) ~ 0 + Intercept + muscle_length * site_centred + (1 | study_number) + (1|arm_number) + (1|effect_number),
+                    data=data,
+                    chains = 4,
+                    cores = 4,
+                    seed = 1988,
+                    warmup = 2000,
+                    iter = 8000,
+                    prior = prior,
+                    control = list(adapt_delta = 0.99),
+  )
+}
+
+compare_wolf_steele_priors_lnRR <- function(prior_model, posterior_model) {
+  
+  prior_model_draws <- prior_model |>
+    gather_draws(b_Intercept, b_muscle_length, b_site_centred, `b_muscle_length:site_centred`) |>
+    mutate(.value = case_when(
+      .variable == "b_muscle_length" ~ .value/2,
+      .variable == "b_site_centred" ~ .value/2,
+      .variable == "b_muscle_length:site_centred" ~ .value/2,
+      .variable == "b_Intercept" ~ .value),
+      model = "J. Steele Informed Prior")
+  
+  posterior_model_draws <- posterior_model |>
+    gather_draws(b_Intercept, b_muscle_length, b_site_centred, `b_muscle_length:site_centred`) |>
+    mutate(.value = case_when(
+      .variable == "b_muscle_length" ~ .value/2,
+      .variable == "b_site_centred" ~ .value/2,
+      .variable == "b_muscle_length:site_centred" ~ .value/2,
+      .variable == "b_Intercept" ~ .value),
+      model = "Posterior After Wolf et al. (2023) Data") 
+  
+  rbind(prior_model_draws, posterior_model_draws) |>
+    ggplot(aes(x=.value, color = model, fill = model)) +
+    geom_vline(xintercept = 0, linetype = "dashed", alpha = 0.75) +
+    stat_slab(alpha = 0.5, normalize = "panels", linewidth = 0) + 
+    facet_wrap(".variable") +
+    scale_color_manual(values = c("#0072B2", "#D55E00")) +
+    scale_fill_manual(values = c("#0072B2", "#D55E00")) +
+    scale_x_continuous(expand = expansion(-0.1,0.1)) +
+    labs(
+      x = "Model Coefficients",
+      y = "Density",
+      title = "Influence of Wolf et al. (2023) data on J. Steele informed prior for fixed (i.e., population level) effects",
+      subtitle = "Note, with the exception of the Intercept, coefficients have been halved to reflect a typical short vs long length/site difference of 50%"
+    ) +
+    theme_classic() +
+    theme(panel.border = element_rect(fill = NA),
+          plot.subtitle = element_text(size = 8),
+          legend.position = "bottom")
+  
 }
 
 set_steele_priors_lnRR <- function() {

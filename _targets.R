@@ -110,6 +110,9 @@ list(
   tar_target(tidy_wolf_priors_model_slopes_SMD, get_tidy_model(wolf_priors_model_slopes_SMD)),
   
   # Fit, check, and plot uninformed model with random slopes included with James Steele's informed priors for Standarised Mean Changes
+  tar_target(wolf_steele_priors_only_model_SMD, fit_wolf_steele_priors_only_model_SMD(data_wolf_SMD)),
+  tar_target(wolf_steele_priors_model_SMD, fit_wolf_steele_priors_model_SMD(data_wolf_SMD)),
+  tar_target(comparison_wolf_steele_priors_SMD, compare_wolf_steele_priors_SMD(wolf_steele_priors_only_model_SMD,wolf_steele_priors_model_SMD)),
   tar_target(steele_priors_SMD, set_steele_priors_SMD()),
   tar_target(steele_priors_only_model_SMD, fit_steele_priors_only_model_SMD(data_SMD, steele_priors_SMD)),
   tar_target(steele_priors_plot_SMD, sample_and_plot_priors_SMD(steele_priors_only_model_SMD)),
@@ -202,6 +205,9 @@ list(
   tar_target(tidy_wolf_priors_model_slopes_lnRR, get_tidy_model(wolf_priors_model_slopes_lnRR)),
   
   # Fit, check, and plot uninformed model with random slopes included with James Steele's informed priors for Standarised Mean Changes
+  tar_target(wolf_steele_priors_only_model_lnRR, fit_wolf_steele_priors_only_model_lnRR(data_wolf_lnRR)),
+  tar_target(wolf_steele_priors_model_lnRR, fit_wolf_steele_priors_model_lnRR(data_wolf_lnRR)),
+  tar_target(comparison_wolf_steele_priors_lnRR, compare_wolf_steele_priors_lnRR(wolf_steele_priors_only_model_lnRR,wolf_steele_priors_model_lnRR)),
   tar_target(steele_priors_lnRR, set_steele_priors_lnRR()),
   tar_target(steele_priors_only_model_lnRR, fit_steele_priors_only_model_lnRR(data_lnRR, steele_priors_lnRR)),
   tar_target(steele_priors_plot_lnRR, sample_and_plot_priors_lnRR(steele_priors_only_model_lnRR)),
@@ -244,6 +250,7 @@ list(
   tar_target(wolf_priors_model_slopes_plot_SMD_tiff, make_plot_tiff(combined_wolf_priors_model_slopes_plot_SMD, 10, 5.5, "plots/wolf_priors_model_slopes_SMD.tiff")),
   tar_target(authors_priors_plot_SMD_tiff, make_plot_tiff(authors_priors_plot_SMD, 7.5, 5, "plots/authors_priors_SMD.tiff")),
   tar_target(authors_priors_model_plot_SMD_tiff, make_plot_tiff(combined_authors_priors_model_plot_SMD, 10, 5.5, "plots/authors_priors_model_SMD.tiff")),
+  tar_target(comparison_wolf_steele_priors_SMD_tiff, make_plot_tiff(comparison_wolf_steele_priors_SMD, 9, 5, "plots/comparison_wolf_steele_priors_SMD.tiff")),
   tar_target(steele_priors_plot_SMD_tiff, make_plot_tiff(steele_priors_plot_SMD, 7.5, 5, "plots/steele_priors_SMD.tiff")),
   tar_target(steele_priors_model_plot_SMD_tiff, make_plot_tiff(combined_steele_priors_model_plot_SMD, 10, 5.5, "plots/steele_priors_model_SMD.tiff")),
   tar_target(BF_model_comparisons_plot_SMD_tiff, make_plot_tiff(BF_model_comparisons_plot_SMD, 10, 5.5, "plots/BF_model_comparisons_plot_SMD.tiff")),
@@ -257,9 +264,11 @@ list(
   tar_target(wolf_priors_model_slopes_plot_lnRR_tiff, make_plot_tiff(combined_wolf_priors_model_slopes_plot_lnRR, 10, 5.5, "plots/wolf_priors_model_slopes_lnRR.tiff")),
   tar_target(authors_priors_plot_lnRR_tiff, make_plot_tiff(authors_priors_plot_lnRR, 7.5, 5, "plots/authors_priors_lnRR.tiff")),
   tar_target(authors_priors_model_plot_lnRR_tiff, make_plot_tiff(combined_authors_priors_model_plot_lnRR, 10, 5.5, "plots/authors_priors_model_lnRR.tiff")),
+  tar_target(comparison_wolf_steele_priors_lnRR_tiff, make_plot_tiff(comparison_wolf_steele_priors_lnRR, 9, 5, "plots/comparison_wolf_steele_priors_lnRR.tiff")),
   tar_target(steele_priors_plot_lnRR_tiff, make_plot_tiff(steele_priors_plot_lnRR, 7.5, 5, "plots/steele_priors_lnRR.tiff")),
   tar_target(steele_priors_model_plot_lnRR_tiff, make_plot_tiff(combined_steele_priors_model_plot_lnRR, 10, 5.5, "plots/steele_priors_model_lnRR.tiff")),
   tar_target(BF_model_comparisons_plot_lnRR_tiff, make_plot_tiff(BF_model_comparisons_plot_lnRR, 10, 5.5, "plots/BF_model_comparisons_plot_lnRR.tiff")),
+  
   
   # Reporting
   tar_target(grateful_report, cite_packages(out.dir = ".", cite.tidyverse = TRUE, out.format = "pdf")),
@@ -268,5 +277,7 @@ list(
   tar_quarto(wolf_priors_model_slopes_diagnostic_plots, path = "plots/wolf_priors_model_slopes_diagnostic_plots.qmd"),
   tar_quarto(steele_priors_model_diagnostic_plots, path = "plots/steele_priors_model_diagnostic_plots.qmd"),
   tar_quarto(authors_priors_model_diagnostic_plots, path = "plots/authors_priors_model_diagnostic_plots.qmd")
+  # tar_quarto(analysis_results, path = "analysis_results.qmd")
+  
 )
 
