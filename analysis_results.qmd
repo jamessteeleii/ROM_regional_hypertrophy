@@ -1,0 +1,291 @@
+---
+title: "Statistical Analysis and Results"
+format: 
+  docx:
+    toc: false
+    number-sections: true
+    highlight-style: github
+    prefer-html: true
+bibliography: 
+  references.bib
+csl: apa.csl
+---
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| include: false
+
+
+knitr::opts_chunk$set(echo = TRUE, fig.align="center")
+options(knitr.kable.NA = '')
+
+library(patchwork)
+library(grateful)
+
+```
+
+# Statistical Analysis
+
+All code utilised for data preparation and analyses are available in either the Open Science Framework page for this project [https://osf.io/c2657/](https://osf.io/c2657/) or the corresponding GitHub repository [https://github.com/jamessteeleii/ROM_regional_hypertrophy](https://github.com/jamessteeleii/ROM_regional_hypertrophy). We cite all software and packages used in the analysis pipeline using the `grateful` package [@rodriguez-sanchezGratefulFacilitateCitation2023] which can be seen here: [https://osf.io/pgx6v](https://osf.io/pgx6v). As noted, the project was previously pre-registered however in hindsight we realise that the details of our analysis plan were imprecise and left open many researcher degrees of freedom. Thus, we present the planned analyses as closely as possible given the pre-registration as written and our original intention, but note where we have deviated from this plan below. 
+
+All analyses have been conducted within a Bayesian meta-analytic framework and all posterior estimates and their precision, along with conclusions based upon them, will be interpreted continuously and probabilistically, considering priors, data quality, and all within the context of each outcome and the assumptions of the model employed as the estimator [@kruschkeBayesianNewStatistics2018]. We deviate from the pre-registration in the number of sampling iterations (pre-registered as 6000) used as we include model comparisons with Bayes Factors using the Savage-Dickey ratio where it is recommended that at least 40000 iterations are used to obtain precise Bayes-Factors [@gronauBridgesamplingPackageEstimating2020]. Trace plots were produced along with $\hat{R}$ values to examine whether chains had converged, and posterior predictive checks for each model were also examined to understand the model implied distributions (all diagnostic plots can be seen in the supplementary materials: ADD LINK ????)
+
+We preregistered that we would obtain informed priors for relevant model parameters from the previous meta-analysis of Wolf et al. [-@wolfPartialVsFull2023] excluding any studies included in their posterior estimates that would also be included in the likelihood of the models in the present analyses. We did not however detail exactly how we would obtain these priors and so provide details below. In addition to the pre-registered main models using these priors, we also present a different parameterisation of the main model (employing random slopes as noted below) as well as two models utilising different informed priors. The reason for the two additional sets of informative priors was due to disagreement between the author group (where one coauthor, JS, held far more skeptical priors based upon other background evidence not contained in the likelihood) and that the priors taken from Wolf et al. [-@wolfPartialVsFull2023] were, relatively speaking, uninformative due to their imprecision and had little impact on these separate priors. Whilst we did not preregister these, exploring the sensitivity of posterior inferences to the priors used is a common part of Bayesian workflows [@dragicevicIncreasingTransparencyResearch2019; @kallioinenDetectingDiagnosingPrior2023]. As such we present them here, in addition to a completely uninformed default prior model (we also employed uninformative default priors for the secondary predictor models), to demonstrate how the evidence from the studies included regarding the effects of muscle length, site of measurement, and their interaction, might shift the posterior beliefs of those coming from different prior beliefs about their effects. 
+
+## Effect sizes
+We explored effects calculated for within arm pre- to post-intervention (and for studies with multiple post baseline time points pre- to each time point) as the standardized mean change using raw score standardization with heteroscedastic population variances (SMD) [@bonettConfidenceIntervalsStandardized2008] given it is known that variances scale with mean values in resistance training study outcomes [@steeleMetaanalysisVariationSport2023] and so a pre-post intervention effect upon the mean will influence this. We also examined the log transformed response ratio (lnRR) [@lajeunesseMetaanalysisResponseRatios2011], which was exponentiated back to the percentage change scale accounting for the total variance in the model [@spakeUnderstandingItDepends2023; @nakagawaCoefficientDeterminationR22017], as this effect size statistic is unaffected (except in its sampling variance) by the estimates for standard deviations within individual studies which are likely underpowered in the typical sample sizes found in the resistance training literature [@steeleMetaanalysisVariationSport2023]. The use of both additive and multiplicative effect sizes also allows us to explore the sensitivity of interaction effects to scaling as interactions, our primary estimand of interest, are very sensitive to this [@rohrerPreciseAnswersVague2021; @spakeUnderstandingItDepends2023]. Effects were weighted in each model by their inverse sampling variance.
+
+## Models
+In the main pre-registered models, and those secondary models including addition of random slopes and different informed priors, the primary estimand of interest was the population level (i.e, fixed effect) muscle length by site of measurement interaction. In each model, as per the preregistration, muscle length and site of measurement were centred at 50%, and rescaled to be on the $(-0.25,0.25)$ interval[^1]. As such, the population level coefficients in each of the models corresponded to the overall average effect of resistance training on hypertrophy when at a muscle length of 50% at a site of measurement of 50% (i.e., the intercept: $\mu_{\alpha_{i}}$ in each model below), the slope of the difference i.e., comparison between 0% and 100% muscle length at a site of measurement of 50% (i.e., muscle length coefficient: $\beta_{1}(\operatorname{muscle\ length}_{centred})$ in each model below), the slope of the difference i.e., comparison between 0% and 100% site of measurement at a muscle length of 50% (i.e., site of measurement coefficient: $\beta_{2}(\operatorname{site_{centred}})$ in each model below), and the slope of the difference i.e., comparison between 0% and 100% site of measurement on the slope of the difference i.e., comparison between 0% and 100% muscle length (i.e., muscle length by site of measurement interaction coefficient: $\beta_{3}(\operatorname{muscle\ length_{centred}} \times \operatorname{site_{centred}})$ in each model below). Notably, the interpretation of continuous by continuous predictors can be quite challenging. As such, we present for each of these models draws from the posterior of the expectation of the predicted global grand mean across muscle length and at three levels of site of measurement (25%, 50%, and 75%) which shows the predicted effect size magnitudes at particular combinations of muscle length and site of measurement, in addition to the slopes for muscle length (transformed to be the slope of increasing muscle length by 50% e.g., the slope of the difference between 25% and 75% muscle length) at three levels of site of measurement (25%, 50%, and 75%) which shows the magnitude of the difference in effect size for a 50% difference in muscle length at different sites. We present the predicted values and slopes as mean and 95% quantile intervals. We also, whilst not pre-registered for this project, agreed upon a smallest effect size of interest on both the standardised mean change $(-0.1,0.1)$[^2] and the percentage change scales $(-3%,3%)$ and thus set these as regions of practical equivalence (ROPE). This allows us to also examine the probability that the slopes for muscle length might produce a meaningful effect (i.e., greater than the smallest effect size of interest) by examining the mass of the posterior distribution exceeding the upper limits of the ROPE, and also the percentage of the posterior distributions mass that was within the ROPE thus reflecting the probability of practically equivalent effects. 
+
+[^1]: The rescaling was in order to have the values for coefficients in the model on a similar scale as the intercept values so that when setting initial values for Monte Carlo Markov Chain sampling these could be set to similar values.
+
+[^2]: Though some of the authors here were those who had been involved in eliciting the smallest effect size of interest used for a currently pre-registered trial examining the effects lengthened partial training upon hypertrophy (see [https://osf.io/9sgjk](https://osf.io/9sgjk)).
+
+For the secondary predictor models we explored the muscle length by site of measurement by each additional predictor (e.g., upper or lower body OR muscle group OR muscle action) interaction respectively. For these models, we only present the predicted effect size magnitudes at particular combinations of muscle length and site of measurement similarly to the above. 
+
+### Pre-Registered Main Model
+As noted, the pre-registered main model involved population level effects for the intercept, slope of muscle length, slope of measurement site, and the muscle length  by measurement site interaction. The model also included random intercepts for study, arm, and effect levels. The model equation was as follows:
+
+$$
+\begin{aligned}
+  \operatorname{\hat{\theta}}_{ijk}  &\sim N \left(\mu, \sigma_{ijk} \right) \\
+    \mu &=\alpha_{i} + \alpha_{j} + \alpha_{k} + \beta_{1}(\operatorname{muscle\ length}_{centred}) + \beta_{2}(\operatorname{site_{centred}}) + \beta_{3}(\operatorname{muscle\ length_{centred}} \times \operatorname{site_{centred}}) \\
+    \alpha_{i}  &\sim N \left(\mu_{\alpha_{i}}, \sigma_{\alpha_{i}} \right)
+    \text{, for study i = 1,} \dots \text{,I} \\
+    \alpha_{j}  &\sim N \left(0, \sigma_{\alpha_{j}} \right)
+    \text{, for arm j = 1,} \dots \text{,J} \\
+    \alpha_{k}  &\sim N \left(0, \sigma_{\alpha_{k}} \right)
+    \text{, for effect k = 1,} \dots \text{,K} \\
+\end{aligned}
+$$ 
+where $\operatorname{\hat{\theta}}_{ijk}$ is the $k$th effect size ($\text{k = 1,} \dots \text{,K}$), here the SMD or lnRR, from the $j$th arm ($\text{j = 1,} \dots \text{,J}$) for the $i$th study ($\text{i = 1,} \dots \text{,I}$), and $\operatorname{\alpha}_{i}$, $\operatorname{\alpha}_{j}$, and $\operatorname{\alpha}_{k}$ are the random intercepts for study, arm, and effect respectively. Prior distributions[^3] taken from Wolf et al. [-@wolfPartialVsFull2023] for the SMD model were (note, values rounded; plots for the population level effect distributions can be seen in the supplementary materials ADD LINK):
+
+$$
+\begin{aligned}
+        \mu_{\alpha_i}  &\sim student\ t \left(df=4.17,\mu=0.16, \sigma=0.53 \right) \\
+     \sigma_{\alpha_i}  &\sim half\ student\ t \left(df=2.32,\mu=0.79, \sigma=0.60 \right) \\
+     \sigma_{\alpha_j}  &\sim half\ student\ t \left(df=2.32,\mu=0.62, \sigma=0.46 \right) \\
+     \sigma_{\alpha_k}  &\sim half\ student\ t \left(df=3.53,\mu=0.14, \sigma=0.10 \right) \\
+     \beta_{1}  &\sim student\ t \left(df=4.39,\mu=0.40, \sigma=1.15 \right) \\
+     \beta_{2}  &\sim student\ t \left(df=7.03,\mu=-0.02, \sigma=0.91 \right) \\
+     \beta_{3}  &\sim student\ t \left(df=4.45,\mu=-0.09, \sigma=1.95 \right) \\
+\end{aligned}
+$$ 
+
+[^3]: We obtained priors from studies in the dataset of Wolf et al. [-@wolfPartialVsFull2023] by firstly calculating the within arm pre- to post-intervention changes for the partial range of motion groups only (both SMD and lnRR effect sizes as detailed above) for only muscle size outcomes. We excluded any studies that were already included in the present dataset. Muscle length categorised as short or long was then recoded to be -0.5 and 0.5 respectively such that the predictor was centred; we assumed that the typical difference between short and long was ~50% as noted above in extracting slopes for reporting in other models and so these codes corresponded to ~25% and ~75% muscle length respectively. Measurement site was also centred at 50%. We then fit a model with the same parameterisation as the present pre-registered model with the primary difference being that muscle length was categorical and the coefficient in the model fit to the Wolf et al. [-@wolfPartialVsFull2023] data reflected  the slope of the difference i.e., comparison between ~25% and ~75% muscle length. We set weakly regularising priors of $student\textrm{ }t(df=3,\mu=0,\sigma=1)$ for this model as with default uninformative priors chains did not converge. We then extracted, assuming $student\textrm{ }t$ distributions, the hyperparameters $df$, $\mu$, and $\sigma$ for the following parameters: intercept, muscle length coefficient, measurement site coefficient, muscle length my measurement site interaction, and the random effects standard deviations for the study, arm, and effect level intercepts.
+
+Prior distributions taken from Wolf et al. [-@wolfPartialVsFull2023] for the lnRR model were (note, values rounded; plots for the population level effect distributions can be seen in the supplementary materials ADD LINK):
+
+$$
+\begin{aligned}
+        \mu_{\alpha_i}  &\sim student\ t \left(df=2.82,\mu=0.04, \sigma=0.39 \right) \\
+     \sigma_{\alpha_i}  &\sim half\ student\ t \left(df=1.92,\mu=0.55, \sigma=0.47 \right) \\
+     \sigma_{\alpha_j}  &\sim half\ student\ t \left(df=1.96,\mu=0.43, \sigma=0.35 \right) \\
+     \sigma_{\alpha_k}  &\sim half\ student\ t \left(df=7.38,\mu=0.06, \sigma=0.04 \right) \\
+     \beta_{1}  &\sim student\ t \left(df=2.80,\mu=0.10, \sigma=0.80 \right) \\
+     \beta_{2}  &\sim student\ t \left(df=7.74,\mu=0.10, \sigma=0.48 \right) \\
+     \beta_{3}  &\sim student\ t \left(df=5.95,\mu=0.08, \sigma=1.70 \right) \\
+\end{aligned}
+$$ 
+
+### Additional Models
+
+#### Main Model - Uninformed Priors
+We include a model following the same parameterisation as the pre-registered model above (i.e., population level effects for the intercept, slope of muscle length, slope of measurement site, and the muscle length  by measurement site interaction and also random intercepts for study, arm, and effect levels) but with uninformed default priors purely for comparative purposes. The uninformative default priors were as follows:
+
+$$
+\begin{aligned}
+        \mu_{\alpha_i}  &\sim uniform \left(lb = -\infty, ub = \infty  \right) \\
+     \sigma_{\alpha_i}  &\sim half\ student\ t \left(df=3,\mu=0, \sigma=2.5 \right) \\
+     \sigma_{\alpha_j}  &\sim half\ student\ t \left(df=3,\mu=0, \sigma=2.5 \right) \\
+     \sigma_{\alpha_k}  &\sim half\ student\ t \left(df=3,\mu=0, \sigma=2.5 \right) \\
+     \beta_{1}  &\sim uniform \left(lb = -\infty, ub = \infty \right) \\
+     \beta_{2}  &\sim uniform \left(lb = -\infty, ub = \infty \right) \\
+     \beta_{3}  &\sim uniform \left(lb = -\infty, ub = \infty \right) \\
+\end{aligned}
+$$ 
+
+#### Main Model - Addition of Random Slopes
+In hindsight we realised when we came to analyse the data that we probably should have included in our pre-registration the inclusion of maximal random effects at the study level i.e., random slopes for both muscle length and measurement site, to reflect the assumption that the relationships between these variables and effect sizes might vary across studies. As such, we include a model following the same parameterisation as the pre-registered model (i.e., population level effects for the intercept, slope of muscle length, slope of measurement site, and the muscle length by measurement site interaction and also random intercepts for study, arm, and effect levels) but with the *addition* of random slopes for both muscle length and measurement site at the study level for comparative purposes. The model equation was as follows:
+
+$$
+\begin{aligned}
+  \operatorname{\hat{\theta}}_{ijk}  &\sim N \left(\mu, \sigma_{ijk} \right) \\
+    \mu &=\alpha_{i} + \alpha_{j} + \alpha_{k} + \beta_{1}(\operatorname{muscle\ length}_{centred}) + \beta_{2}(\operatorname{site_{centred}}) + \beta_{3}(\operatorname{muscle\ length_{centred}} \times \operatorname{site_{centred}}) \\
+    \alpha_{j}  &\sim N \left(0, \sigma_{\alpha_{j}} \right)
+    \text{, for arm j = 1,} \dots \text{,J} \\
+    \alpha_{k}  &\sim N \left(0, \sigma_{\alpha_{k}} \right)
+    \text{, for effect k = 1,} \dots \text{,K} \\   
+\left(
+  \begin{array}{c} 
+    \begin{aligned}
+      &\alpha_{i} \\
+      &\beta_{1i} \\
+      &\beta_{2i}
+    \end{aligned}
+  \end{array}
+\right)
+  &\sim N \left(
+\left(
+  \begin{array}{c} 
+    \begin{aligned}
+      &\mu_{\alpha_{i}} \\
+      &\mu_{\beta_{1i}} \\
+      &\mu_{\beta_{2i}}
+    \end{aligned}
+  \end{array}
+\right)
+, 
+\left(
+  \begin{array}{ccc}
+     \sigma^2_{\alpha_{i}} & \rho_{\alpha_{i}\beta_{1i}} & \rho_{\alpha_{i}\beta_{2i}} \\ 
+     \rho_{\beta_{1i}\alpha_{i}} & \sigma^2_{\beta_{1i}} & \rho_{\beta_{1i}\beta_{2i}} \\ 
+     \rho_{\beta_{2i}\alpha_{i}} & \rho_{\beta_{2i}\beta_{1i}} & \sigma^2_{\beta_{2i}}
+  \end{array}
+\right) = 
+\left(
+  \begin{array}{ccc}
+     \sigma_{\alpha_{i}} & 0 & 0 \\ 
+     0 & \sigma_{\beta_{1i}} & 0 \\ 
+     0 & 0 & \sigma_{\beta_{2i}}
+  \end{array}
+\right) 
+\text R
+\left(
+  \begin{array}{ccc}
+     \sigma_{\alpha_{i}} & 0 & 0 \\ 
+     0 & \sigma_{\beta_{1i}} & 0 \\ 
+     0 & 0 & \sigma_{\beta_{2i}}
+  \end{array}
+\right)
+ \right)
+    \text{, for study i = 1,} \dots \text{,I}
+\end{aligned}
+$$
+where$\operatorname{\hat{\theta}}_{ijk}$ is the $k$th effect size ($\text{k = 1,} \dots \text{,K}$), here the SMD or lnRR, from the $j$th arm ($\text{j = 1,} \dots \text{,J}$) for the $i$th study ($\text{i = 1,} \dots \text{,I}$), $\operatorname{\alpha}_{i}$, $\operatorname{\alpha}_{j}$, and $\operatorname{\alpha}_{k}$ are the random intercepts for study, arm, and effect respectively, and $\operatorname{\beta}_{1i}$ and $\operatorname{\beta}_{2i}$ were the random slopes within study for muscle length and measurement site respectively. The priors were the same as those used for the pre-registered model with the addition of a $student\ t(df=3,\mu=0,\sigma=2.5)$ prior on both muscle length and measurement site random slopes, and a $LKJcorr(1)$ prior on the covariance matrix $\text R$.
+
+#### Main Model with Random Slopes - J. Steele Priors
+Though not included in the pre-registration one of the authors (JS) held a different set of priors for various model parameters based upon a previous large meta-analysis they conducted of randomised trials of resistance training interventions in general compared to non-training controls [@steeleMetaanalysisVariationSport2023a]. Given the scale of this meta-analysis involving over 100 studies the overall estimate for the general effects of resistance training upon hypertrophy was quite precise (SMD = 0.34 [95%CI: 0.29, 0.39]; exponentiated lnRR = 5.13% [95%CI: 4.08%,6.18%]). Further, it provided an estimate of the between unit variance in effect sizes at the study, arm, and effect levels (other variance parameters such as the random slopes exmployed default weakly regularising priors). JS felt that, given the magnitude of the estimate from Steele et al. [-@steeleMetaanalysisVariationSport2023a] any interaction effect would necessarily need to be far smaller; in this case, the effect of muscle length and the effect of measurement site in the present analysis reflects an interaction effect on the general effect of resistance training i.e., the difference in intervention effects (i.e., the counterfactual comparison of a resistance training intervention with a non-training control) between two different conditions such as short vs long muscle length resistance training interventions or proximal vs distal measurement sites. If there are any positive effects of training at longer muscle lengths as posited by others then they necessarily had to be small, though it was unlikely that any effect was to be negative. In addition the effects of measurement site would have to be small, though it seemed less clear that there would necessarily be effects favouring more proximal or distal sites. Lastly, the interaction of muscle length and measurement site would again necessairly have to be smaller given that in the broader conceptualisation these reflect a kind of three-way interaction; in essence the difference in intervention effects (i.e., the counterfactual comparison of a resistance training intervention with a non-training control) between short vs long muscle length resistance training interventions at different measurement sites. Given the precision of the overall estimates it seemed reasonable to set a skew normal prior with mass mostly towards null effects but permitting small effects for the muscle length coefficient, and a student t distribution centred on null effects but permitting small effects in either direction, in the approximate range of the confidence interval half-widths of the estimates from Steele et al. [-@steeleMetaanalysisVariationSport2023a]. The muscle length by measurement site interaction effect was then also a student t distribution centred at null with half the scale of the coefficient for measurement site. Notably, these priors were far stronger and more skeptical of large effects than the priors taken from the Wolf et al. [-@wolfPartialVsFull2023] model[^4]. Note that priors for the muscle length, measurement site, and interaction, were set considering what might be reasonable given prior knowledge for a difference of 50% muscle length or measurement site (e.g., 25% to 75%) to reflect a "typical" short vs long or proximal vs distal comparison.
+
+[^4]: Note, the model used to extract priors from Wolf et al. [-@wolfPartialVsFull2023] described in footnote 3 was also fit using the priors elicited from JS which revealed that the data used from Wolf et al. [-@wolfPartialVsFull2023] had little influence on the posterior estimates and conclusions that JS would have held prior to the present analyses.
+
+Thus a model was fit to enable us to draw posterior inferences given the strong skeptical priors elicited from JS. The model parameterisation was the same as that used above where random slopes were added to the main pre-registered model parameterisation (i.e., population level effects for the intercept, slope of muscle length, slope of measurement site, and the muscle length by measurement site interaction, random intercepts for study, arm, and effect levels, and random slopes for both muscle length and measurement site at the study level). The priors were as follows for the SMD model (note, values rounded; plots for the population level effect distributions can be seen in the supplementary materials ADD LINK):
+
+$$
+\begin{aligned}
+       \mu_{\alpha_i}  &\sim student\ t \left(df=103,\mu=0.34, \sigma=0.03 \right) \\
+     \sigma_{\alpha_i}  &\sim half\ student\ t \left(df=3,\mu=0.21, \sigma=0.05 \right) \\
+     \sigma_{\alpha_j}  &\sim half\ student\ t \left(df=3,\mu=0.02, \sigma=0.05 \right) \\
+     \sigma_{\alpha_k}  &\sim half\ student\ t \left(df=3,\mu=0.05, \sigma=0.04 \right) \\
+     \sigma_{\beta_{1i}}  &\sim half\ student\ t \left(df=3,\mu=0, \sigma=2.5 \right) \\
+     \sigma_{\beta_{2i}}  &\sim half\ student\ t \left(df=3,\mu=0, \sigma=2.5 \right) \\
+     \beta_{1}  &\sim half\ skew\ normal \left(\mu=0, \sigma=0.1, \alpha=5 \right) \\
+     \beta_{2}  &\sim half\ student\ t \left(df=3,\mu=0, \sigma=0.04 \right) \\
+     \beta_{3}  &\sim half\ student\ t \left(df=3,\mu=0, \sigma=0.02 \right) \\
+          \text R  &\sim LKJcorr \left(1 \right) \\
+
+\end{aligned}
+$$ 
+
+The priors were as follows for the lnRR model (note, values rounded; plots for the population level effect distributions can be seen in the supplementary materials ADD LINK):
+
+$$
+\begin{aligned}
+       \mu_{\alpha_i}  &\sim student\ t \left(df=103,\mu=0.05, \sigma=0.005 \right) \\
+     \sigma_{\alpha_i}  &\sim half\ student\ t \left(df=3,\mu=0.02, \sigma=0.005 \right) \\
+     \sigma_{\alpha_j}  &\sim half\ student\ t \left(df=3,\mu=0, \sigma=0.006 \right) \\
+     \sigma_{\alpha_k}  &\sim half\ student\ t \left(df=3,\mu=0, \sigma=0.006 \right) \\
+     \sigma_{\beta_{1i}}  &\sim half\ student\ t \left(df=3,\mu=0, \sigma=2.5 \right) \\
+     \sigma_{\beta_{2i}}  &\sim half\ student\ t \left(df=3,\mu=0, \sigma=2.5 \right) \\
+     \beta_{1}  &\sim half\ skew\ normal \left(\mu=0, \sigma=0.016, \alpha=5 \right) \\
+     \beta_{2}  &\sim half\ student\ t \left(df=3,\mu=0, \sigma=0.008 \right) \\
+     \beta_{3}  &\sim half\ student\ t \left(df=3,\mu=0, \sigma=0.004 \right) \\
+          \text R  &\sim LKJcorr \left(1 \right) \\
+
+\end{aligned}
+$$ 
+
+#### Main Model with Random Slopes - Other Authors Priors
+After JS raised his skeptical priors with the other authors they too felt it might be appropriate to consider what priors they might have held absent the Wolf et al. [-@wolfPartialVsFull2023] data. The other authors agreed with JS in the priors for the overall intercept and random intercept variances as taken from Steele et al. [-@steeleMetaanalysisVariationSport2023a], though they did not express the same degree of skepticism as JS in the prior effects for muscle length, measurement site, and their interaction instead wanting to permit larger modal positive effects and a wider range of possible effects for each parameter.
+
+Thus a model was fit to enable us to draw posterior inferences given the less skeptical priors elicited from the other authors. The model parameterisation was the same as that used above where random slopes were added to the main pre-registered model parameterisation (i.e., population level effects for the intercept, slope of muscle length, slope of measurement site, and the muscle length by measurement site interaction, random intercepts for study, arm, and effect levels, and random slopes for both muscle length and measurement site at the study level). The priors were as follows for the SMD model (note, values rounded; plots for the population level effect distributions can be seen in the supplementary materials ADD LINK):
+
+$$
+\begin{aligned}
+       \mu_{\alpha_i}  &\sim student\ t \left(df=103,\mu=0.34, \sigma=0.03 \right) \\
+     \sigma_{\alpha_i}  &\sim half\ student\ t \left(df=3,\mu=0.21, \sigma=0.05 \right) \\
+     \sigma_{\alpha_j}  &\sim half\ student\ t \left(df=3,\mu=0.02, \sigma=0.05 \right) \\
+     \sigma_{\alpha_k}  &\sim half\ student\ t \left(df=3,\mu=0.05, \sigma=0.04 \right) \\
+     \sigma_{\beta_{1i}}  &\sim half\ student\ t \left(df=3,\mu=0, \sigma=2.5 \right) \\
+     \sigma_{\beta_{2i}}  &\sim half\ student\ t \left(df=3,\mu=0, \sigma=2.5 \right) \\
+     \beta_{1}  &\sim half\ student\ t \left(df=3,\mu=0.4, \sigma=0.2 \right) \\
+     \beta_{2}  &\sim half\ student\ t \left(df=3,\mu=0.4, \sigma=0.2 \right) \\
+     \beta_{3}  &\sim half\ student\ t \left(df=3,\mu=0.2, \sigma=0.1 \right) \\
+          \text R  &\sim LKJcorr \left(1 \right) \\
+
+\end{aligned}
+$$ 
+
+The priors were as follows for the lnRR model (note, values rounded; plots for the population level effect distributions can be seen in the supplementary materials ADD LINK):
+
+$$
+\begin{aligned}
+       \mu_{\alpha_i}  &\sim student\ t \left(df=103,\mu=0.05, \sigma=0.005 \right) \\
+     \sigma_{\alpha_i}  &\sim half\ student\ t \left(df=3,\mu=0.02, \sigma=0.005 \right) \\
+     \sigma_{\alpha_j}  &\sim half\ student\ t \left(df=3,\mu=0, \sigma=0.006 \right) \\
+     \sigma_{\alpha_k}  &\sim half\ student\ t \left(df=3,\mu=0, \sigma=0.006 \right) \\
+     \sigma_{\beta_{1i}}  &\sim half\ student\ t \left(df=3,\mu=0, \sigma=2.5 \right) \\
+     \sigma_{\beta_{2i}}  &\sim half\ student\ t \left(df=3,\mu=0, \sigma=2.5 \right) \\
+     \beta_{1}  &\sim half\ student\ t \left(df=3,\mu=0.095, \sigma=0.04 \right) \\
+     \beta_{2}  &\sim half\ student\ t \left(df=3,\mu=0.095, \sigma=0.04 \right) \\
+     \beta_{3}  &\sim half\ student\ t \left(df=3,\mu=0.048, \sigma=0.02 \right) \\
+          \text R  &\sim LKJcorr \left(1 \right) \\
+
+\end{aligned}
+$$ 
+### Model Comparisons
+Given the addition of several models to the present analysis varying both the parameterisation and the prior distributions employed, and that as we acknowledge the pre-registered analysis may not have been sufficiently detailed to constrain researcher degrees of freedom nor did it take into account assumptions we should have made about models and priors, we felt it prudent to compare these models. Thus we calculated Bayes Factors quantifying the ratio:
+
+$$
+\begin{aligned}
+       BF_{12}=\frac{P(Data|Model_1)}{P(Data|Model_2)}
+\end{aligned}
+$$ 
+This answers the question under which model are the observed data more probable.
+
+### Secondary Predictor Models - Uninformed Priors
+Although we noted these in the pre-registration we do not focus on them in the present manuscript instead focusing on the primary estimand noted above of the muscle length by measurement site interaction. We treat these secondary predictor models as highly exploratory given the amount of data available and the corresponding uncertainty of inferences, and present them only in the supplementary materials (see ????, ????, and ????). For reference these models were the same parameterisation as the pre-registered model using the same priors as noted above, with the exception of the addition categorical predictor of either upper or lower body OR muscle group OR muscle action added under a deviation coding scheme (i.e., such that the coefficients for each level were in comparison to the overall mean reflected by the intercept). The added predictors used default uninformative priors of $uniform(lb = -\infty, ub = \infty)$.
+
+
+# Results
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(agree_models)
+targets::tar_load(reli_models)
+targets::tar_load(agree_plot)
+targets::tar_load(reli_plot)
+
+
+```
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| label: fig-agree-plot 
+#| fig-width: 12.5
+#| fig-height: 7.5
+#| fig-cap: Mean bias (thick horizontal line) and 95% limits of agreement (dotted horizontal lines) along with 95% quantile interval estimates for agreement of each device in comparison to the gold-standard (Force Decks impulse-momentum method).
+
+agree_plot
+
+```
+
+# References

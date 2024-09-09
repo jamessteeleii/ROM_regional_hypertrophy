@@ -1,60 +1,49 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|f6fdb43d7855716f|||||||||||||||
-BF_model_comparisons_plot_lnRR|stem|59783cc9bfa87855|7b783153e0417f74|893774aab16774c4|1555024304||t19969.6892420678s|bd961ee8c3e0f081|915569917|qs|local|vector|||44.922|Bayes factors might not be precise.  For precise Bayes factors, sampling at least 40,000 posterior samples is  recommended.. The x argument of as_tibble.matrix must have unique column names if.name_repair is omitted as of tibble 2.0.0.ℹ Using compatibility .name_repair.. The size argument of element_rect is deprecated as of ggplot2 3.4.0.ℹ Please use the linewidth argument instead.|
-BF_model_comparisons_plot_lnRR_tiff|stem|86446c908d6ccda2|ab44df5dbe1dbbcd|020661b493597daa|137161055||t19969.6898997141s|4179e472436f3418|81|qs|local|vector|||0.25||
-BF_model_comparisons_plot_SMD|stem|9a089adf26bd1ccf|a4ae27805384a188|1231d0d8c8175ee8|2100828243||t19969.6898561133s|e1553cf39bdb252f|915091190|qs|local|vector|||46.109|Bayes factors might not be precise.  For precise Bayes factors, sampling at least 40,000 posterior samples is  recommended.|
-BF_model_comparisons_plot_SMD_tiff|stem|6182668ba5f9f561|827fde75d2f3e0a1|cc58b7566d81cefa|-1186081232||t19969.6899489293s|87bbe5f41aaaedf6|80|qs|local|vector|||0.235||
+.Random.seed|object|239343610268296d|||||||||||||||
+authors_priors_lnRR|stem|6c82032b6a28f03c|8056f8cd29cb280f|5cff7a2c57ab0ea1|484400923||t19974.6664078988s|852ca65165b9cec5|312|qs|local|vector|||7.281||
+authors_priors_model_diagnostic_plots|stem|cd622a8f2f06a70c|44b5d2803eb5af46|3680693fb0ea0e7a|396348338|plots/authors_priors_model_diagnostic_plots.pdf*plots/authors_priors_model_diagnostic_plots.qmd|t19975.3263855664s|6d02b3057499d3d2|17297654|file|local|vector|||85.172||
+authors_priors_model_lnRR|stem|8c43e7387865b97d|55d835194197a38a|d2aeb382885856eb|1101073311||t19974.6794061631s|ed160f8f9dd48b90|1221687169|qs|local|vector|||495.047||
+authors_priors_model_plot_lnRR_tiff|stem|c854cdf09932b866|9eb3b00bb1394c5a|0b3c45621a67a824|2049385340||t19974.8307308381s|e12065d620e41fd5|76|qs|local|vector|||2.281||
+authors_priors_model_plot_preds_lnRR|stem|e360849372104408|a7e815aa655a04b4|eca8aca71aa04d80|1336334714||t19974.7037667922s|9d901ac939f3fcb2|1542547013|qs|local|vector|||139.157|Using size aesthetic for lines was deprecated in ggplot2 3.4.0.ℹ Please use linewidth instead.|
+authors_priors_model_plot_preds_SMD|stem|af6fd91ea3284e29|67e56ab6eba96a59|14401284698b1b1a|-378659819||t19974.7098372242s|bedb0093404c73e4|1537987209|qs|local|vector|||130.422|Using size aesthetic for lines was deprecated in ggplot2 3.4.0.ℹ Please use linewidth instead.|
+authors_priors_model_plot_slopes_lnRR|stem|aa80594c42c72e1c|41e122c4d1091302|3878ecf33a516eb1|-74108079||t19974.7010236754s|64ec776a7fa509dd|1238520435|qs|local|vector|||101.046||
+authors_priors_model_plot_slopes_SMD|stem|1ae94a056e03788f|a39c511d8f6d3fc1|77c0e148a2155f89|-2006731001||t19974.7120526249s|46e8b8eccae4bbcc|2459825684|qs|local|vector|||92.188||
+authors_priors_model_plot_SMD_tiff|stem|87578a5f27811477|03daa13c13eb745f|8925a3ef10a98525|-1359900508||t19974.8311883688s|a057b906461a46f0|75|qs|local|vector|||2.125||
+authors_priors_model_SMD|stem|eab09b566e607330|28107467eab06c52|631e8c9a1f55fa9b|967351235||t19974.6898173699s|718eabeaa41e2d9a|1220486343|qs|local|vector|||461.484||
+authors_priors_only_model_lnRR|stem|f5f02c2a107a93e5|6e3cababe9054d0c|54c7f8c2fa3555dc|-331942064||t19974.6805212563s|91acb7f1d7aca212|121029413|qs|local|vector|||93.922||
+authors_priors_only_model_SMD|stem|e692a1fd5a388f74|b7a5e50a23a99870|c304b17477224307|-1509654136||t19974.6909566434s|6b68b46eae011429|120738963|qs|local|vector|||96.219||
+authors_priors_plot_lnRR|stem|fcfb86d2911cf6ea|6983932386d67236|f96d884b4358578c|-264882950||t19974.7038030296s|cc3212fa3696323e|123261521|qs|local|vector|||0.218||
+authors_priors_plot_lnRR_tiff|stem|4fc80c049e3f31df|c01cfd919f214582|d66c3b8b0957a6ab|-655125093||t19974.7862258028s|bab37a9db0a801a3|69|qs|local|vector|||1.828||
+authors_priors_plot_SMD|stem|0aba70f859c0b402|bd135c4b677e4030|6c9eee9a61b3fba2|-1180678062||t19974.7121344147s|d1cd352ca1265b2a|122971133|qs|local|vector|||0.203||
+authors_priors_plot_SMD_tiff|stem|e726a5745ee0c762|f14918a55f146050|f06be3ea07f52682|-794285100||t19974.78691937s|6dba06bb5782f84f|68|qs|local|vector|||0.641||
+authors_priors_SMD|stem|e00d9e010e61f9d6|6e8dd931edea2dac|d14a4fc27a425b7c|-1557535569||t19974.6664109661s|7449f782a65b6575|313|qs|local|vector|||0||
+BF_model_comparisons_plot_lnRR|stem|61c03292c61a93ff|14e15e308ab3e4bd|a57aaae8b2710702|1555024304||t19974.8803495568s|d81a82987916a8ed|5829615318|qs|local|vector|||331.031|The x argument of as_tibble.matrix must have unique column names if.name_repair is omitted as of tibble 2.0.0.ℹ Using compatibility .name_repair.. The size argument of element_rect is deprecated as of ggplot2 3.4.0.ℹ Please use the linewidth argument instead.|
+BF_model_comparisons_plot_lnRR_tiff|stem|86446c908d6ccda2|ab44df5dbe1dbbcd|a4ed6db6bc79f911|137161055||t19974.8854534465s|4179e472436f3418|81|qs|local|vector|||0.5||
+BF_model_comparisons_plot_SMD|stem|f114f6b39c477d8a|88492bacaa3f7808|5174a370b08f6e20|2100828243||t19974.8851749817s|721d272408010af0|5825049748|qs|local|vector|||379.406||
+BF_model_comparisons_plot_SMD_tiff|stem|6182668ba5f9f561|827fde75d2f3e0a1|87e4adc9d33ce0a5|-1186081232||t19974.8856347336s|87bbe5f41aaaedf6|80|qs|local|vector|||0.25||
 combine_main_model_plots|function|2ab56058b6aa847c|||||||||||||||
-combined_DV_BS_PM_priors_model_plot_lnRR|stem|3e856b7f54a7852e|46c6f4c8a7c1dc7d|8a5b39ff0feee8b6|1753571847||t19969.684034747s|c7954fad96350900|521416076|qs|local|vector|||0.015||
-combined_DV_BS_PM_priors_model_plot_SMD|stem|469c09ae159dc310|6d1d08a9a73f67a6|0185705b149eb304|1955532130||t19969.6841740338s|202442923279b07e|754858192|qs|local|vector|||0.015||
-combined_DV_BS_priors_model_plot_lnRR|stem|e98ccb4b896333c3|1ae7f646baf27f10|521f936c01e69a42|1302217896||t19969.6500322437s|00729deb07244d59|521564813|qs|local|vector|||0||
-combined_DV_BS_priors_model_plot_SMD|stem|b2731f388415cece|d6abc2dacf7a2e8c|ed641ea110913763|1367766139||t19969.6504699169s|30da05f00660ce04|755078670|qs|local|vector|||0||
-combined_main_model_plot|stem|36a843ed3f9d077c|e3a3683aab619814|3d654a58f712d7eb|-795655413||t19966.5928580442s|be7832c988de033d|371208502|qs|local|vector|||0||
-combined_main_model_plot_lnRR|stem|619491c3ed6d120e|5d42a01e5932edbd|c84330a006799ee8|-1393609816||t19969.6500919229s|afa141f57f793cc8|466785562|qs|local|vector|||0.015||
-combined_main_model_plot_SMD|stem|1bcb9cabfe42874e|2ab5f2ff09ce1477|82d692bff215e408|-466448701||t19969.6505824773s|fe40779730609391|675333367|qs|local|vector|||0.016||
-combined_main_model_r_slopes_plot|stem|9c3ecb0781571be3|b282bcfa60004a52|5f51dde7476c5054|1752435118||t19966.5929089568s|48244e292c701825|411850010|qs|local|vector|||0||
-combined_main_model_r_slopes_plot_lnRR|stem|98747a6318d65958|c9ff2b86a8bf46de|df7c8c4931c313e1|-1592168491||t19969.6499320933s|a1bfbe37ce1f96a4|520768293|qs|local|vector|||0.016||
-combined_main_model_r_slopes_plot_SMD|stem|d9f232c23d555840|eef38b7913e0ecf1|584ce1f3658150d7|-765667192||t19969.650677187s|0a8ea052fda687e8|756267051|qs|local|vector|||0.016||
-combined_steele_priors_model_plot|stem|c9dfc3d6c1fe15fd|07a928921489986e|4c5d4c52d2cba3a8|1771292752||t19966.5928029964s|f36ea4a1be93f582|408674181|qs|local|vector|||0||
-combined_steele_priors_model_plot_lnRR|stem|d07f1db0c0f06a11|035eacf2408ac3bb|0908db73fda3b2f1|46767404||t19969.6501820277s|d6dda174867a7f6a|519125639|qs|local|vector|||0||
-combined_steele_priors_model_plot_SMD|stem|6aba97a2bd95dd77|1b42f84b1e5a9dd5|1b186e4a1964ec17|1336051220||t19969.6503724555s|413f12cd662398c4|753298018|qs|local|vector|||0.016||
-data|stem|7bbf4cb649c75dc6|3374fb4f7e8a56f4|87338aa5fcbf539d|33550471||t19966.4842211161s|eab107e8a20bb9e1|13243|qs|local|vector|||0.094||
+combined_authors_priors_model_plot_lnRR|stem|326ac385277b32e3|405a6e20c6d68792|93ffa0de07943a9b|315502254||t19974.7861682683s|1fe29b67e9a23858|2781036893|qs|local|vector|||0.016||
+combined_authors_priors_model_plot_SMD|stem|37b8f6620d27c0fc|5ef59c43df856b80|8ce79f2eda43a32d|-1633761938||t19974.7868402871s|43634aef30e4a785|3997946974|qs|local|vector|||0||
+combined_steele_priors_model_plot_lnRR|stem|aeaf345262ebf648|035eacf2408ac3bb|0cdfbefdb956bc07|46767404||t19974.785651557s|d6c211fa5693e19c|2774450435|qs|local|vector|||0.015||
+combined_steele_priors_model_plot_SMD|stem|f9de8331bc6b4c5b|1b42f84b1e5a9dd5|fe62b468bf2ad2b1|1336051220||t19970.7233441434s|2cdd5181e3229a66|3993113636|qs|local|vector|||0||
+combined_uninformed_model_plot_lnRR|stem|fe9620f93606bebf|f5cd20ea0afdcc34|724967783a0b64e2|-1606744368||t19974.7859100283s|608572898021f783|2505319442|qs|local|vector|||0.015||
+combined_uninformed_model_plot_SMD|stem|b3f8734fbd970828|2e235af84e1c8afc|6749b4a5654ae191|637080171||t19974.7864902837s|050297bfaf4afb16|3588682732|qs|local|vector|||0.015||
+combined_wolf_priors_model_plot_lnRR|stem|71849923410d1f88|0ab7d3c4ad1d74eb|170b5514a085e86d|-1126801038||t19974.8325578705s|d45f0d1b2d49ad18|2500705674|qs|local|vector|||0||
+combined_wolf_priors_model_plot_SMD|stem|fed1a1ff55788a52|60402c3821d35a4a|2316008ca29c4806|660887951||t19974.8384713364s|c2bb431e1e72347f|3581277200|qs|local|vector|||0||
+combined_wolf_priors_model_slopes_plot_lnRR|stem|a6e62d968ff3173b|4b0f7ea1393c78b6|0bc7bdacb18f92ac|-1519290978||t19974.832183306s|4df62ae0d67b365d|2781740060|qs|local|vector|||0.015||
+combined_wolf_priors_model_slopes_plot_SMD|stem|9e03acb7746dd9e2|adae0bf6e8af695c|6a8d4bfdfbc409fd|-1722525096||t19974.8399548048s|e591f6e0dbe1386b|4002209494|qs|local|vector|||0.015||
 data_lnRR|stem|ec950394317dae07|3ac058ca4c3e1b64|3a56599eae3aec00|-224819188||t19967.4204440111s|7d50f60c12d99e05|13196|qs|local|vector|||0.125||
 data_SMD|stem|7bbf4cb649c75dc6|c5fd0bec1845e7b8|1aa7cc04b89981a6|1558862474||t19967.4204469928s|eab107e8a20bb9e1|13243|qs|local|vector|||0.063||
-diagnostic_plots|stem|27587bdfe1d1902e|2a57b5ea7e0df0f6|f5123a704accf79a|610771223|plots/diagnostic_plots.pdf*plots/diagnostic_plots.qmd|t19969.6859215031s|f51e381f0621f55e|30064655|file|local|vector|||125.25||
-DV_BS_PM_priors_lnRR|stem|6c82032b6a28f03c|a461b7bd03dc1308|105d59c153cfd3ae|433772534||t19969.6755363823s|852ca65165b9cec5|312|qs|local|vector|||4.984||
-DV_BS_PM_priors_model_lnRR|stem|01fe01d761b96c17|aef2ed25c3b3cac3|9c753e1207c96fb1|-662525570||t19969.6773856759s|859a0f0764ccfa8e|235413593|qs|local|vector|||158.594||
-DV_BS_PM_priors_model_plot_lnRR_tiff|stem|808e94bb9603e709|347f670b71c1b63e|817e6eaeba2ceeda|-1568510704||t19969.6860403615s|04fcf8b2530d31e5|77|qs|local|vector|||0.86||
-DV_BS_PM_priors_model_plot_preds_lnRR|stem|4228db1a011a30f5|ac7463fc749bc0a9|f4ce5a250c6f7b2c|-532739980||t19969.6814830467s|e6955ad10336e113|283003284|qs|local|vector|||24.531|Using size aesthetic for lines was deprecated in ggplot2 3.4.0.ℹ Please use linewidth instead.|
-DV_BS_PM_priors_model_plot_preds_SMD|stem|74fdab3712a1a85c|9f1b7350b9f6e8b0|2cf10d8bd2935ae2|-548183099||t19969.6828415194s|d54fd67cb0474845|282105002|qs|local|vector|||20.484||
-DV_BS_PM_priors_model_plot_slopes_lnRR|stem|a5f6054b94bd4df4|e694b619369da86d|936b45ea3b355483|17015299||t19969.6818361236s|bbb636d86c3d235e|238329997|qs|local|vector|||18.891||
-DV_BS_PM_priors_model_plot_slopes_SMD|stem|9351463753e45770|0e8e6617570bee2a|f1cfd115e6f7ce54|-1706410313||t19969.6831409376s|97eabbb474f88c1a|472703681|qs|local|vector|||16.656||
-DV_BS_PM_priors_model_plot_SMD_tiff|stem|5cd0e0a793998149|a6cd2b2d0e9404d6|b8d4af8255c416a3|693655602||t19969.6860977258s|e12065d620e41fd5|76|qs|local|vector|||0.766||
-DV_BS_PM_priors_model_SMD|stem|66341cfafb63818a|be16516fdf9fc01a|61bcadc275c87cf4|-1949861905||t19969.6801083457s|84a4ece001e42a24|235193300|qs|local|vector|||140.672||
-DV_BS_PM_priors_only_model_lnRR|stem|1e7236c6eb47f3f7|1d460ddcc11f63e3|e1a25a570922abd2|1926235501||t19969.6784664073s|ed9b896b78f4aef4|121009162|qs|local|vector|||92.453||
-DV_BS_PM_priors_only_model_SMD|stem|382b3bb3f067b341|f8a6144f996c6acd|fce181f7b599b9c1|-494454278||t19969.6811750953s|167f67dd47fa2524|120714006|qs|local|vector|||91.109||
-DV_BS_PM_priors_plot_lnRR|stem|67217c64a47129d5|61b0d0342ddcfe5d|da5d92dd8ae46255|-1704924461||t19969.6825656197s|b1c19202b6aa54c0|123222508|qs|local|vector|||0.234||
-DV_BS_PM_priors_plot_lnRR_tiff|stem|57c1009cd5cf0cbd|4419d77c97d5bc4c|93ec678310e1fa16|1968207502||t19969.6841013924s|580e0375f1117643|70|qs|local|vector|||0.687|Removed 3427 rows containing missing values or values outside the scale rangestat_slabinterval.. Removed 290 rows containing missing values or values outside the scale rangestat_slabinterval.. Removed 3388 rows containing missing values or values outside the scale rangestat_slabinterval.|
-DV_BS_PM_priors_plot_SMD|stem|fa7620b974694471|d1d4b1ab513b772a|8650f209caa9d3a4|-341874052||t19969.6832996096s|396428ecc5922785|122915588|qs|local|vector|||0.188||
-DV_BS_PM_priors_plot_SMD_tiff|stem|a618d8891d693b17|7dd896d4384a4172|1461ae60d84af044|-236378389||t19969.6841992144s|bab37a9db0a801a3|69|qs|local|vector|||0.625|Removed 1328 rows containing missing values or values outside the scale rangestat_slabinterval.. Removed 403 rows containing missing values or values outside the scale rangestat_slabinterval.. Removed 1463 rows containing missing values or values outside the scale rangestat_slabinterval.|
-DV_BS_PM_priors_SMD|stem|e00d9e010e61f9d6|ff49c1ad5dd869ba|5d1230d8e73cc1b5|1012911468||t19969.675539042s|7449f782a65b6575|313|qs|local|vector|||0.016||
-DV_BS_priors_lnRR|stem|6c82032b6a28f03c|875e784af1e7878c|09917b007ebf31a5|747755087||t19967.9211810625s|852ca65165b9cec5|312|qs|local|vector|||0.016||
-DV_BS_priors_model_lnRR|stem|7b32df66b64b6667|fc518c9ad86fdd84|595789d99b192c2e|-1408367767||t19969.5926726985s|adc848a516744df6|235433583|qs|local|vector|||154.547||
-DV_BS_priors_model_plot_lnRR_tiff|stem|b013023828eda88f|f013c5d32a829bff|8a496001c20ad483|-1776192526||t19969.6527578686s|4be831169559909a|74|qs|local|vector|||0.844||
-DV_BS_priors_model_plot_preds_lnRR|stem|a61f3ef672553c8d|30807b7e8747fbd4|fb71f525f68f08a0|191060915||t19969.6131303487s|5f17bc001ed268ad|283033188|qs|local|vector|||23.125||
-DV_BS_priors_model_plot_preds_SMD|stem|5fafdf3f30cfe963|9d6c9332460d60b0|2f5a599c22b27b99|922562463||t19969.6462280101s|49cd07af395b6c70|282202614|qs|local|vector|||20.75||
-DV_BS_priors_model_plot_slopes_lnRR|stem|dd4fd3cb5842eedc|28a47dfd4762ee84|3136a97bec562808|-1134871882||t19969.6128359184s|afb844f0910e63ab|238372730|qs|local|vector|||18.562||
-DV_BS_priors_model_plot_slopes_SMD|stem|daed67f40027d30d|b45c19bfcaaebb3d|e53155143d7e3c18|2133545248||t19969.6457377132s|133e91a4aac980da|472816873|qs|local|vector|||17.516||
-DV_BS_priors_model_plot_SMD_tiff|stem|ae708e9c0e0d20a6|b585466827273582|5d87f08005219557|-1427439618||t19969.6529418881s|e7b83425a991cb39|73|qs|local|vector|||0.985||
-DV_BS_priors_model_SMD|stem|67ecac150f7471bd|b0c9fccf3349aa76|172c22c0b80f9e48|-1865915253||t19969.6048026318s|9890e48e1e250733|235298889|qs|local|vector|||138.14||
-DV_BS_priors_only_model_lnRR|stem|498d2eb1a3893021|c67abd13b620bbb5|7d4477829416fcd9|-1846149010||t19967.9257075399s|56e9b787aed9ddd5|121045086|qs|local|vector|||90.75||
-DV_BS_priors_only_model_SMD|stem|1c745647f7762d56|0cedc306a78495d9|cc25bdadb8cbb35d|161745402||t19967.9321189121s|e34da02b35c0904b|120776842|qs|local|vector|||91.203||
-DV_BS_priors_plot_lnRR|stem|fe7e6079cc3d5e94|4cf66a7821d1cbe1|c3c520c705a27a50|1088774457||t19967.9499921478s|e4e9ee12416c7993|123258460|qs|local|vector|||0.266||
-DV_BS_priors_plot_lnRR_tiff|stem|fd5daca1d8905438|2439926bb0d8166f|6d97eb99aebe8ed3|-669643089||t19967.9508934501s|4d3508554cc2b0df|67|qs|local|vector|||1.5|Removed 3427 rows containing missing values or values outside the scale rangestat_slabinterval.. Removed 290 rows containing missing values or values outside the scale rangestat_slabinterval.. Removed 3388 rows containing missing values or values outside the scale rangestat_slabinterval.|
-DV_BS_priors_plot_SMD|stem|39a67f5abef2eac7|c48e021dec3f35b2|ab9341bdbcc505f6|-638354033||t19967.9506750502s|ff3100ce4ffbfe0f|123003104|qs|local|vector|||0.281||
-DV_BS_priors_plot_SMD_tiff|stem|02a2a3ef73c51a2d|81f60572dc06b2b7|84cb3260ab0ff085|-1987427776||t19967.9510011026s|7b8a7f5d937ff9ae|66|qs|local|vector|||0.609|Removed 1328 rows containing missing values or values outside the scale rangestat_slabinterval.. Removed 403 rows containing missing values or values outside the scale rangestat_slabinterval.. Removed 1463 rows containing missing values or values outside the scale rangestat_slabinterval.|
-DV_BS_priors_SMD|stem|e00d9e010e61f9d6|84ba3cba82b5be5f|a5006922103aa3c9|566075278||t19967.9211857827s|7449f782a65b6575|313|qs|local|vector|||0.016||
+data_wolf_lnRR|stem|c8f51481e59b74b4|934eb5393e64c26e|c8069a88cfe3dd0f|67578024||t19973.8332156786s|71d8a27d37dd8112|5162|qs|local|vector|||0.047||
+data_wolf_SMD|stem|eac26a50e310c985|72bab284e6efc6cb|2473bd9010ac1e8a|835028887||t19973.8332125071s|b26ba05c3a7da7f5|5188|qs|local|vector|||0.062||
+diagnostic_plots_lnRR|stem|bf4685c30d8e4efa|cd9536554171842e|b2b5c1c9b826db46|1201338574|plots/diagnostic_plots_lnRR.pdf*plots/diagnostic_plots_lnRR.qmd|t19974.8379460135s|ea53bd061aaed423|87170783|file|local|vector|||377.734||
+diagnostic_plots_SMD|stem|e0352d0852611590|450d7539a4a8001d|7acd0c691835dbb3|-1588913598|plots/diagnostic_plots_SMD.pdf*plots/diagnostic_plots_SMD.qmd|t19974.8449115172s|127cf81895815f2a|87515850|file|local|vector|||366.312||
 file|stem|6b236b6d4cc80580|a80011998be61174|2c530c1562a7fbd1|1735323524|C:/Users/james/Dropbox/Research/ROM_regional_hypertrophy/data/ROM_regional_hypertrophy_data.csv|t19959.9228999486s|81d8ffd5856bffcd|39400|file|local|vector|||4.406||
+file_wolf|stem|677a380691377bc6|29bc759b28f37a0a|2c530c1562a7fbd1|-102408941|C:/Users/james/Dropbox/Research/ROM_regional_hypertrophy/data/wolf_et_al_meta_data.csv|t19488.6849533039s|0334a2f3da4ed897|87752|file|local|vector|||4.812||
+fit_authors_priors_model_lnRR|function|ace1da8ac1195a43|||||||||||||||
+fit_authors_priors_model_SMD|function|f9bb97b216b3864a|||||||||||||||
+fit_authors_priors_only_model_lnRR|function|290272c0a2b0a098|||||||||||||||
+fit_authors_priors_only_model_SMD|function|290272c0a2b0a098|||||||||||||||
 fit_DV_BS_PM_priors_model_lnRR|function|5e46deaba8f4391d|||||||||||||||
 fit_DV_BS_PM_priors_model_SMD|function|9323a14aafbf1fb4|||||||||||||||
 fit_DV_BS_PM_priors_only_model_lnRR|function|290272c0a2b0a098|||||||||||||||
@@ -63,63 +52,50 @@ fit_DV_BS_priors_model_lnRR|function|5e46deaba8f4391d|||||||||||||||
 fit_DV_BS_priors_model_SMD|function|9323a14aafbf1fb4|||||||||||||||
 fit_DV_BS_priors_only_model_lnRR|function|290272c0a2b0a098|||||||||||||||
 fit_DV_BS_priors_only_model_SMD|function|290272c0a2b0a098|||||||||||||||
-fit_main_model|function|3369b5628dacf2fe|||||||||||||||
-fit_main_model_r_slopes|function|7187040e36056258|||||||||||||||
-fit_muscle_action_model|function|16a61e1edb1d860e|||||||||||||||
-fit_muscle_model|function|253c103077a85661|||||||||||||||
+fit_informed_priors_model_lnRR|function|ace1da8ac1195a43|||||||||||||||
+fit_informed_priors_model_SMD|function|f9bb97b216b3864a|||||||||||||||
+fit_informed_priors_only_model_lnRR|function|290272c0a2b0a098|||||||||||||||
+fit_informed_priors_only_model_SMD|function|290272c0a2b0a098|||||||||||||||
+fit_main_model|function|e9588840a48ff754|||||||||||||||
+fit_main_model_r_slopes|function|ca16853365cbc09d|||||||||||||||
+fit_muscle_action_model|function|d5af4627ef175c85|||||||||||||||
+fit_muscle_model|function|23979eb7c4237aeb|||||||||||||||
 fit_steele_prior_only_model|function|290272c0a2b0a098|||||||||||||||
 fit_steele_priors_model|function|306aa60c4b897ae0|||||||||||||||
-fit_steele_priors_model_lnRR|function|a1e4e98a9e34af55|||||||||||||||
-fit_steele_priors_model_SMD|function|9323a14aafbf1fb4|||||||||||||||
+fit_steele_priors_model_lnRR|function|9d70e8169350da4f|||||||||||||||
+fit_steele_priors_model_SMD|function|f9bb97b216b3864a|||||||||||||||
 fit_steele_priors_only_model|function|290272c0a2b0a098|||||||||||||||
 fit_steele_priors_only_model_lnRR|function|290272c0a2b0a098|||||||||||||||
 fit_steele_priors_only_model_SMD|function|290272c0a2b0a098|||||||||||||||
-fit_upper_lower_model|function|72ac360654af53aa|||||||||||||||
+fit_uninformed_model|function|e9588840a48ff754|||||||||||||||
+fit_upper_lower_model|function|edb3cdc8aaf63208|||||||||||||||
+fit_wolf_priors_model_lnRR|function|11e0bc011703e1f5|||||||||||||||
+fit_wolf_priors_model_slopes_lnRR|function|e9222d3c07367d5a|||||||||||||||
+fit_wolf_priors_model_slopes_SMD|function|e9222d3c07367d5a|||||||||||||||
+fit_wolf_priors_model_SMD|function|11e0bc011703e1f5|||||||||||||||
+fit_wolf_priors_only_model_lnRR|function|de2247cc041e996b|||||||||||||||
+fit_wolf_priors_only_model_slopes_lnRR|function|290272c0a2b0a098|||||||||||||||
+fit_wolf_priors_only_model_slopes_SMD|function|290272c0a2b0a098|||||||||||||||
+fit_wolf_priors_only_model_SMD|function|de2247cc041e996b|||||||||||||||
 get_tidy_model|function|a271aae9af4b7d1b|||||||||||||||
 grateful_report|stem|2b0f5a12ff452fa0|33e4d47b6dd00477|2c530c1562a7fbd1|1345217321||t19969.5723242477s|5af7efb62b7d05c3|60|qs|local|vector|||6.75||
-main_model|stem|018d91a556c687bb|ad44192656e4335f|acecb72ae2007b1d|1534884991||t19966.5060780325s|55adc6a42c6edabc|107359493|qs|local|vector|||106.468||
-main_model_lnRR|stem|a01d3ee8248af9bb|304af7867ba13ea8|8b139acb5c68840a|1693487260||t19969.5940482582s|92efa77006691da4|208891412|qs|local|vector|||117.562||
-main_model_plot|stem|b95a779d6019be22|6587544f75ad9592|960fd45321736d01|837691043||t19961.8155650591s|264573bc3e978155|153723801|qs|local|vector|||20.672|1m22mUsing size aesthetic for lines was deprecated in ggplot2 3.4.0.36mℹ39m Please use linewidth instead.|
-main_model_plot_lnRR_tiff|stem|d062d239fcce7de8|cb1fc9db3b1b9671|d4b938f4324f297f|-278268847||t19969.6527972845s|eca7fdce75d9dbfb|65|qs|local|vector|||0.781||
-main_model_plot_preds|stem|8f06abd7420c4a27|01db76f2af1e17f6|bb6e73e12b854755|1808810108||t19966.5099511293s|8c01bd15778cbd6e|153842608|qs|local|vector|||19.86||
-main_model_plot_preds_lnRR|stem|72a806b5a0285a28|7bead76e90a3b88a|cec2c4f11dd6fb52|-2011812723||t19969.6135795007s|ee61e7b0c6c973ae|254762004|qs|local|vector|||22.125||
-main_model_plot_preds_SMD|stem|5d7cce55b6fa6621|5c46811672288f13|8f36ae60628158a5|1223972740||t19969.6470654506s|65b28784dfe58e6a|255312303|qs|local|vector|||21.906||
-main_model_plot_slopes|stem|5405cd94146edd48|ac5471f3d92ca5a1|fb3cfc6444c13df1|1220916452||t19966.5925584585s|0d5686ebfbb456fd|217229685|qs|local|vector|||16.453||
-main_model_plot_slopes_lnRR|stem|67c85ab3b6f8cc9a|3e0005a10e7bcba5|1eb367a0a9f9a9cf|-985515518||t19969.6138037598s|4fe73a16c59fb4c7|211868617|qs|local|vector|||17.64||
-main_model_plot_slopes_SMD|stem|11e8228dbf1b7e15|f581f63e4b1a4176|c15edd9c1cb7a18a|265311842||t19969.6473003498s|8d5f5dc59567c256|419970673|qs|local|vector|||17.578||
-main_model_plot_SMD_tiff|stem|5a6c7b7acc1f488a|82a71416c0692857|31459bcb91be0c44|2087476428||t19969.6529936304s|0f5cc5be67b9db73|64|qs|local|vector|||0.782||
-main_model_plot_tiff|stem|72003195691e2867|673f04cad5325b6d|9e3df8250e69a45b|-1831950905||t19966.5929738305s||60|qs|local|vector|||6.593||object combined_main_model_plot not found
-main_model_r_slopes|stem|0c1f052b35df5605|eb2c65af3725d10a|2279d6a0b534df51|-1870451490||t19966.508862209s|a3b02ccd5681ed40|120894514|qs|local|vector|||147.078||
-main_model_r_slopes_lnRR|stem|779b4b44343df25c|6cd81483168ae42e|326f68208ba55d3d|-2006055194||t19969.5882837921s|30d459de1a638b7c|235774627|qs|local|vector|||234.516||
-main_model_r_slopes_plot|stem|ecf782bf4055d048|f6e870c9156c854a|0192fde539ea4611|1473648644||t19961.8196068016s|8253e2d6d25971d5|167399809|qs|local|vector|||20.312||
-main_model_r_slopes_plot_lnRR_tiff|stem|6a8caf2029c02759|63c0388052da0dfe|dd9fc08e214b5cf7|-162477730||t19969.6527116597s|a057b906461a46f0|75|qs|local|vector|||0.875||
-main_model_r_slopes_plot_preds|stem|9c68bf433682c04a|54d9ad2a3ee48890|ba94ecd08574a1f2|-131580767||t19966.5103356565s|79520d3827d864c0|167580051|qs|local|vector|||20.859||
-main_model_r_slopes_plot_preds_lnRR|stem|2b47ed35f03cf63b|0f8ee6111530fd53|44062d801b6add1b|334835926||t19969.6113209309s|2cb708ca731c5796|281877491|qs|local|vector|||24.172|Using size aesthetic for lines was deprecated in ggplot2 3.4.0.ℹ Please use linewidth instead.|
-main_model_r_slopes_plot_preds_SMD|stem|b9b1311a1bb5b5f1|4aabec4c23456194|aeff2b3dd2ac839d|2103583484||t19969.6478127844s|5f2e747126084a3a|282429305|qs|local|vector|||21.485||
-main_model_r_slopes_plot_slopes|stem|1b8d4482d9d1ffa2|5657038214b07b93|ddb5bd0d826f5886|-507506250||t19966.5927616106s|4eb963a87c7e5324|244204331|qs|local|vector|||15.859||
-main_model_r_slopes_plot_slopes_lnRR|stem|1df3940d8f48da69|ec967f612fb8abb0|68a9f267f95a9d94|-1922346540||t19969.611557979s|c48af2a8535fc1f1|238791142|qs|local|vector|||18.75||
-main_model_r_slopes_plot_slopes_SMD|stem|8fff1ffd7d596f65|8204647968bf95b9|350f3272364c07b5|-994916136||t19969.6480506298s|eb6b11f4811b6a7d|473722970|qs|local|vector|||17.609||
-main_model_r_slopes_plot_SMD_tiff|stem|fd14f86357161f1a|3bbffe8e8e78dd74|983322f94d03e1f6|1346121077||t19969.6530509973s|4be831169559909a|74|qs|local|vector|||0.75||
-main_model_r_slopes_plot_tiff|stem|4f97e2ebc9028d18|5ce027691f88d1f5|8764d501140ca6b2|1572197755||t19966.5930010236s|bab37a9db0a801a3|69|qs|local|vector|||0.781||
-main_model_r_slopes_SMD|stem|5ead8706f231851b|f0f6ff5f23d6df0f|113d6c879b87f967|-1025739798||t19969.6092719888s|95bfb1085afd64c5|235741924|qs|local|vector|||150.437||
-main_model_SMD|stem|8a4f5d0e99372d8c|c355ec8fd137a9b4|8cb515aae84afab8|-60374978||t19969.6075144235s|95e672accfc2b268|208842526|qs|local|vector|||113.031||
 make_plot_tiff|function|d824f2b8d85c6ffb|||||||||||||||
 make_pp_check|function|c79fbb38cad10d76|||||||||||||||
 make_rhat_plot|function|ff9978352d799ec0|||||||||||||||
 make_trace_plot|function|accba148807567de|||||||||||||||
-muscle_action_model_lnRR|stem|5fc9165289a2e297|2d9cea0a0a26b44e|aa99ab80a86ba1ad|1453266400||t19969.5957757952s|6aec5d8598f0707b|214469546|qs|local|vector|||148.015||
-muscle_action_model_plot_preds_lnRR|stem|853db480ad52387b|258a8a3ddee501a3|f2e23dc92dba054c|104402174||t19969.6140664838s|b58e3af721d5d78c|236814722|qs|local|vector|||11.578||
-muscle_action_model_plot_preds_lnRR_tiff|stem|90499f4a123eb2d3|4dc3046b5ad8ae1e|11724647f85b94e3|-987414610||t19969.6547102543s|2b07dbd8c37abf3d|86|qs|local|vector|||0.516||
-muscle_action_model_plot_preds_SMD|stem|db35feeac7614847|69984bef62c5e302|866aec76f914935c|1209164470||t19969.6466099217s|8e0aee61f4093ef5|236653756|qs|local|vector|||10.328||
-muscle_action_model_plot_preds_SMD_tiff|stem|c5394f9b714d3471|0836b08e9f7168a8|519d20cc59552cb6|1345099198||t19969.6547341766s|afe1c0564fcfafab|85|qs|local|vector|||0.375||
-muscle_action_model_SMD|stem|33cc48e167cd6198|6c2a51317ef86137|3d57913f97115d19|-717538828||t19969.6061907775s|18360297c340e223|214405669|qs|local|vector|||118.64||
-muscle_model_lnRR|stem|7818da9bcd22b91c|62a5f87434f9dd78|b64eef7f96bd53d7|-307784724||t19969.5908688453s|26cbbc80d1d9f3da|225547055|qs|local|vector|||222.094|There were 1 divergent transitions after warmup. Seehttpsmcstan.orgmiscwarnings.htmldivergenttransitionsafterwarmupto find out why this is a problem and how to eliminate them.. Examine the pairs plot to diagnose sampling problems|
-muscle_model_plot_preds_lnRR|stem|a79f0519cc28ee6f|88f3370061747a5d|1fb4471e4cb5c9a5|-822304224||t19969.6120968484s|da32835149cfb57e|281170484|qs|local|vector|||26.703||
-muscle_model_plot_preds_lnRR_tiff|stem|9a2b0d4e6136308c|64245872de9df0c5|a09ea36c329becf7|-1802585237||t19969.6499768959s|abfed6147cb58a5b|79|qs|local|vector|||0.906||
-muscle_model_plot_preds_SMD|stem|ccac246b7fb541ac|b830a105256d7ebb|658a92250284161a|607286438||t19969.6498578877s|efb7f52d6d000a9b|280896824|qs|local|vector|||25.14||
-muscle_model_plot_preds_SMD_tiff|stem|eca90fa6cf93d402|5d0e88c780689301|edafa6a5b20846c8|-505505410||t19969.6526528413s|d22c29dc585b97b0|78|qs|local|vector|||0.672||
-muscle_model_SMD|stem|a34746c5610409f6|98eb33841c7dee49|f2d2978252f8acdf|487719557||t19969.6110157795s|98c4f8b839d0bc0e|225575384|qs|local|vector|||149.312||
-plot_BF_model_comparisons|function|7a08c9981b348a4e|||||||||||||||
+muscle_action_model_lnRR|stem|54cb05ab3a542128|2b3f7da4f61dae6c|55fb3a2098daede3|1453266400||t19974.7515935923s|58fd8378542cdf84|1110423673|qs|local|vector|||545.469||
+muscle_action_model_plot_preds_lnRR|stem|dc5acbd5b62b78e8|258a8a3ddee501a3|c4823743138030ad|104402174||t19974.8068188711s|7fe71ef49904985b|1256555535|qs|local|vector|||71.156||
+muscle_action_model_plot_preds_lnRR_tiff|stem|90499f4a123eb2d3|4dc3046b5ad8ae1e|42fe0ed04b6d2a11|-987414610||t19974.8329802242s|2b07dbd8c37abf3d|86|qs|local|vector|||0.5||
+muscle_action_model_plot_preds_SMD|stem|bc707970cf44f1c6|69984bef62c5e302|626909dd44cfb32c|1209164470||t19974.8173034839s|94e480a7d5786130|1255870746|qs|local|vector|||60.797||
+muscle_action_model_plot_preds_SMD_tiff|stem|c5394f9b714d3471|0836b08e9f7168a8|0b7801df5f4b0e9b|1345099198||t19974.8391892804s|afe1c0564fcfafab|85|qs|local|vector|||0.937||
+muscle_action_model_SMD|stem|93edb258d05efeb2|86b9e634aa20c043|2f84d8298fb290aa|-717538828||t19974.7682730678s|57b5ad460adad67e|1110465421|qs|local|vector|||425.11||
+muscle_model_lnRR|stem|7f9ea3d6cf5e1dcd|fb5880caff54a7f3|583693db9120c4a6|-307784724||t19974.7232259204s|9cfa2a395a491337|1168784593|qs|local|vector|||954.093|There were 6 divergent transitions after warmup. Seehttpsmcstan.orgmiscwarnings.htmldivergenttransitionsafterwarmupto find out why this is a problem and how to eliminate them.. There were 315 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. Seehttpsmcstan.orgmiscwarnings.htmlmaximumtreedepthexceeded. Examine the pairs plot to diagnose sampling problems|
+muscle_model_plot_preds_lnRR|stem|78863a9263548fc7|88f3370061747a5d|ebddeb3b068f4891|-822304224||t19974.7890023482s|6168b71be03737f2|1536388208|qs|local|vector|||164.89|Using size aesthetic for lines was deprecated in ggplot2 3.4.0.ℹ Please use linewidth instead.|
+muscle_model_plot_preds_lnRR_tiff|stem|9a2b0d4e6136308c|64245872de9df0c5|de0ead25b260b178|-1802585237||t19974.8316130059s|abfed6147cb58a5b|79|qs|local|vector|||1.172||
+muscle_model_plot_preds_SMD|stem|5551383d4b32d540|b830a105256d7ebb|0828faaff5f4137f|607286438||t19974.8142532345s|07c7c1c6a3dec289|1532989547|qs|local|vector|||151.844||
+muscle_model_plot_preds_SMD_tiff|stem|eca90fa6cf93d402|5d0e88c780689301|dcc1c3834c5480c9|-505505410||t19974.8388541495s|d22c29dc585b97b0|78|qs|local|vector|||1.375||
+muscle_model_SMD|stem|332d93f767901666|8f3eb6199aacc1fb|dd10e3b1943c480a|487719557||t19974.7632927444s|62cbd02a10079f21|1167798825|qs|local|vector|||565.672||
+plot_BF_model_comparisons|function|3c91e927c5e39d22|||||||||||||||
 plot_main_model|function|a224f655761dc868|||||||||||||||
 plot_main_model_preds|function|23f937e56d24dc49|||||||||||||||
 plot_main_model_preds_lnRR|function|18318b5ad9f83fe3|||||||||||||||
@@ -136,124 +112,150 @@ plot_muscle_model_preds_SMD|function|6f255ee49df1b7f9|||||||||||||||
 plot_upper_lower_model_preds|function|c8986e33c589acc6|||||||||||||||
 plot_upper_lower_model_preds_lnRR|function|008893a4f27497cd|||||||||||||||
 plot_upper_lower_model_preds_SMD|function|1463b122c0c464f7|||||||||||||||
-pp_check_DV_BS_PM_priors_model_lnRR|stem|0f38d91c1bab8237|f6439144728d8973|15b58e30e2193175|-1929082478||t19969.6819287746s|7fee38d148e3c0da|170990|qs|local|vector|||0.734||
-pp_check_DV_BS_PM_priors_model_SMD|stem|96f827b9ea6caa14|e31d9e3dbe5e1ae0|b08536f49c40be70|-148554509||t19969.6829212799s|851ce2cb44d4036f|171132|qs|local|vector|||0.75||
-pp_check_DV_BS_priors_model_lnRR|stem|af40b683b27ec1d7|70d1164f6b9ddbf4|d8bdae28ffd1069b|1277559574||t19969.6124254414s|fd3e40498b8e673d|171000|qs|local|vector|||0.797||
-pp_check_DV_BS_priors_model_SMD|stem|fb9a9d8bc683174a|67909086b9450cc8|a108de6203a071cf|2026839739||t19969.6457660587s|0072edca320cb441|171105|qs|local|vector|||0.797||
-pp_check_main_model|stem|929445bc0ab4b8c8|87552a942211bf7d|89c29c7807eebbf8|1452863604||t19966.510058528s|d0e121bf2857fe45|171315|qs|local|vector|||0.578||
-pp_check_main_model_lnRR|stem|b18f1fb3633feffc|93ffb24be849aa33|7858afef148e6bc5|904625374||t19969.6131626813s|7b47b050f88e8a7e|171107|qs|local|vector|||0.625||
-pp_check_main_model_r_slopes|stem|44d6f674065271de|3a1965398fbfbef7|b2879970e4e6e303|-693983566||t19966.5106298625s|e85f06b6cc4a1bdb|170993|qs|local|vector|||0.657||
-pp_check_main_model_r_slopes_lnRR|stem|aee0c084746af8b0|9ea0b42ef6e7d4cb|cf2b2916fe7fb2e3|-486020278||t19969.6115794557s|1d456a66af1804f7|179106|qs|local|vector|||0.812||
-pp_check_main_model_r_slopes_SMD|stem|fb7b81bb5c4f7d81|505fc91ae9b780e2|836cf4f87ec5ed5f|-318306431||t19969.6473378097s|0aa368cec67f9b13|171054|qs|local|vector|||0.734||
-pp_check_main_model_SMD|stem|06eb8de0216c3d83|cc0f4fc9f98a1b5e|7fafc73a6313e4ca|-1794979358||t19969.6466350921s|efcd5b0b9230ed80|171244|qs|local|vector|||1.188||
-pp_check_muscle_action_model_lnRR|stem|304b180cd61cc698|fa0764a9ae44a61d|12d3e46e3f3bfe08|721104144||t19969.6140869665s|2221b30bce9cd1ff|171043|qs|local|vector|||0.797||
-pp_check_muscle_action_model_SMD|stem|2d7bf4547d8824de|2189fc8afb130884|9b3ab0fa35672b74|1762859303||t19969.6462630944s|2545b547cf41a08b|171022|qs|local|vector|||0.875||
-pp_check_muscle_model_lnRR|stem|2da76e39f39dc2f1|faac70862456de87|727915c18b16b8e9|-813772476||t19969.6121174171s|4a94d7ced7fb8e4b|170994|qs|local|vector|||0.766||
-pp_check_muscle_model_SMD|stem|6f9d8049d4f7401b|25ab0bccb94f3c7d|ef0324ec12f6d319|1861930915||t19969.6480775127s|dba76794ec098611|171131|qs|local|vector|||0.813||
-pp_check_steele_priors_model|stem|8a60684873cc810c|c328b6d59203a70c|c74a33c2b05631aa|1938557584||t19966.5092269068s|4b40e6d9294adf4d|180078|qs|local|vector|||0.735||
-pp_check_steele_priors_model_lnRR|stem|b294dad7db8eb3d2|988370c3ee6551b8|73eecb00dbba98c7|1389989468||t19969.6142658106s|f07cfe9add356f4e|171097|qs|local|vector|||0.734||
-pp_check_steele_priors_model_SMD|stem|732582f63acded6d|2850dc3c96fe1a58|09fb5a67d5e929a8|-915501021||t19969.6450389749s|20c299b603b430e9|171443|qs|local|vector|||0.782||
-pp_check_upper_lower_model_lnRR|stem|56edecae5330fbde|41450a3a1c86b062|7ea4e284e455da62|473946362||t19969.6441986471s|6a0119d2923743e1|179041|qs|local|vector|||0.797||
-pp_check_upper_lower_model_SMD|stem|4b55aeeb22e3250d|73d8b7d14db1c3bc|11f98491f6904b06|1678431546||t19969.6445230078s|df89f9664c16db47|171147|qs|local|vector|||0.828||
+pp_check_authors_priors_model_lnRR|stem|7e340123037a3aad|827fcc6c179f7078|617c9b3811842740|1578051120||t19974.7010830126s|2cf81cfdd3117042|179277|qs|local|vector|||1.937||
+pp_check_authors_priors_model_SMD|stem|a70a700e531e19f0|27bdfebf6d9d15fe|123cbd2b38c93e14|1603081707||t19974.7106337304s|76a3e20f2939eee5|179153|qs|local|vector|||1.938||
+pp_check_muscle_action_model_lnRR|stem|aef6f572b73e1469|fa0764a9ae44a61d|5478cb55ad73dcd6|721104144||t19974.8068990445s|74811553d2b7c075|171052|qs|local|vector|||1.937||
+pp_check_muscle_action_model_SMD|stem|9685bc4071f528ec|2189fc8afb130884|50814f448a949893|1762859303||t19974.8160642795s|903ee19048da0d61|171104|qs|local|vector|||2.219||
+pp_check_muscle_model_lnRR|stem|4954192aa55ad99d|faac70862456de87|bfd9e379fe6368c9|-813772476||t19974.7890769149s|1204ed51f4eb0a19|179069|qs|local|vector|||1.938||
+pp_check_muscle_model_SMD|stem|8f93cdce80a92686|25ab0bccb94f3c7d|f624570c8c238f97|1861930915||t19974.8123128357s|6453ebf452368cfd|171047|qs|local|vector|||2.031||
+pp_check_steele_priors_model_lnRR|stem|91898787db8f3fa1|988370c3ee6551b8|a37f2bcaeec4475c|1389989468||t19970.6791572353s|e17524d0da0bedb1|171038|qs|local|vector|||2.344||
+pp_check_steele_priors_model_SMD|stem|7972f2187b02fed8|2850dc3c96fe1a58|acc3a86a11a8a13a|-915501021||t19970.690875645s|f4add5296f1869ea|171365|qs|local|vector|||1.953||
+pp_check_uninformed_model_lnRR|stem|89adc4933ae4739f|2bc587eb7a6cb701|f2d964c141de696b|-1769119037||t19974.695971241s|3cd562365c2f5bf0|179017|qs|local|vector|||1.765||
+pp_check_uninformed_model_SMD|stem|76e4d6f80a7db5de|782327573e0f79eb|7c5568aa6c26c798|46189650||t19974.7075157048s|6091d7f1ab0b208d|171008|qs|local|vector|||1.672||
+pp_check_upper_lower_model_lnRR|stem|f93775f412e660cc|41450a3a1c86b062|b2a4fbc7f8fff632|473946362||t19974.7922593898s|6a8c401e6b3d16a0|170977|qs|local|vector|||2.016||
+pp_check_upper_lower_model_SMD|stem|6c3ced6848ee0636|73d8b7d14db1c3bc|b5a208ae5f0bc1ae|1678431546||t19974.8291399391s|2b59f71cbe78baad|171067|qs|local|vector|||2.484||
+pp_check_wolf_priors_model_lnRR|stem|5a3eeac8c912719c|2639401d2487536b|d96ee11537d99064|-15445812||t19974.8048155629s|f26e73c5a6c74c9b|171004|qs|local|vector|||2.062||
+pp_check_wolf_priors_model_slopes_lnRR|stem|ef9b3d1d4e2aff79|6d1be24a44ca25f2|a56246cbf3d0f217|993415807||t19974.7952468803s|19cbc5d89ea4affb|171062|qs|local|vector|||2.141||
+pp_check_wolf_priors_model_slopes_SMD|stem|8f811e4579dff6db|e6480418f4e0193f|56b36bdb96edb9a2|1469018061||t19974.826483073s|6e9c79164d83da7d|171036|qs|local|vector|||3||
+pp_check_wolf_priors_model_SMD|stem|3247f5ee85336f2f|55664b328a76d39e|562b9661d51a6478|2001265265||t19974.8102232692s|2545b547cf41a08b|171022|qs|local|vector|||2.078||
 read_prepare_data|function|9de90fe846cd4cde|||||||||||||||
 read_prepare_data_lnRR|function|ab09d380e015a44f|||||||||||||||
 read_prepare_data_SMD|function|9de90fe846cd4cde|||||||||||||||
-rhat_DV_BS_PM_priors_model_lnRR|stem|b58d639745cd7825|0e313ecc2e15c8e1|63df50369cc6a782|-1013471733||t19969.681595638s|5ebdb75a35dbab32|235590237|qs|local|vector|||7.969|Dropped 5 NAs from new_rhatrhat.|
-rhat_DV_BS_PM_priors_model_SMD|stem|b6f23594f70aa41b|e3b44b6990606283|e73d5c3a0ca37f06|-1100522078||t19969.6832678875s|9b1e79ce76ce8907|235404664|qs|local|vector|||8.89|Dropped 5 NAs from new_rhatrhat.|
-rhat_DV_BS_priors_model_lnRR|stem|ab80ba119b4bc8a8|a16f5d3d6e105dda|b5017803296761f9|1286076685||t19969.6125429305s|f48b0d36e32ca9ef|235647408|qs|local|vector|||8.594|Dropped 5 NAs from new_rhatrhat.|
-rhat_DV_BS_priors_model_SMD|stem|cdb10e2709723dc1|ab4b6e0efcef3c81|fc96941b217114d0|606294854||t19969.6458939193s|5eeac8575e6c2ff9|235492202|qs|local|vector|||8.641|Dropped 5 NAs from new_rhatrhat.|
-rhat_main_model|stem|32a9c86a80a3e37d|212f07daa9c761c7|c0a5a76a23f9a941|-1168839758||t19966.5100084388s|fd25c583c0c1f2f9|107560509|qs|local|vector|||3.64|Dropped 1 NAs from new_rhatrhat.|
-rhat_main_model_lnRR|stem|113dd4cfaa02ac4e|f0d7e08c7df162d7|d348c22d2b7c904a|1149163834||t19969.6132600352s|a111fd6826d16ab2|209086800|qs|local|vector|||6.625|Dropped 1 NAs from new_rhatrhat.|
-rhat_main_model_r_slopes|stem|65d18be920a34d83|a0fa984da6ce43d3|4ed8c1bd89f6be3e|-1231365543||t19966.5106896164s|a9fd973ab01abad3|121093985|qs|local|vector|||3.984|Dropped 1 NAs from new_rhatrhat.|
-rhat_main_model_r_slopes_lnRR|stem|97115da24f5a6791|30731a60da715035|fbe3ba98b3800367|384136140||t19969.6116855316s|7bcd2c6687551e5c|235970743|qs|local|vector|||7.5|Dropped 5 NAs from new_rhatrhat.|
-rhat_main_model_r_slopes_SMD|stem|10252f4b08ba504e|2ec84245dfaebc95|8fc0ac05fc46b793|2133458113||t19969.6474581105s|7606a86ed18ee56d|235960454|qs|local|vector|||8.188|Dropped 5 NAs from new_rhatrhat.|
-rhat_main_model_SMD|stem|f5b6ff261901716c|fc542337bdf06294|719776602bee5c6a|700840736||t19969.6467401797s|2493a1f908263317|209021991|qs|local|vector|||7.046|Dropped 1 NAs from new_rhatrhat.|
-rhat_muscle_action_model_lnRR|stem|1019f1c56cd04090|3f6749da52090f4f|04e1c3d42d17c75c|293329773||t19969.6141852263s|c4af00bf0cd4e513|214686837|qs|local|vector|||6.781|Dropped 1 NAs from new_rhatrhat.|
-rhat_muscle_action_model_SMD|stem|b46c37263064fa52|fd4f169d544dbc5e|b72d9c3b9ff67cd4|807474125||t19969.6463687487s|c077d410709eb646|214632075|qs|local|vector|||7.156|Dropped 1 NAs from new_rhatrhat.|
-rhat_muscle_model_lnRR|stem|1a6f2050348f6e67|ec17755da4cdd7b4|e9a1a14126faaa8b|1998395264||t19969.6122201433s|14341028d8711752|225759942|qs|local|vector|||7.234|Dropped 1 NAs from new_rhatrhat.|
-rhat_muscle_model_SMD|stem|810fba9dc875d54d|ab57c6f84b475b25|169b9dde6e5ab577|-379154742||t19969.648192363s|892375528387d8e1|225810688|qs|local|vector|||7.547|Dropped 1 NAs from new_rhatrhat.|
-rhat_steele_priors_model|stem|d0159bd1020eecdb|697c18c7ddb0e750|420ce8567693a617|1004110136||t19966.5089406866s|80587cc0ce13b472|120638468|qs|local|vector|||5|Dropped 1 NAs from new_rhatrhat.|
-rhat_steele_priors_model_lnRR|stem|c771a6ffde750098|44a889d910a9f692|8c336ea119ced649|1174381363||t19969.614378437s|628a073aaa568515|235735204|qs|local|vector|||8.031|Dropped 5 NAs from new_rhatrhat.|
-rhat_steele_priors_model_SMD|stem|586a86d1d6e7fe89|6b95dd5ed52e4f29|c9366d42990443ed|-1885578176||t19969.645150877s|3fbabe49fa35cc50|235503106|qs|local|vector|||7.609|Dropped 5 NAs from new_rhatrhat.|
-rhat_upper_lower_model_lnRR|stem|aa30c93be17ce88c|238d1dbb6a4ddb89|806f2521ba99ea5a|1782836609||t19969.6443047743s|21ffdd585dee9b92|211003557|qs|local|vector|||6.594|Dropped 1 NAs from new_rhatrhat.|
-rhat_upper_lower_model_SMD|stem|9d13538e473221fa|3c9090bab9b3f1ed|b227ce76875ae9c2|-58546130||t19969.6446233145s|999a8c8934faefe8|210883818|qs|local|vector|||6.781|Dropped 1 NAs from new_rhatrhat.|
+read_prepare_wolf_data_lnRR|function|41f9284b7993ac5c|||||||||||||||
+read_prepare_wolf_data_SMD|function|bb5dc8d10bb71e4c|||||||||||||||
+rhat_authors_priors_model_lnRR|stem|459cdf7e6a46a052|27277f062df61eb5|4bdc5aebef538803|752411406||t19974.7017982896s|ef9a017abea9a9cb|1221903974|qs|local|vector|||55.906|Dropped 5 NAs from new_rhatrhat.|
+rhat_authors_priors_model_SMD|stem|76c7f872ba9f2f2f|d341fe4769434de1|45091992619d165b|-791197320||t19974.7105641906s|6c63bc545b175b77|1220658404|qs|local|vector|||55.437|Dropped 5 NAs from new_rhatrhat.|
+rhat_muscle_action_model_lnRR|stem|1f48c92907174c17|3f6749da52090f4f|b9540f264fac5cce|293329773||t19974.8077518797s|232b56e07de6ef8a|1110627094|qs|local|vector|||62.657|Dropped 1 NAs from new_rhatrhat.|
+rhat_muscle_action_model_SMD|stem|d8f1b88d1ed47811|fd4f169d544dbc5e|b021ead9ae9460bf|807474125||t19974.8181232628s|0d0d05739fe2c24c|1110670819|qs|local|vector|||62.937|Dropped 1 NAs from new_rhatrhat.|
+rhat_muscle_model_lnRR|stem|1dad7f1dda7990b0|ec17755da4cdd7b4|bef4ed45219b21cc|1998395264||t19974.789827647s|6eaf3951a3f00704|1169019599|qs|local|vector|||57.89|Dropped 1 NAs from new_rhatrhat.|
+rhat_muscle_model_SMD|stem|6b53e7830043a318|ab57c6f84b475b25|33f9829ebff6fd22|-379154742||t19974.8151988342s|7c071211a881b38d|1167907686|qs|local|vector|||64.047|Dropped 1 NAs from new_rhatrhat.|
+rhat_steele_priors_model_lnRR|stem|2d63e37d6b7ef936|44a889d910a9f692|a50ab45638758c62|1174381363||t19970.6800543335s|be3ceec3cf6d4995|1222122614|qs|local|vector|||68.875|Dropped 5 NAs from new_rhatrhat.|
+rhat_steele_priors_model_SMD|stem|9ad29ccbe605a1f1|6b95dd5ed52e4f29|2270e0f48482495f|-1885578176||t19970.6918143481s|1c665b5f7dbd80d3|1220735216|qs|local|vector|||71.672|Dropped 5 NAs from new_rhatrhat.|
+rhat_uninformed_model_lnRR|stem|0cc0daa0021dd510|bdea3e376656aa86|d014cb11803ac00d|-1721769378||t19974.6966041632s|2a7bdb2631edaac8|1083842646|qs|local|vector|||48.765|Dropped 1 NAs from new_rhatrhat.|
+rhat_uninformed_model_SMD|stem|b77e5719e6064000|f706a3ba690ef0e5|b7271972c5e41f99|699381856||t19974.7074608696s|8e5701f596e3103c|1083215201|qs|local|vector|||51.766|Dropped 1 NAs from new_rhatrhat.|
+rhat_upper_lower_model_lnRR|stem|c70abe019f7be062|238d1dbb6a4ddb89|254da1afad5a2c4c|1782836609||t19974.7919438676s|a114549185fa8bef|1091452311|qs|local|vector|||57.734|Dropped 1 NAs from new_rhatrhat.|
+rhat_upper_lower_model_SMD|stem|1f993e4fca77b5fd|3c9090bab9b3f1ed|ff49223a1b6aca0f|-58546130||t19974.8300247873s|5cb2e9c281c92599|1090558536|qs|local|vector|||66.735|Dropped 1 NAs from new_rhatrhat.|
+rhat_wolf_priors_model_lnRR|stem|402186199f2c67cc|e51584f76bd63066|6cdc564e46002273|-662540950||t19974.8056285327s|4f5aa62d3882004e|1081396373|qs|local|vector|||59.766|Dropped 1 NAs from new_rhatrhat.|
+rhat_wolf_priors_model_slopes_lnRR|stem|ccbc588fe7b4e1ee|52da973a19c3f558|885b23bd55a26fff|1981782427||t19974.7951637973s|d8929dc295d4c925|1221457575|qs|local|vector|||64.14|Dropped 5 NAs from new_rhatrhat.|
+rhat_wolf_priors_model_slopes_SMD|stem|50dbdd2a51203936|ff5282b1fbfc3f2d|8d40cfd908d6e9a9|600769710||t19974.8245078531s|ca4be6de03e075f2|1220583050|qs|local|vector|||73.625|Dropped 5 NAs from new_rhatrhat.|
+rhat_wolf_priors_model_SMD|stem|c9f81efda47e25e4|d04b63d26e4a54e6|337cfbacd78018e2|509914242||t19974.811000991s|eb6b430c2bc09846|1080734816|qs|local|vector|||59.218|Dropped 1 NAs from new_rhatrhat.|
 rstan|stem|da8966a62ca4e37b|066d3b705f07972a|845e01c6828f73f0|1919994806||t19961.4649162826s|a1d6ca5c0c2596ab|56|qs|local|vector|||4.468||
 rstan_setup|function|d82cad57281e544d|||||||||||||||
 sample_and_plot_priors|function|3695a33d37842fed|||||||||||||||
-sample_and_plot_priors_lnRR|function|2d177a9c9e5d8a27|||||||||||||||
-sample_and_plot_priors_SMD|function|ba2e6b78458117cc|||||||||||||||
+sample_and_plot_priors_lnRR|function|40f3f0fe83b45d96|||||||||||||||
+sample_and_plot_priors_SMD|function|40f3f0fe83b45d96|||||||||||||||
+set_authors_priors_lnRR|function|c96a1652fb4ec108|||||||||||||||
+set_authors_priors_SMD|function|4cf48f740338dd32|||||||||||||||
 set_DV_BS_PM_priors_lnRR|function|c96a1652fb4ec108|||||||||||||||
 set_DV_BS_PM_priors_SMD|function|4cf48f740338dd32|||||||||||||||
 set_DV_BS_priors_lnRR|function|c96a1652fb4ec108|||||||||||||||
 set_DV_BS_priors_SMD|function|4cf48f740338dd32|||||||||||||||
+set_informed_priors_lnRR|function|c96a1652fb4ec108|||||||||||||||
+set_informed_priors_SMD|function|4cf48f740338dd32|||||||||||||||
 set_steele_priors|function|ebda3a5870bf6449|||||||||||||||
 set_steele_priors_lnRR|function|d05e4e364c84f693|||||||||||||||
 set_steele_priors_SMD|function|23f2b07fe36fb7e2|||||||||||||||
-steele_priors|stem|094313998108627b|c0ceafc553842c49|f3af8fbb0ac4902b|1304794374||t19966.4842194104s|1945721079faa963|281|qs|local|vector|||4.938||
+set_wolf_priors_lnRR|function|a189ba1c7799a044|||||||||||||||
+set_wolf_priors_SMD|function|3d3d726e0b8771a7|||||||||||||||
 steele_priors_lnRR|stem|777eb136d805ca1b|c91392d72e3b1807|b3b7def86f20cc5c|-171516681||t19967.9420248163s|123ce49f82eb3e1b|315|qs|local|vector|||0||
-steele_priors_model|stem|21a94c25aae80463|c7bffdb5c96df367|4f6b421d4636fc21|328866227||t19966.5048365359s|a4f469a7916fcd20|120431872|qs|local|vector|||145.906||
-steele_priors_model_lnRR|stem|d281cdb6f05e7a8d|922180f09a9949cc|a10ed11c88346bca|1528250599||t19969.5981453584s|0926317460f04116|235519714|qs|local|vector|||203.469||
-steele_priors_model_plot_lnRR_tiff|stem|48f04f8c16901bdd|8f6ef6bb3d36ed7a|ec13a1618d8b6e25|-2124099036||t19969.6528374922s|a057b906461a46f0|75|qs|local|vector|||0.797||
-steele_priors_model_plot_preds|stem|c3c81cff425fad0a|591591bd787aad08|46575d0a16267b78|941953250||t19966.5092091495s|1b2a7680bde2fc20|165333456|qs|local|vector|||21.609|Using size aesthetic for lines was deprecated in ggplot2 3.4.0.ℹ Please use linewidth instead.|
-steele_priors_model_plot_preds_lnRR|stem|8411a9b7e05986f4|ffb6343b6baf7dfd|8714c37d5805d1ca|595164557||t19969.6146736355s|0f01d06967df37d4|280528790|qs|local|vector|||23.157||
-steele_priors_model_plot_preds_SMD|stem|77d435c152d22fa4|b49542d30c1632d4|8b070f92aee58cbd|1398355122||t19969.645490515s|82ba4c09faf22044|280346906|qs|local|vector|||21.672||
-steele_priors_model_plot_slopes|stem|66581563089adb37|9d97613bd4cf9734|a4690c55b80cefec|661913580||t19966.5923510448s|1361b814884198fb|243309887|qs|local|vector|||18.063||
-steele_priors_model_plot_slopes_lnRR|stem|19edae4e3cadd1f0|1a45717042d3a55b|66df4a79b0cd4a7c|142100070||t19969.6149128599s|32a1fd0596e93003|238508412|qs|local|vector|||18.625||
-steele_priors_model_plot_slopes_SMD|stem|3bd283b10057cb5e|1b58b7429079a261|f28aac40cab67c72|-2056317098||t19969.6450138922s|de03f6556151dfd6|472852342|qs|local|vector|||18.734||
-steele_priors_model_plot_SMD_tiff|stem|138c81756ec02e28|6d5fb8019a2c1166|6dfeaec116f7cc88|-2009912975||t19969.6528849057s|4be831169559909a|74|qs|local|vector|||0.828||
-steele_priors_model_plot_tiff|stem|4f3b7c85c92be6a1|441aa9db094ff6c7|e26903b19f087482|-1366153580||t19966.5929465636s|bab37a9db0a801a3|69|qs|local|vector|||1.516||
-steele_priors_model_SMD|stem|2b61d640f061764c|1d7d6f3af5cff528|0143033ba4abb592|815657131||t19969.6031874375s|976c27317451916f|235281553|qs|local|vector|||175.031||
-steele_priors_only_model|stem|0f160bf3c7ffdf65|1085b82300541b93|0856d977d2bac8ac|612592421||t19966.5071499179s|6f4b204f37b182ef|122966258|qs|local|vector|||91.735||
-steele_priors_only_model_lnRR|stem|5a34c4f419d93178|e0133e5bf6474396|c29d64fe983648e8|261109150||t19967.9456576047s|00ecc9a7b7740d06|121034256|qs|local|vector|||90.36||
+steele_priors_model_diagnostic_plots|stem|99202cc555469c1d|0330559e5e6c3be2|34a7277d789380ce|819480816|plots/steele_priors_model_diagnostic_plots.pdf*plots/steele_priors_model_diagnostic_plots.qmd|t19975.3253370923s|e729e6e3e7fbd26d|17275666|file|local|vector|||85.687||
+steele_priors_model_lnRR|stem|ca5c1a9f3a6dcf04|922180f09a9949cc|5d1739ac22483abf|1528250599||t19970.6024523636s|4e2aad55f2220e2c|1221902056|qs|local|vector|||824.531||
+steele_priors_model_plot_lnRR_tiff|stem|48f04f8c16901bdd|8f6ef6bb3d36ed7a|4cf606f6ff4e95d5|-2124099036||t19974.8303376237s|a057b906461a46f0|75|qs|local|vector|||2.391||
+steele_priors_model_plot_preds_lnRR|stem|6a4d5df295ad70bc|ffb6343b6baf7dfd|1315804a414e61d5|595164557||t19974.6942033383s|c09dc5b142ab9607|1535127227|qs|local|vector|||139.484|Using size aesthetic for lines was deprecated in ggplot2 3.4.0.ℹ Please use linewidth instead.|
+steele_priors_model_plot_preds_SMD|stem|bf7236514babfeb3|b49542d30c1632d4|7d888de4c2a40547|1398355122||t19970.6938514161s|3d2ef66b5be6f74b|1532950678|qs|local|vector|||135.422||
+steele_priors_model_plot_slopes_lnRR|stem|46a90e90984b308a|1a45717042d3a55b|0a5c4c013137660e|142100070||t19970.6832651948s|c7e7968331bbe8c5|1239115887|qs|local|vector|||108.062||
+steele_priors_model_plot_slopes_SMD|stem|f08f0ec7ef8fd33b|1b58b7429079a261|5a99979c78d453ed|-2056317098||t19970.6907762112s|a313ef4d2821423d|2460170858|qs|local|vector|||101.922||
+steele_priors_model_plot_SMD_tiff|stem|138c81756ec02e28|6d5fb8019a2c1166|5d48ee90c75c61a7|-2009912975||t19970.7374197115s|4be831169559909a|74|qs|local|vector|||2.219||
+steele_priors_model_SMD|stem|60cbfcb68231d3ef|1d7d6f3af5cff528|ab7d935f448fd174|815657131||t19970.6309354527s|76904c4c5aa17005|1220536792|qs|local|vector|||663.516||
+steele_priors_only_model_lnRR|stem|5795a2d651dfff14|e0133e5bf6474396|c29d64fe983648e8|261109150||t19970.7447163103s|3eeadbd35703ddf8|121022947|qs|local|vector|||99.532||
 steele_priors_only_model_SMD|stem|f74657f59fc050b9|b26e554c002dfc69|9f91a1d56229d92f|-539710697||t19967.9466868484s|13285da7c86bd802|120727189|qs|local|vector|||87.985||
-steele_priors_plot|stem|c72effbb73b1dcdf|857d6ee275612760|2f0e2d7ee076c51b|-157036930||t19966.5100736953s|586c185665b9d506|125262466|qs|local|vector|||0.187||
-steele_priors_plot_lnRR|stem|be76365d4a664bd7|3d9290afe28dae3a|8ac6be28f0740a7f|1621667096||t19967.9500110589s|1bd29c965452c825|123316630|qs|local|vector|||0.188||
-steele_priors_plot_lnRR_tiff|stem|a07b9bf651326c98|b5696ac341a4e37b|ebd56ae8378e4dfe|1475070914||t19967.9509109426s|6dba06bb5782f84f|68|qs|local|vector|||0.594|Removed 44 rows containing missing values or values outside the scale rangestat_slabinterval.. Removed 38 rows containing missing values or values outside the scale rangestat_slabinterval.|
-steele_priors_plot_SMD|stem|e4b4320a41c8d40d|bddaebd1fbefe1be|a98c65c6c740c563|-1965261481||t19967.950029224s|1b0ad18f01c85f90|122971120|qs|local|vector|||0.234||
-steele_priors_plot_SMD_tiff|stem|2eff1a0b69f01fe0|152119781eed2d6a|f753d3205e9e1843|-1830799323||t19967.9509264509s|4d3508554cc2b0df|67|qs|local|vector|||0.594|Removed 20 rows containing missing values or values outside the scale rangestat_slabinterval.. Removed 218 rows containing missing values or values outside the scale rangestat_slabinterval.|
-steele_priors_plot_tiff|stem|b99908612ea758fe|1f02df5d8ac45962|adc2b47b7fc0de6c|952334179||t19966.5176245973s|a306d1d3a97c75cf|63|qs|local|vector|||1.204|Removed 1352 rows containing missing values or values outside the scale rangestat_slabinterval.. Removed 27 rows containing missing values or values outside the scale rangestat_slabinterval.|
+steele_priors_plot_lnRR|stem|5849dfc5e38de3e8|3d9290afe28dae3a|d9ded34fb65db8e2|1621667096||t19974.2586198256s|7b88474ba46f13a0|123300072|qs|local|vector|||0.25||
+steele_priors_plot_lnRR_tiff|stem|a07b9bf651326c98|b5696ac341a4e37b|fdf16f12b0a32d40|1475070914||t19974.2586911328s|6dba06bb5782f84f|68|qs|local|vector|||0.609||
+steele_priors_plot_SMD|stem|415ee25c614fe7dc|bddaebd1fbefe1be|3106c695db2fc679|-1965261481||t19974.2585621156s|6db0e6c8d5f73b3f|122975772|qs|local|vector|||1.046||
+steele_priors_plot_SMD_tiff|stem|2eff1a0b69f01fe0|152119781eed2d6a|d7ab94eaa922657d|-1830799323||t19974.2586494331s|4d3508554cc2b0df|67|qs|local|vector|||1.875||
 steele_priors_SMD|stem|df03c65f7531d855|3e20eaa065ac04cd|d62294dc638531dc|-692592645||t19967.9420219361s|e4e35ba89377bb93|326|qs|local|vector|||7.109||
-tidy_DV_BS_PM_priors_model_lnRR|stem|6ea13910311db5a3|0e1c2ace967a7e7c|e46b389208499af0|1202298856||t19969.6819112237s|fca8c75bc58a7799|830|qs|local|vector|||0.188|some parameter names contain underscores term naming may be unreliable|
-tidy_DV_BS_PM_priors_model_SMD|stem|c89f0d8b04a6cb69|71ecee725a8d4d0a|95b054858f48345e|-2092418432||t19969.6832824374s|2e113267a0140a4c|839|qs|local|vector|||0.172|some parameter names contain underscores term naming may be unreliable|
-tidy_DV_BS_priors_model_lnRR|stem|6ea13910311db5a3|16b7b35276bb1a21|df22303f1dd5755b|-1504731487||t19969.6131463795s|fca8c75bc58a7799|830|qs|local|vector|||0.172|some parameter names contain underscores term naming may be unreliable|
-tidy_DV_BS_priors_model_SMD|stem|c89f0d8b04a6cb69|d06623fc29789be6|e5fd10b9976d19d9|723534350||t19969.6462430387s|2e113267a0140a4c|839|qs|local|vector|||0.157|some parameter names contain underscores term naming may be unreliable|
-tidy_main_model|stem|56faea89f9d43ce0|451d9dedddd32c7e|bb764adc66cf088f|203638725||t19966.5094972456s|0b511ff9f117fb66|620|qs|local|vector|||0.14|some parameter names contain underscores term naming may be unreliable|
-tidy_main_model_lnRR|stem|cd0500cea38987cc|b4d2ee951a5e9ba4|0f066054d783bc67|982156629||t19969.6138177275s|22e1c2bd6edb2e06|613|qs|local|vector|||0.11|some parameter names contain underscores term naming may be unreliable|
-tidy_main_model_r_slopes|stem|cc1c3feb7d25dc0b|08db4e3ceb49cd11|76bfd9f3b44648c9|288992237||t19966.5105596374s|6b4bd529401bf2d8|844|qs|local|vector|||0.187|some parameter names contain underscores term naming may be unreliable|
-tidy_main_model_r_slopes_lnRR|stem|b55169f7b8067cb9|af350ab9da4170ce|9ac959299d6daf59|-181676744||t19969.611759723s|fca8c75bc58a7799|830|qs|local|vector|||0.172|some parameter names contain underscores term naming may be unreliable|
-tidy_main_model_r_slopes_SMD|stem|cc1c3feb7d25dc0b|f585eb68a7594f60|d9d0f7693a70a0a9|1564217904||t19969.6475350682s|6b4bd529401bf2d8|844|qs|local|vector|||0.172|some parameter names contain underscores term naming may be unreliable|
-tidy_main_model_SMD|stem|56faea89f9d43ce0|4e3d74765921982a|1d4555b7d44acd45|-108309939||t19969.6473182424s|0b511ff9f117fb66|620|qs|local|vector|||0.125|some parameter names contain underscores term naming may be unreliable|
-tidy_muscle_action_model_lnRR|stem|b1eb484c18d7fda3|532524d66a869f02|9972f56b20fb38f3|667427861||t19969.6139110934s|330f8dfde079eec1|1091|qs|local|vector|||0.344|some parameter names contain underscores term naming may be unreliable|
-tidy_muscle_action_model_SMD|stem|57a71a0f561a1151|e90d5b5cb3cbc491|78494d141d8c945b|1831296017||t19969.6464663369s|a67cde3029bafc7d|1112|qs|local|vector|||0.343|some parameter names contain underscores term naming may be unreliable|
-tidy_muscle_model_lnRR|stem|014a0a25253e90c6|ed2f2ab07e8120dd|981533cdfaaf6a9e|-2082119670||t19969.61240635s|4a587fbfcb1c6f16|1886|qs|local|vector|||0.75|some parameter names contain underscores term naming may be unreliable|
-tidy_muscle_model_SMD|stem|8ceeb17634e1914e|42066189e8fd87b6|31aab97751ce3164|-1470371489||t19969.6495203997s|d4adfd13a3a281e1|1901|qs|local|vector|||0.906|some parameter names contain underscores term naming may be unreliable|
-tidy_steele_priors_model|stem|69fac9cf579165bb|5cf19feb7bd9d04a|29be2d27c02ea89a|-1382266990||t19966.5088715031s|2e113267a0140a4c|839|qs|local|vector|||0.219|some parameter names contain underscores term naming may be unreliable|
-tidy_steele_priors_model_lnRR|stem|9e94faab5d41fdad|6a29ebbd1142b8ee|2f95869d96e44c7a|-2140407597||t19969.6149288351s|ce2957fcdafd0a3f|847|qs|local|vector|||0.172|some parameter names contain underscores term naming may be unreliable|
-tidy_steele_priors_model_SMD|stem|d9fada8cfd6c01d3|21500fa2bd12f30b|2eafe586ea1be48d|292357183||t19969.6455044612s|3048ba20aff44b78|842|qs|local|vector|||0.156|some parameter names contain underscores term naming may be unreliable|
-tidy_upper_lower_model_lnRR|stem|2ccbf03292628296|1803eb73e5905bee|df56aa3ed92be582|967768158||t19969.6444915872s|ffea6765275caf20|787|qs|local|vector|||0.234|some parameter names contain underscores term naming may be unreliable|
-tidy_upper_lower_model_SMD|stem|4a695e7f0484c510|344405087861cbdb|f87c14294827c5d5|1340013175||t19969.6445034745s|340fcdd08c153d07|793|qs|local|vector|||0.188|some parameter names contain underscores term naming may be unreliable|
-trace_plot_DV_BS_PM_priors_model_lnRR|stem|9bf9a9e47254e8f4|a66aa0702c5596f2|cc7230afa06f8a4b|1636132186||t19969.6818985654s|1f496ec9d343eaad|26998333|qs|local|vector|||3.953||
-trace_plot_DV_BS_PM_priors_model_SMD|stem|1406e56be7792edc|34866631c6ad8628|4626e6ad62e3b58a|-2105655614||t19969.6829003708s|8a0b26a9be2b43ad|26953270|qs|local|vector|||3.735||
-trace_plot_DV_BS_priors_model_lnRR|stem|6f7288585f40ad26|730630487071349d|1b1e7788a05889b6|-1247248634||t19969.6125992791s|fd4fa19cdcadd921|26997382|qs|local|vector|||3.609||
-trace_plot_DV_BS_priors_model_SMD|stem|0f033b10e05c8462|0081ec012223caa8|1bbc02a4de67373b|-1169926386||t19969.6459559482s|deb9de5f550418d8|26956998|qs|local|vector|||3.859||
-trace_plot_main_model|stem|e71daa0734222fb9|98e5a6671660d27e|74eab99782402016|-136053382||t19966.5100442033s|df7ac6e86f4d2d93|15905779|qs|local|vector|||2.203||
-trace_plot_main_model_lnRR|stem|d74cd34dc467cd68|f5628f82abad93f0|06c5189c49f6391a|-133293918||t19969.6132988683s|7946b470e4681c50|15904350|qs|local|vector|||2.203||
-trace_plot_main_model_r_slopes|stem|8c276d4e48ec0082|389fc14b542e9961|97faf8ff359a3090|-1309153496||t19966.5106132018s|22f1c6973e9d6629|27105782|qs|local|vector|||3.625||
-trace_plot_main_model_r_slopes_lnRR|stem|2d942508e53e596a|e8abcf48a1d23c48|f88a1185f6c09f5a|-683909417||t19969.6117483204s|8d70157a5ef855c3|27135621|qs|local|vector|||4.078||
-trace_plot_main_model_r_slopes_SMD|stem|8d81f185ad1c4f2e|0c65552d111d384a|7083844bc2634136|555350546||t19969.6475194124s|e2533cd3770a6292|27105575|qs|local|vector|||3.859||
-trace_plot_main_model_SMD|stem|ee608234cf137c39|2d50f61029b516b1|b1f4912cd4cbfec8|-26495440||t19969.6467822788s|9f0fe67ec5221552|15906365|qs|local|vector|||2.391||
-trace_plot_muscle_action_model_lnRR|stem|90c99bc638c406ef|62da4e561fea0898|41e8370ff0665bbc|767048454||t19969.6138953447s|3408ae76c7da5319|42784061|qs|local|vector|||5.485||
-trace_plot_muscle_action_model_SMD|stem|e3087866f818defb|dd0e5fe55b39345b|16d3cba04bab82f8|-1156633134||t19969.646449601s|a451a704ecb3e7ac|43154560|qs|local|vector|||5.547||
-trace_plot_muscle_model_lnRR|stem|32c60e2be9751f3c|adbdcd272ef995a2|07780c9665b98d88|-1058546939||t19969.6123856673s|89e0bc4057ca4fed|97342857|qs|local|vector|||12.312||
-trace_plot_muscle_model_SMD|stem|678a73150cb89f1c|b2d7e04322c428db|ec97948027efdff1|444790716||t19969.6483690269s|85016dab6b38f347|97777058|qs|local|vector|||12.937||
-trace_plot_steele_priors_model|stem|e9509b567e44f3f3|1cdca329eddcdc64|f5597a324ff01158|593859808||t19966.5092799667s|370eb253aa7c31a1|27042209|qs|local|vector|||3.609||
-trace_plot_steele_priors_model_lnRR|stem|86b9b66d7e394f3b|a588478a1a4635f7|6c8130c5439c9296|1635248512||t19969.6142447848s|61c27ebcfaf56f93|27162037|qs|local|vector|||3.75||
-trace_plot_steele_priors_model_SMD|stem|2ff7da717e9cb083|1e5e6c7dd20c659a|053954dfd4dbee98|1693224669||t19969.6452098481s|9094a5ab487c9e68|27051262|qs|local|vector|||3.687||
-trace_plot_upper_lower_model_lnRR|stem|45eb6d0e2d7ea369|5e8ccf237dbe0bee|408d0955ef0f3c89|-621679756||t19969.6443666452s|664e7a7dfbcb087c|24953612|qs|local|vector|||3.75||
-trace_plot_upper_lower_model_SMD|stem|f8920353cf984624|fa33276763f648cc|8a5850d9b958da06|1558070873||t19969.6446786126s|70c0f880c5a097b1|25051863|qs|local|vector|||3.469||
-upper_lower_model_lnRR|stem|0e9d95364c52eee3|bad5c460706af89c|cb2ba86175085e01|1744345176||t19969.5997999849s|1bf1f933a68ac7cd|210807766|qs|local|vector|||141.672||
-upper_lower_model_plot_preds_lnRR|stem|a804c7ed5c534618|63c222fc182f676e|d52785566f629ec2|-1234250261||t19969.6444771815s|75754fd36416ca5b|221860621|qs|local|vector|||7.578|Using size aesthetic for lines was deprecated in ggplot2 3.4.0.ℹ Please use linewidth instead.|
-upper_lower_model_plot_preds_lnRR_tiff|stem|834ab7c564688338|d47edbc6443c88fc|57717383643cdafc|-682254217||t19969.6502765587s|e5403c57657c131e|84|qs|local|vector|||0.282||
-upper_lower_model_plot_preds_SMD|stem|1161f7a18abd2282|6bb07ca272ddd8f4|69c258548ef4e2c8|565340070||t19969.6447657768s|146b67e25f453867|221642594|qs|local|vector|||5.515||
-upper_lower_model_plot_preds_SMD_tiff|stem|4eca4e9657926c7c|f18af2d216f8aab3|8ff832807230737f|-1947256659||t19969.6503049654s|988429bb6428792b|83|qs|local|vector|||0.25||
-upper_lower_model_SMD|stem|3f7eb8a8e064644b|794e47759ec6b18f|ed79519d818fe997|-1102020807||t19969.6011458756s|9418c38572ec59f7|210654832|qs|local|vector|||115||
+tidy_authors_priors_model_lnRR|stem|092e3ce43e1e176c|9472b27d38485cae|61c2519799e707e8|-1767000449||t19974.6980333885s|2e113267a0140a4c|839|qs|local|vector|||1.047|some parameter names contain underscores term naming may be unreliable|
+tidy_authors_priors_model_SMD|stem|9f555a4797f18d5c|48d922bbe02e01e7|6a6debebbd5918b8|-1240851087||t19974.7121149141s|2e113267a0140a4c|839|qs|local|vector|||1|some parameter names contain underscores term naming may be unreliable|
+tidy_muscle_action_model_lnRR|stem|84b0193a088bffcc|532524d66a869f02|e397e41fe9940de8|667427861||t19974.8082133002s|330f8dfde079eec1|1091|qs|local|vector|||2.25|some parameter names contain underscores term naming may be unreliable|
+tidy_muscle_action_model_SMD|stem|563bae9dc03a44a6|e90d5b5cb3cbc491|40839c84b1359dfd|1831296017||t19974.8161408819s|a67cde3029bafc7d|1112|qs|local|vector|||2.297|some parameter names contain underscores term naming may be unreliable|
+tidy_muscle_model_lnRR|stem|08deea013613188f|ed2f2ab07e8120dd|11a8ecef852f4cc5|-2082119670||t19974.7906711024s|4a587fbfcb1c6f16|1886|qs|local|vector|||4.954|some parameter names contain underscores term naming may be unreliable|
+tidy_muscle_model_SMD|stem|1f67d4c150b94011|42066189e8fd87b6|a067276d23f41f19|-1470371489||t19974.8143658625s|be82fb181cc99561|1899|qs|local|vector|||4.734|some parameter names contain underscores term naming may be unreliable|
+tidy_steele_priors_model_lnRR|stem|836088b6012e4fb8|6a29ebbd1142b8ee|de30b27e65c124e4|-2140407597||t19970.683350902s|ce2957fcdafd0a3f|847|qs|local|vector|||1.047|some parameter names contain underscores term naming may be unreliable|
+tidy_steele_priors_model_SMD|stem|e6abee0348b16a63|21500fa2bd12f30b|2033fd858a5b3154|292357183||t19970.6939210195s|3048ba20aff44b78|842|qs|local|vector|||1.032|some parameter names contain underscores term naming may be unreliable|
+tidy_uninformed_model_lnRR|stem|51135cdb67c4f5c7|8ff391810f869d23|d38662f30fefbcba|-286770441||t19974.6979962103s|22e1c2bd6edb2e06|613|qs|local|vector|||0.734|some parameter names contain underscores term naming may be unreliable|
+tidy_uninformed_model_SMD|stem|8bbe30982c75f45c|77e138047bc6c5ea|1df4a2c362b02535|-313139922||t19974.706650111s|0b511ff9f117fb66|620|qs|local|vector|||0.703|some parameter names contain underscores term naming may be unreliable|
+tidy_upper_lower_model_lnRR|stem|7b7efbadb4113d2a|1803eb73e5905bee|6ceb623b7b5c4989|967768158||t19974.7923140701s|ffea6765275caf20|787|qs|local|vector|||1.313|some parameter names contain underscores term naming may be unreliable|
+tidy_upper_lower_model_SMD|stem|926fe861316cf151|344405087861cbdb|546594044a90f3c0|1340013175||t19974.8300978706s|340fcdd08c153d07|793|qs|local|vector|||1.39|some parameter names contain underscores term naming may be unreliable|
+tidy_wolf_priors_model_lnRR|stem|0e2181d0a7af651d|a5c75d4de329a220|ae968860dae3f71a|491024240||t19974.8058872669s|22e1c2bd6edb2e06|613|qs|local|vector|||0.781|some parameter names contain underscores term naming may be unreliable|
+tidy_wolf_priors_model_slopes_lnRR|stem|e4e7263ac809a4c9|f826e494c1138af1|507106e218ab5961|-724559133||t19974.79664321s|fca8c75bc58a7799|830|qs|local|vector|||1.063|some parameter names contain underscores term naming may be unreliable|
+tidy_wolf_priors_model_slopes_SMD|stem|29ea08553ffddeb0|98a6fe5b2ab883c7|ea1ed3f0f98f0826|109446548||t19974.8282186304s|3048ba20aff44b78|842|qs|local|vector|||1.188|some parameter names contain underscores term naming may be unreliable|
+tidy_wolf_priors_model_SMD|stem|ba48123ecb72a8b1|b9ea757260c6efb1|64d013984608576e|-94492254||t19974.810165566s|0b511ff9f117fb66|620|qs|local|vector|||0.782|some parameter names contain underscores term naming may be unreliable|
+trace_plot_authors_priors_model_lnRR|stem|0cbc40cfae100698|87e1b226c20be0e0|f6613ff70e40007d|1081538986||t19974.7020336757s|f5f690a9f45f4258|177614292|qs|local|vector|||15.672||
+trace_plot_authors_priors_model_SMD|stem|7a2185a1cab3e9d1|4de8832233ad39b9|64c8478a5e3060bc|774757061||t19974.7108681734s|dd40600aba3d0d71|177432981|qs|local|vector|||16.047||
+trace_plot_main_model_lnRR|stem|41dbf902beb798ba|2c1519ba5405e682|1cfccf3dc8617729|-133293918||t19974.696765682s|0519688de30aae08|103800687|qs|local|vector|||10.11||
+trace_plot_main_model_SMD|stem|5a700fe32f433d2c|c0b31ae86c9d4994|a9d85d4a5ae45777|-26495440||t19974.7067956279s|809375a2715c187e|103852838|qs|local|vector|||9.656||
+trace_plot_muscle_action_model_lnRR|stem|faebe52e597fc8b7|62da4e561fea0898|9af8c8542aa124d3|767048454||t19974.8081268877s|a374da4e5b8453d8|282852586|qs|local|vector|||25.766||
+trace_plot_muscle_action_model_SMD|stem|373ea654589e596e|dd0e5fe55b39345b|91025a0b4498db05|-1156633134||t19974.8164854508s|84130d90da9aee35|285197028|qs|local|vector|||24.297||
+trace_plot_muscle_model_lnRR|stem|6e39fdb746318c3a|adbdcd272ef995a2|4f6deb97ca74dc13|-1058546939||t19974.7905674564s|b56a0e6b0a8c7319|645946183|qs|local|vector|||54.828||
+trace_plot_muscle_model_SMD|stem|0ffafedd8d32954a|b2d7e04322c428db|b0091f963d859519|444790716||t19974.8159895089s|1b01d6e391a1d026|648221097|qs|local|vector|||57.094||
+trace_plot_steele_priors_model_lnRR|stem|9f13da8af5103b68|a588478a1a4635f7|7bcc1fc13e6ac08b|1635248512||t19970.6790744747s|a010e44c6ab84c27|178665415|qs|local|vector|||22.781||
+trace_plot_steele_priors_model_SMD|stem|47788be7980c8e13|1e5e6c7dd20c659a|b14546ae255b04be|1693224669||t19970.6921311752s|4becbf52dc232a6b|178059597|qs|local|vector|||19.719||
+trace_plot_uninformed_model_lnRR|stem|911348af8204f032|2c1519ba5405e682|1cfccf3dc8617729|-1653082628||t19975.3402723658s|3c5bd022f0397870|103775813|qs|local|vector|||9.547||
+trace_plot_uninformed_model_SMD|stem|6293b2fa1f0d2d7b|c0b31ae86c9d4994|a9d85d4a5ae45777|1425591352||t19975.3401241181s|f7567fba969070f8|103828813|qs|local|vector|||9.75||
+trace_plot_upper_lower_model_lnRR|stem|456a93a2f67ffe38|5e8ccf237dbe0bee|28757f55406c39e4|-621679756||t19974.7921920753s|5a1521edc88529e5|163977734|qs|local|vector|||15.281||
+trace_plot_upper_lower_model_SMD|stem|28e0ed3e7a72f916|fa33276763f648cc|fe8525b04676159e|1558070873||t19974.8290348581s|f10cb83687ad87a7|164635545|qs|local|vector|||17.516||
+trace_plot_wolf_priors_model_lnRR|stem|a3e7a6b16e9e8613|590e3337cbe31cba|4894f46592ee0cd1|2084716800||t19974.8058156111s|60aaaaea1ebb7172|103799888|qs|local|vector|||10.016||
+trace_plot_wolf_priors_model_slopes_lnRR|stem|3680aaded8d2931d|5909f81a2d9473f7|2388edd06001a76d|2056524714||t19974.7925481689s|5deef6b2cebb68f2|178692282|qs|local|vector|||16.125||
+trace_plot_wolf_priors_model_slopes_SMD|stem|5711359681d7ca87|e6650595bfb34c0c|b357931da1210e4b|2033416273||t19974.8268346055s|0eb63a1061f9b742|178524953|qs|local|vector|||18.203||
+trace_plot_wolf_priors_model_SMD|stem|55df16b75e06e360|4f503248dc576b9c|bf3048753759573e|-951459389||t19974.8101009489s|679e38cf5dfd9889|103824050|qs|local|vector|||11.11||
+uninformed_model_diagnostic_plots|stem|fc9cbe383be1ebe6|f54bcb33cbffba42|014821c9a2566535|4428704|plots/uninformed_model_diagnostic_plots.pdf*plots/uninformed_model_diagnostic_plots.qmd|t19975.3410476973s|1458f68bad148bbc|10299995|file|local|vector|||61.578||
+uninformed_model_lnRR|stem|71f5a7e453b9e8fb|acdbc088f88eed20|e8ed9b40b5020015|-1240714078||t19974.673616277s|88ecbda4e93ba205|1083618470|qs|local|vector|||358.438||
+uninformed_model_plot_lnRR_tiff|stem|ce296e8248be5e77|3bee3341fb1fac9d|793114f883b691fd|-1062525474||t19974.8304990978s|3ed5ce5eeeea6e9a|72|qs|local|vector|||2.219||
+uninformed_model_plot_preds_lnRR|stem|933ac1d88ade13cd|15dffb5f5267c5b5|564b5f92264f1e08|-112999574||t19974.6959048904s|de7c8db95ba70149|1404117554|qs|local|vector|||136.781||
+uninformed_model_plot_preds_SMD|stem|56e334166bdbac74|79ff615e94362da3|d09cb2d63436942f|530580352||t19974.7054192485s|b33b0120e6bcf3fc|1402969540|qs|local|vector|||129.297||
+uninformed_model_plot_slopes_lnRR|stem|3c3d820cf5afd57a|f43e26d48eb1f7be|dd5d4c62511dd8c0|115960008||t19974.6979519897s|2ce5546d3d3a1c66|1101193640|qs|local|vector|||96.563||
+uninformed_model_plot_slopes_SMD|stem|e07e64b9e5cadb6f|7b61a7684becd2fe|09b245eab148fc86|390773832||t19974.7065859081s|426cdec3a2ad9938|2185527433|qs|local|vector|||91.391||
+uninformed_model_plot_SMD_tiff|stem|2fc2428f6a0ede20|68ad70462c952c2f|70400992e1a1e40a|328964944||t19974.8309431378s|580e0375f1117643|70|qs|local|vector|||1.938||
+uninformed_model_SMD|stem|780bb4835954fc78|955c77dc4f81a094|ef2ba74296653ec2|-262180606||t19974.6844168346s|0b6e323e0f973498|1082996752|qs|local|vector|||332.407||
+upper_lower_model_lnRR|stem|44c5c15eacea9ada|1d81c03c87d5cf42|e4f3e64d9e09ca2d|1744345176||t19974.7294939258s|3f8df8febbd96791|1091202953|qs|local|vector|||536.797||
+upper_lower_model_plot_preds_lnRR|stem|8411b61a0795b4d9|63c222fc182f676e|b6ddea8146764e85|-1234250261||t19974.7912015763s|63d54e2c660d6f51|1163344401|qs|local|vector|||38.563||
+upper_lower_model_plot_preds_lnRR_tiff|stem|834ab7c564688338|d47edbc6443c88fc|cec6765efdaaa059|-682254217||t19974.8318209394s|e5403c57657c131e|84|qs|local|vector|||0.656||
+upper_lower_model_plot_preds_SMD|stem|82479af3b936ec1d|6bb07ca272ddd8f4|2a13fe56a99001ac|565340070||t19974.8287371013s|3867617fe3b61dcc|1161966388|qs|local|vector|||33.719||
+upper_lower_model_plot_preds_SMD_tiff|stem|4eca4e9657926c7c|f18af2d216f8aab3|c85400b105a3082d|-1947256659||t19974.8401861694s|988429bb6428792b|83|qs|local|vector|||0.312||
+upper_lower_model_SMD|stem|fb6b2c0e48fd077f|7e35c457d3cd76aa|2ad4db60131fac09|-1102020807||t19974.7787484446s|b0cf7596d7b058b8|1090338712|qs|local|vector|||374.453||
+wolf_priors_lnRR|stem|75d0947b876f4bde|99aafc4403d49495|0405b37d092a1a29|-621790673||t19974.356938284s|1cc2a93401665b3a|515|qs|local|vector|||161.906|Rows containing NAs were excluded from the model.. There were 90 divergent transitions after warmup. Seehttpsmcstan.orgmiscwarnings.htmldivergenttransitionsafterwarmupto find out why this is a problem and how to eliminate them.. There were 22630 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. Seehttpsmcstan.orgmiscwarnings.htmlmaximumtreedepthexceeded. Examine the pairs plot to diagnose sampling problems. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced|
+wolf_priors_model_diagnostic_plots|stem|f6a589b0d6e91c1c|7be788a87c010669|22d3aaf917dfb1a6|614364955|plots/wolf_priors_model_diagnostic_plots.pdf*plots/wolf_priors_model_diagnostic_plots.qmd|t19975.3428760953s|34207c8eaf99dcd7|10337128|file|local|vector|||60.922||
+wolf_priors_model_lnRR|stem|a0da2799f55abff0|2bb0a0af75844f79|40de7c27ceb64435|-693071239||t19974.7452251284s|502ddd54a6474abb|1081200845|qs|local|vector|||524.031||
+wolf_priors_model_plot_lnRR_tiff|stem|411b277941eabedd|3eeb831eb3fdb746|67926d4723286c4c|931756129||t19974.8454189562s|e7b83425a991cb39|73|qs|local|vector|||1.922||
+wolf_priors_model_plot_preds_lnRR|stem|7cf605a2539db681|8bcc85514e633def|8bb8272f314680cb|1478309761||t19974.7983945867s|f6ff17862230696e|1401768602|qs|local|vector|||140.61||
+wolf_priors_model_plot_preds_SMD|stem|4770a0f10cddfaef|71d7907447a0b711|aeb22ea14d032185|-2145254633||t19974.8099053655s|c4f264a53532f310|1400564102|qs|local|vector|||134.187||
+wolf_priors_model_plot_slopes_lnRR|stem|89337addc59b6dbd|2dd7274c2f1adebd|f9f07b72b044e99b|807395168||t19974.7996784657s|d8e8db40f137dca1|1098764995|qs|local|vector|||102.157||
+wolf_priors_model_plot_slopes_SMD|stem|a1f9838c809a010d|4ae3dd83ccabfc06|a9179b16f0d4b5b2|-149340937||t19974.8122093062s|3c71960d58d8e805|2180521345|qs|local|vector|||92.984||
+wolf_priors_model_plot_SMD_tiff|stem|89e3eb54561fb329|ce2f8983bae571d7|6906107a917e47ca|1457325215||t19974.8457218869s|3ed5ce5eeeea6e9a|72|qs|local|vector|||1.922||
+wolf_priors_model_slopes_diagnostic_plots|stem|64ab1a38a18a4a05|56b535feef037790|3b89cd33b4be749c|1084350592|plots/wolf_priors_model_slopes_diagnostic_plots.pdf*plots/wolf_priors_model_slopes_diagnostic_plots.qmd|t19975.3421196948s|52fb824efa00eeee|17311301|file|local|vector|||86.781||
+wolf_priors_model_slopes_lnRR|stem|280b744652ab84cf|3085a5bba0101a6a|ed4165449bf7eaaf|-637271966||t19974.7391000721s|218aa01c238a341d|1221257668|qs|local|vector|||824.782||
+wolf_priors_model_slopes_plot_lnRR_tiff|stem|6b7920918bd68e68|806513cbc58529b0|df3d9355374ea4cb|-909209262||t19974.8452331441s|87bbe5f41aaaedf6|80|qs|local|vector|||2.11||
+wolf_priors_model_slopes_plot_preds_lnRR|stem|9e3c6f0d47fee71f|409be921d074d29a|c1b58540cbed5809|788406120||t19974.7943332941s|88eea3daaba77819|1542675059|qs|local|vector|||143.656||
+wolf_priors_model_slopes_plot_preds_SMD|stem|107787b96cc9377e|8158839660a177ed|a04d3a3a554836f4|-423066550||t19974.8263316592s|0aadfb93ee5eaa5b|1541599566|qs|local|vector|||133.484||
+wolf_priors_model_slopes_plot_slopes_lnRR|stem|25516394dfff8686|7a357c7ed7c9f6b8|86b868fec7b8639e|-612733937||t19974.7965838023s|ca64c35b95d42e64|1238858566|qs|local|vector|||106.796||
+wolf_priors_model_slopes_plot_slopes_SMD|stem|e46d948dcffad0c5|f4559bbd40aba38f|d32e172ea925d74c|-1668010998||t19974.8281178264s|9158ba3406c42feb|2460329695|qs|local|vector|||95.672||
+wolf_priors_model_slopes_plot_SMD_tiff|stem|c209536ec1591afa|d0b517c07e534aa9|415887d9cecbe2b9|-1336619176||t19974.8459907434s|abfed6147cb58a5b|79|qs|local|vector|||1.953|Removed 8 rows containing missing values or values outside the scale rangestat_slabinterval.|
+wolf_priors_model_slopes_SMD|stem|d5b3bf5d5e66f25b|3b04403a981443e0|dd060a48021cf7cc|37345636||t19974.7743496866s|266f9423351d2948|1220425614|qs|local|vector|||519.734||
+wolf_priors_model_SMD|stem|87d67740b580c10c|a86e17d204a6d87d|9a97f8055a252374|1005091633||t19974.7566845832s|b121008246dd2603|1080592633|qs|local|vector|||345.718||
+wolf_priors_only_model_lnRR|stem|9648ba4c50deff52|af231bc2e5b36eea|b5c6404280dd7133|1582289242||t19974.7526409983s|8baab89d47d38507|107194537|qs|local|vector|||87.125||
+wolf_priors_only_model_SMD|stem|c96832d0edb46795|cb6b7885b1b83fbf|30767f8a2a22c22f|-1472055985||t19974.7798563503s|86a9ad6caba6eaed|107280207|qs|local|vector|||92.343||
+wolf_priors_plot_lnRR|stem|2b051d7b68e790c1|d5827b4c093b491c|43254fd01b6c5b1b|1955787289||t19974.8082372791s|7d57bcd40e48543f|109459789|qs|local|vector|||0.25||
+wolf_priors_plot_lnRR_tiff|stem|bff806c17c85e03b|d9f327e13e32805e|d82ad6eb42941780|-1366138978||t19974.8381080083s|7b8a7f5d937ff9ae|66|qs|local|vector|||1.14||
+wolf_priors_plot_SMD|stem|92f577c1720f022e|de085a24085344f5|b0df357b55c6ba86|104113247||t19974.8301343285s|da3837357dca7af1|109566733|qs|local|vector|||0.266||
+wolf_priors_plot_SMD_tiff|stem|a75b757599711ea7|b3b5cf4664c9ecb0|c17d79e08a922a6a|1587768769||t19974.845051323s|eca7fdce75d9dbfb|65|qs|local|vector|||0.797||
+wolf_priors_SMD|stem|bb173f380964c3cd|90dd08165640556e|f35852ab0181dac5|1169943022||t19974.3550610966s|9a88baf1d8e34286|512|qs|local|vector|||105.609|Rows containing NAs were excluded from the model.. There were 91 divergent transitions after warmup. Seehttpsmcstan.orgmiscwarnings.htmldivergenttransitionsafterwarmupto find out why this is a problem and how to eliminate them.. Examine the pairs plot to diagnose sampling problems. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced|

@@ -101,6 +101,88 @@ read_prepare_data_lnRR <- function(file) {
   
 }
 
+read_prepare_wolf_data_SMD <- function(file) {
+  
+  data_wolf <- read.csv(here("data", "wolf_et_al_meta_data.csv"), na.strings=c(""," ","NA")) |>
+    # add assumed pre-post correlation
+    mutate(ri = 0.7)
+  
+  # Calculate standardised effects within arms for partial ROM groups
+  data_wolf <- escalc(
+    measure = "SMCRH",
+    m1i = PART_m_post,
+    m2i = PART_m_pre,
+    sd1i = PART_sd_post,
+    sd2i = PART_sd_pre,
+    ri = ri,
+    ni = PART_ni,
+    data = data_wolf
+  )
+  
+  # Remove studies included in current meta, centre muscle length (though assuming short vs long is diff of ~50%), filter to hypertrophy outcomes and recentre site
+  data_wolf<- data_wolf |>
+    mutate(muscle_length = case_when(
+      muscle_length == "short" ~ -0.5,
+      muscle_length == "long" ~ 0.5,
+      .default = NA
+    )) |>
+    filter(!is.na(muscle_length)) |>
+    filter(outcome_subcategory == "muscle_size") |>
+    filter(study_name != "McMahon et al. (2014)" & study_name != "Valamatos et al. (2018)" & study_name != "Pedrosa et al. (2021)") |>
+    mutate(site_centred = percent_distal-0.5) |>
+    rowid_to_column("effect")|>
+    rename(study_number = study,
+           arm_number = group,
+           effect_number = effect) |>
+    
+    # add study weights/sizes
+    mutate(
+      wi = 1/sqrt(vi),
+      size = 0.5 + 3.0 * (wi - min(wi, na.rm=TRUE))/(max(wi, na.rm=TRUE) - min(wi, na.rm=TRUE)))
+  
+}
+
+read_prepare_wolf_data_lnRR <- function(file) {
+  
+  data_wolf <- read.csv(here("data", "wolf_et_al_meta_data.csv"), na.strings=c(""," ","NA")) |>
+    # add assumed pre-post correlation
+    mutate(ri = 0.7)
+  
+  # Calculate standardised effects within arms for partial ROM groups
+  data_wolf <- escalc(
+    measure = "ROMC",
+    m1i = PART_m_post,
+    m2i = PART_m_pre,
+    sd1i = PART_sd_post,
+    sd2i = PART_sd_pre,
+    ri = ri,
+    ni = PART_ni,
+    data = data_wolf
+  )
+  
+  # Remove studies included in current meta, centre muscle length (though assuming short vs long is diff of ~50%), filter to hypertrophy outcomes and recentre site
+  data_wolf<- data_wolf |>
+    mutate(muscle_length = case_when(
+      muscle_length == "short" ~ -0.5,
+      muscle_length == "long" ~ 0.5,
+      .default = NA
+    )) |>
+    filter(!is.na(muscle_length)) |>
+    filter(outcome_subcategory == "muscle_size") |>
+    filter(study_name != "McMahon et al. (2014)" & study_name != "Valamatos et al. (2018)" & study_name != "Pedrosa et al. (2021)") |>
+    mutate(site_centred = percent_distal-0.5) |>
+    rowid_to_column("effect")|>
+    rename(study_number = study,
+           arm_number = group,
+           effect_number = effect) |>
+    
+    # add study weights/sizes
+    mutate(
+      wi = 1/sqrt(vi),
+      size = 0.5 + 3.0 * (wi - min(wi, na.rm=TRUE))/(max(wi, na.rm=TRUE) - min(wi, na.rm=TRUE)))
+  
+}
+
 # Setup rstan to run quicker
 rstan_setup <- function() {
   rstan_options(auto_write = TRUE)
@@ -124,133 +206,7 @@ get_tidy_model <- function(model) {
   tidy(model)
 }
 
-# Fit main model
-fit_main_model <- function(data) {
-  model <-
-    brm(
-      yi | se(sqrt(vi)) ~ mean_muscle_length_centred * site_centred +
-        (1 | study_number) +
-        (1 | arm_number) +
-        (1 | effect_number),
-      data = data,
-      chains = 4,
-      cores = 4,
-      seed = 1988,
-      warmup = 2000,
-      iter = 8000,
-      control = list(adapt_delta = 0.99),
-      save_pars = save_pars(all = TRUE)
-    )
-}
-
-# Secondary models
-fit_main_model_r_slopes <- function(data) {
-  model <-
-    brm(
-      yi | se(sqrt(vi)) ~ mean_muscle_length_centred * site_centred +
-        (mean_muscle_length_centred + site_centred| study_number) +
-        (1 | arm_number) +
-        (1 | effect_number),
-      data = data,
-      chains = 4,
-      cores = 4,
-      seed = 1988,
-      warmup = 2000,
-      iter = 8000,
-      control = list(adapt_delta = 0.99),
-      save_pars = save_pars(all = TRUE)
-    )
-}
-
-fit_upper_lower_model <- function(data) {
-  
-  # assigning the deviation contrasts
-  
-  data$body_region <- as.factor(data$body_region)
-  
-  contrasts(data$body_region) = contr.sum(length(unique(data$body_region)))
-  
-  model <-
-    brm(
-      yi | se(sqrt(vi)) ~ mean_muscle_length_centred * site_centred * body_region +
-        (1 | study_number) +
-        (1 | arm_number) +
-        (1 | effect_number),
-      data = data,
-      chains = 4,
-      cores = 4,
-      seed = 1988,
-      warmup = 2000,
-      iter = 8000,
-      control = list(adapt_delta = 0.99),
-      save_pars = save_pars(all = TRUE)
-    )
-}
-
-fit_muscle_model <- function(data) {
-  
-  data <- data |>
-    
-    # relabel secondary predictors
-    mutate(muscle = case_when(
-      muscle == "VL" ~ "Vastus Lateralis",
-      muscle == "BFL" ~ "Biceps femoris Long Head",
-      muscle == "ST" ~ "Semitendinosus",
-      muscle == "RF" ~ "Rectus Femoris",
-      muscle == "VM" ~ "Vastus Medialis",
-      muscle == "VI" ~ "Vastus intermedius",
-      .default = muscle
-    )) 
-  
-    # assigning the deviation contrasts
-    
-    data$muscle <- as.factor(data$muscle)
-    
-    contrasts(data$muscle) = contr.sum(length(unique(data$muscle)))
-    
-    model <-
-      brm(
-        yi | se(sqrt(vi)) ~ mean_muscle_length_centred * site_centred * muscle +
-          (1 | study_number) +
-          (1 | arm_number) +
-          (1 | effect_number),
-        data = data,
-        chains = 4,
-        cores = 4,
-        seed = 1988,
-        warmup = 2000,
-        iter = 8000,
-        control = list(adapt_delta = 0.99),
-        save_pars = save_pars(all = TRUE)
-      )
-}
-
-fit_muscle_action_model <- function(data) {
-  
-  # assigning the deviation contrasts
-  
-  data$muscle_action <- as.factor(data$muscle_action)
-  
-  contrasts(data$muscle_action) = contr.sum(length(unique(data$muscle_action)))
-  
-  model <-
-    brm(
-      yi | se(sqrt(vi)) ~ mean_muscle_length_centred * site_centred * muscle_action +
-        (1 | study_number) +
-        (1 | arm_number) +
-        (1 | effect_number),
-      data = data,
-      chains = 4,
-      cores = 4,
-      seed = 1988,
-      warmup = 2000,
-      iter = 8000,
-      control = list(adapt_delta = 0.99),
-      save_pars = save_pars(all = TRUE)
-    )
-}
-
-# Models with informed priors
+# For sampling priors from models with informed priors
 
 sample_and_plot_priors_SMD <- function(model) {
   
@@ -267,7 +223,7 @@ sample_and_plot_priors_SMD <- function(model) {
     geom_vline(xintercept = 0, linetype = "dashed", alpha = 0.75) +
     stat_slab(alpha = 0.75, normalize = "panels") + 
     facet_wrap(".variable") +
-    scale_x_continuous(limits = c(-0.1,0.5), breaks = seq(-0.5,0.5, length = 11)) +
+    scale_x_continuous(expand = expansion(-0.1,0.1)) +
     labs(
       x = "Model Coefficients",
       y = "Density",
@@ -294,7 +250,7 @@ sample_and_plot_priors_lnRR <- function(model) {
     geom_vline(xintercept = 0, linetype = "dashed", alpha = 0.75) +
     stat_slab(alpha = 0.75, normalize = "panels") + 
     facet_wrap(".variable") +
-    scale_x_continuous(limits = c(-0.05,0.075), breaks = c(-0.05,-0.025,0,0.025,0.05,0.075,0.1)) +
+    scale_x_continuous(expand = expansion(-0.1,0.1)) +
     labs(
       x = "Model Coefficients",
       y = "Density",
@@ -304,6 +260,375 @@ sample_and_plot_priors_lnRR <- function(model) {
     theme_classic() +
     theme(panel.border = element_rect(fill = NA),
           plot.subtitle = element_text(size = 8))
+}
+
+# Pre-registered model - Wolf et al. (2023) informed priors
+set_wolf_priors_SMD <- function(data) {
+  prior <- 
+    c(
+      # We set weakly regularising priors for this model as with completely uninformative flat priors on the coefficients chains do not converge
+      set_prior("student_t(3, 0, 1)", class = "b", coef = "Intercept"),
+      set_prior("student_t(3, 0, 1)", class = "b", coef = "muscle_length",),
+      set_prior("student_t(3, 0, 1)", class = "b", coef = "site_centred"),
+      set_prior("student_t(3, 0, 1)", class = "b", coef = "muscle_length:site_centred")
+      
+      # All other priors for variance parameters are kept as default weakly regularising
+    )
+  
+  # We fit a model to the within arm/group changes with muscle length as categorical (short vs long), site centred and scaled (-0.5,0.5), and their interaction
+  wolf_model <- brm(yi|se(sqrt(vi)) ~ 0 + Intercept + muscle_length * site_centred + (1 | study_number) + (1|arm_number) + (1|effect_number),
+                    data=data,
+                    chains = 4,
+                    cores = 4,
+                    seed = 1988,
+                    warmup = 2000,
+                    iter = 8000,
+                    prior = prior,
+                    control = list(adapt_delta = 0.99),
+                    save_pars = save_pars(all = TRUE)
+  )
+  
+  draws <- wolf_model |>
+    spread_draws(b_Intercept, b_muscle_length, b_site_centred, `b_muscle_length:site_centred`,
+                 sd_study_number__Intercept, sd_arm_number__Intercept, sd_effect_number__Intercept)
+  
+  intercept_prior <- MASS::fitdistr(draws$b_Intercept, "t")$estimate
+  muscle_length_prior <- MASS::fitdistr(draws$b_muscle_length, "t")$estimate
+  site_centred_prior <- MASS::fitdistr(draws$b_site_centred, "t")$estimate
+  interaction_prior <- MASS::fitdistr(draws$`b_muscle_length:site_centred`, "t")$estimate
+  sd_study_intercept_prior <- MASS::fitdistr(draws$sd_study_number__Intercept, "t")$estimate
+  sd_arm_intercept_prior <- MASS::fitdistr(draws$sd_arm_number__Intercept, "t")$estimate
+  sd_effect_intercept_prior <- MASS::fitdistr(draws$sd_effect_number__Intercept, "t")$estimate
+  
+  prior <- 
+    c(
+      set_prior(paste("student_t(",intercept_prior[3],",", intercept_prior[1],",", intercept_prior[2],")"), class = "b", coef = "Intercept"),
+      set_prior(paste("student_t(",sd_study_intercept_prior[3],",", sd_study_intercept_prior[1],",", sd_study_intercept_prior[2],")"), class = "sd", coef = "Intercept", group = "study_number"),
+      set_prior(paste("student_t(",sd_arm_intercept_prior[3],",", sd_arm_intercept_prior[1],",", sd_arm_intercept_prior[2],")"), class = "sd", coef = "Intercept", group = "arm_number"),
+      set_prior(paste("student_t(",sd_effect_intercept_prior[3],",", sd_effect_intercept_prior[1],",", sd_effect_intercept_prior[2],")"), class = "sd", coef = "Intercept", group = "effect_number"),
+      
+      # Slope for muscle length, and the interaction, are multiplied by 2 as we assume the difference between short vs long to be ~50% 
+      set_prior(paste("student_t(",muscle_length_prior[3],",", muscle_length_prior[1]*2,",", muscle_length_prior[2]*2,")"), class = "b", coef = "mean_muscle_length_centred",),
+      set_prior(paste("student_t(",site_centred_prior[3],",", site_centred_prior[1],",", site_centred_prior[2],")"), class = "b", coef = "site_centred"),
+      set_prior(paste("student_t(",interaction_prior[3],",", interaction_prior[1]*2,",", interaction_prior[2]*2,")"), class = "b", coef = "mean_muscle_length_centred:site_centred")
+      
+      # All other priors for variance parameters are kept as default weakly regularising
+    )
+}
+
+fit_wolf_priors_only_model_SMD <- function(data, prior) {
+  model <-
+    brm(yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * site_centred +
+          (1 | study_number) +
+          (1 | arm_number) +
+          (1 | effect_number),
+        data = data,
+        prior = prior,
+        chains = 4,
+        cores = 4,
+        seed = 1988,
+        warmup = 2000,
+        iter = 8000,
+        control = list(adapt_delta = 0.99),
+        sample_prior = "only"
+    )
+}
+
+fit_wolf_priors_model_SMD <- function(data, prior) {
+  
+  model <-
+    brm(yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * site_centred +
+          (1 | study_number) +
+          (1 | arm_number) +
+          (1 | effect_number),
+        data = data,
+        prior = prior,
+        chains = 4,
+        cores = 4,
+        seed = 1988,
+        warmup = 2000,
+        iter = 42000,
+        control = list(adapt_delta = 0.99),
+        save_pars = save_pars(all = TRUE)
+    )
+}
+
+set_wolf_priors_lnRR <- function(data) {
+  prior <- 
+    c(
+      # We set weakly regularising priors for this model as with completely uninformative flat priors on the coefficients chains do not converge
+      set_prior("student_t(3, 0, 1)", class = "b", coef = "Intercept"),
+      set_prior("student_t(3, 0, 1)", class = "b", coef = "muscle_length",),
+      set_prior("student_t(3, 0, 1)", class = "b", coef = "site_centred"),
+      set_prior("student_t(3, 0, 1)", class = "b", coef = "muscle_length:site_centred")
+      
+      # All other priors for variance parameters are kept as default weakly regularising
+    )
+  
+  # We fit a model to the within arm/group changes with muscle length as categorical (short vs long) and centred, site centred and scaled (-0.5,0.5), and their interaction
+  wolf_model <- brm(yi|se(sqrt(vi)) ~ 0 + Intercept + muscle_length * site_centred + (1 | study_number) + (1|arm_number) + (1|effect_number),
+                    data=data,
+                    chains = 4,
+                    cores = 4,
+                    seed = 1988,
+                    warmup = 2000,
+                    iter = 8000,
+                    prior = prior,
+                    control = list(adapt_delta = 0.99),
+                    save_pars = save_pars(all = TRUE)
+  )
+  
+  draws <- wolf_model |>
+    spread_draws(b_Intercept, b_muscle_length, b_site_centred, `b_muscle_length:site_centred`,
+                 sd_study_number__Intercept, sd_arm_number__Intercept, sd_effect_number__Intercept)
+  
+  intercept_prior <- MASS::fitdistr(draws$b_Intercept, "t")$estimate
+  muscle_length_prior <- MASS::fitdistr(draws$b_muscle_length, "t")$estimate
+  site_centred_prior <- MASS::fitdistr(draws$b_site_centred, "t")$estimate
+  interaction_prior <- MASS::fitdistr(draws$`b_muscle_length:site_centred`, "t")$estimate
+  sd_study_intercept_prior <- MASS::fitdistr(draws$sd_study_number__Intercept, "t")$estimate
+  sd_arm_intercept_prior <- MASS::fitdistr(draws$sd_arm_number__Intercept, "t")$estimate
+  sd_effect_intercept_prior <- MASS::fitdistr(draws$sd_effect_number__Intercept, "t")$estimate
+  
+  prior <- 
+    c(
+      set_prior(paste("student_t(",intercept_prior[3],",", intercept_prior[1],",", intercept_prior[2],")"), class = "b", coef = "Intercept"),
+      set_prior(paste("student_t(",sd_study_intercept_prior[3],",", sd_study_intercept_prior[1],",", sd_study_intercept_prior[2],")"), class = "sd", coef = "Intercept", group = "study_number"),
+      set_prior(paste("student_t(",sd_arm_intercept_prior[3],",", sd_arm_intercept_prior[1],",", sd_arm_intercept_prior[2],")"), class = "sd", coef = "Intercept", group = "arm_number"),
+      set_prior(paste("student_t(",sd_effect_intercept_prior[3],",", sd_effect_intercept_prior[1],",", sd_effect_intercept_prior[2],")"), class = "sd", coef = "Intercept", group = "effect_number"),
+      
+      # Slope for muscle length, and the interaction, are multiplied by 2 as we assume the difference between short vs long to be ~50% 
+      set_prior(paste("student_t(",muscle_length_prior[3],",", muscle_length_prior[1]*2,",", muscle_length_prior[2]*2,")"), class = "b", coef = "mean_muscle_length_centred"),
+      set_prior(paste("student_t(",site_centred_prior[3],",", site_centred_prior[1],",", site_centred_prior[2],")"), class = "b", coef = "site_centred"),
+      set_prior(paste("student_t(",interaction_prior[3],",", interaction_prior[1]*2,",", interaction_prior[2]*2,")"), class = "b", coef = "mean_muscle_length_centred:site_centred")
+      
+      # All other priors for variance parameters are kept as default weakly regularising
+    )
+}
+
+fit_wolf_priors_only_model_lnRR <- function(data, prior) {
+  model <-
+    brm(yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * site_centred +
+          (1 | study_number) +
+          (1 | arm_number) +
+          (1 | effect_number),
+        data = data,
+        prior = prior,
+        chains = 4,
+        cores = 4,
+        seed = 1988,
+        warmup = 2000,
+        iter = 8000,
+        control = list(adapt_delta = 0.99),
+        sample_prior = "only"
+    )
+}
+
+fit_wolf_priors_model_lnRR <- function(data, prior) {
+  
+  model <-
+    brm(yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * site_centred +
+          (1 | study_number) +
+          (1 | arm_number) +
+          (1 | effect_number),
+        data = data,
+        prior = prior,
+        chains = 4,
+        cores = 4,
+        seed = 1988,
+        warmup = 2000,
+        iter = 42000,
+        control = list(adapt_delta = 0.99),
+        save_pars = save_pars(all = TRUE)
+    )
+}
+
+# Secondary predictor models - using Wolf et al. (2023) informed priors on parameters as main model, uninformed on additional predictors
+fit_upper_lower_model <- function(data, prior) {
+  
+  # assigning the deviation contrasts
+  
+  data$body_region <- as.factor(data$body_region)
+  
+  contrasts(data$body_region) = contr.sum(length(unique(data$body_region)))
+  
+  model <-
+    brm(
+      yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * site_centred * body_region +
+        (1 | study_number) +
+        (1 | arm_number) +
+        (1 | effect_number),
+      data = data,
+      prior = prior,
+      chains = 4,
+      cores = 4,
+      seed = 1988,
+      warmup = 2000,
+      iter = 42000,
+      control = list(adapt_delta = 0.99),
+      save_pars = save_pars(all = TRUE)
+    )
+}
+
+fit_muscle_model <- function(data, prior) {
+  
+  data <- data |>
+    
+    # relabel secondary predictors
+    mutate(muscle = case_when(
+      muscle == "VL" ~ "Vastus Lateralis",
+      muscle == "BFL" ~ "Biceps femoris Long Head",
+      muscle == "ST" ~ "Semitendinosus",
+      muscle == "RF" ~ "Rectus Femoris",
+      muscle == "VM" ~ "Vastus Medialis",
+      muscle == "VI" ~ "Vastus intermedius",
+      .default = muscle
+    )) 
+  
+    # assigning the deviation contrasts
+    
+    data$muscle <- as.factor(data$muscle)
+    
+    contrasts(data$muscle) = contr.sum(length(unique(data$muscle)))
+    
+    model <-
+      brm(
+        yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * site_centred * muscle +
+          (1 | study_number) +
+          (1 | arm_number) +
+          (1 | effect_number),
+        data = data,
+        prior = prior,
+        chains = 4,
+        cores = 4,
+        seed = 1988,
+        warmup = 2000,
+        iter = 42000,
+        control = list(adapt_delta = 0.99),
+        save_pars = save_pars(all = TRUE)
+      )
+}
+
+fit_muscle_action_model <- function(data, prior) {
+  
+  # assigning the deviation contrasts
+  
+  data$muscle_action <- as.factor(data$muscle_action)
+  
+  contrasts(data$muscle_action) = contr.sum(length(unique(data$muscle_action)))
+  
+  model <-
+    brm(
+      yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * site_centred * muscle_action +
+        (1 | study_number) +
+        (1 | arm_number) +
+        (1 | effect_number),
+      data = data,
+      prior = prior,
+      chains = 4,
+      cores = 4,
+      seed = 1988,
+      warmup = 2000,
+      iter = 42000,
+      control = list(adapt_delta = 0.99),
+      save_pars = save_pars(all = TRUE)
+    )
+}
+
+# Additional models not in pre-registration
+
+# Fit uninformed model
+fit_uninformed_model <- function(data) {
+  model <-
+    brm(
+      yi | se(sqrt(vi)) ~ mean_muscle_length_centred * site_centred +
+        (1 | study_number) +
+        (1 | arm_number) +
+        (1 | effect_number),
+      data = data,
+      chains = 4,
+      cores = 4,
+      seed = 1988,
+      warmup = 2000,
+      iter = 42000,
+      control = list(adapt_delta = 0.99),
+      save_pars = save_pars(all = TRUE)
+    )
+}
+
+# Add random slopes to pre-registered model
+fit_wolf_priors_only_model_slopes_SMD <- function(data, prior) {
+  model <-
+    brm(yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * site_centred +
+          (mean_muscle_length_centred + site_centred | study_number) +
+          (1 | arm_number) +
+          (1 | effect_number),
+        data = data,
+        prior = prior,
+        chains = 4,
+        cores = 4,
+        seed = 1988,
+        warmup = 2000,
+        iter = 8000,
+        control = list(adapt_delta = 0.99),
+        sample_prior = "only"
+    )
+}
+
+fit_wolf_priors_model_slopes_SMD <- function(data, prior) {
+  
+  model <-
+    brm(yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * site_centred +
+          (mean_muscle_length_centred + site_centred  | study_number) +
+          (1 | arm_number) +
+          (1 | effect_number),
+        data = data,
+        prior = prior,
+        chains = 4,
+        cores = 4,
+        seed = 1988,
+        warmup = 2000,
+        iter = 42000,
+        control = list(adapt_delta = 0.99),
+        save_pars = save_pars(all = TRUE)
+    )
+}
+
+fit_wolf_priors_only_model_slopes_lnRR <- function(data, prior) {
+  model <-
+    brm(yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * site_centred +
+          (mean_muscle_length_centred + site_centred  | study_number) +
+          (1 | arm_number) +
+          (1 | effect_number),
+        data = data,
+        prior = prior,
+        chains = 4,
+        cores = 4,
+        seed = 1988,
+        warmup = 2000,
+        iter = 8000,
+        control = list(adapt_delta = 0.99),
+        sample_prior = "only"
+    )
+}
+
+fit_wolf_priors_model_slopes_lnRR <- function(data, prior) {
+  
+  model <-
+    brm(yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * site_centred +
+          (mean_muscle_length_centred + site_centred  | study_number) +
+          (1 | arm_number) +
+          (1 | effect_number),
+        data = data,
+        prior = prior,
+        chains = 4,
+        cores = 4,
+        seed = 1988,
+        warmup = 2000,
+        iter = 42000,
+        control = list(adapt_delta = 0.99),
+        save_pars = save_pars(all = TRUE)
+    )
 }
 
 # James Steele priors
@@ -384,7 +709,7 @@ fit_steele_priors_model_SMD <- function(data, prior) {
         cores = 4,
         seed = 1988,
         warmup = 2000,
-        iter = 8000,
+        iter = 42000,
         init = list_of_inits,
         control = list(adapt_delta = 0.99),
         save_pars = save_pars(all = TRUE)
@@ -468,15 +793,15 @@ fit_steele_priors_model_lnRR <- function(data, prior) {
         cores = 4,
         seed = 1988,
         warmup = 2000,
-        iter = 8000,
+        iter = 42000,
         init = list_of_inits,
         control = list(adapt_delta = 0.99),
         save_pars = save_pars(all = TRUE)
     )
 }
 
-# Dorian Varovic and Brad Schoenfeld priors
-set_DV_BS_PM_priors_SMD <- function() {
+# Other authors informed priors
+set_authors_priors_SMD <- function() {
   prior <-
     c(
       # Priors set for Intercept (overall fixed mean) and tau at study level from Steele et al., (2023) DOI: 10.1080/02640414.2023.2286748
@@ -497,7 +822,7 @@ set_DV_BS_PM_priors_SMD <- function() {
     )
 }
 
-fit_DV_BS_PM_priors_only_model_SMD <- function(data, prior) {
+fit_authors_priors_only_model_SMD <- function(data, prior) {
   model <-
     brm(yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * site_centred +
           (mean_muscle_length_centred + site_centred | study_number) +
@@ -515,7 +840,7 @@ fit_DV_BS_PM_priors_only_model_SMD <- function(data, prior) {
     )
 }
 
-fit_DV_BS_PM_priors_model_SMD <- function(data, prior) {
+fit_authors_priors_model_SMD <- function(data, prior) {
   
   # Set initial values to improve chain convergence
   set_inits <- function(seed = 1) {
@@ -547,14 +872,14 @@ fit_DV_BS_PM_priors_model_SMD <- function(data, prior) {
         cores = 4,
         seed = 1988,
         warmup = 2000,
-        iter = 8000,
+        iter = 42000,
         init = list_of_inits,
         control = list(adapt_delta = 0.99),
         save_pars = save_pars(all = TRUE)
     )
 }
 
-set_DV_BS_PM_priors_lnRR <- function() {
+set_authors_priors_lnRR <- function() {
   prior <-
     c(
       # Priors set for Intercept (overall fixed mean) and tau at study level from Steele et al., (2023) DOI: 10.1080/02640414.2023.2286748
@@ -575,7 +900,7 @@ set_DV_BS_PM_priors_lnRR <- function() {
     )
 }
 
-fit_DV_BS_PM_priors_only_model_lnRR <- function(data, prior) {
+fit_authors_priors_only_model_lnRR <- function(data, prior) {
   model <-
     brm(yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * site_centred +
           (mean_muscle_length_centred + site_centred | study_number) +
@@ -593,7 +918,7 @@ fit_DV_BS_PM_priors_only_model_lnRR <- function(data, prior) {
     )
 }
 
-fit_DV_BS_PM_priors_model_lnRR <- function(data, prior) {
+fit_authors_priors_model_lnRR <- function(data, prior) {
   
   # Set initial values to improve chain convergence
   set_inits <- function(seed = 1) {
@@ -625,7 +950,7 @@ fit_DV_BS_PM_priors_model_lnRR <- function(data, prior) {
         cores = 4,
         seed = 1988,
         warmup = 2000,
-        iter = 8000,
+        iter = 42000,
         init = list_of_inits,
         control = list(adapt_delta = 0.99),
         save_pars = save_pars(all = TRUE)
@@ -1252,46 +1577,46 @@ plot_muscle_action_model_preds_lnRR <- function(data, model) {
 plot_BF_model_comparisons <- function(model1,
                                       model2,
                                       model3,
-                                      model4) {
+                                      model4,
+                                      model5) {
   
   BF_mean_models <- bayesfactor_models(model1,
                                        model2,
                                        model3,
-                                       model4)
+                                       model4,
+                                       model5)
   BF_2log <- function(x) (2*x)
   
   BF_mean_models <-as_tibble(as.matrix(BF_mean_models))  |>
-    mutate_at(1:4, BF_2log) |>
+    mutate_at(1:5, BF_2log) |>
     rowid_to_column("Denominator") |>
     mutate(Denominator = case_when(
-      Denominator == 1 ~ "Main Model - Uninformed Priors",
-      Denominator == 2 ~  "Main Model with Random Slopes - Uninformed Priors",
-      Denominator == 3 ~  "Main Model with Random Slopes - D. Varovic, B. Schoenfeld, & P. Mikulic Priors",
-      Denominator == 4 ~ "Main Model with Random Slopes - J. Steele Priors"
+      Denominator == 1 ~ "Pre-registered Main Model - Wolf et al. (2023) Informed Priors",
+      Denominator == 2 ~  "Main Model - Uninformed Priors",
+      Denominator == 3 ~  "Main Model with Random Slopes - Wolf et al. (2023) Informed Priors",
+      Denominator == 4 ~  "Main Model with Random Slopes - J. Steele Informed Priors",
+      Denominator == 5 ~ "Main Model with Random Slopes - Other Authors Informed Priors"
     )) |>
-    rename("Main Model - Uninformed Priors" = 2,
-           "Main Model with Random Slopes - Uninformed Priors" = 3,
-           "Main Model with Random Slopes - D. Varovic, B. Schoenfeld, & P. Mikulic Priors" = 4,
-           "Main Model with Random Slopes - J. Steele Priors" = 5) |>
-    pivot_longer(2:5, names_to = "Numerator", values_to = "logBF")
-  
-  BF_mean_models$Denominator <-  recode(BF_mean_models$Denominator,
-                                        "main_model_lnRR" = "Main Model - Uninformed Priors",
-                                        "main_model_r_slopes_lnRR" = "Main Model with Random Slopes - Uninformed Priors",
-                                        "DV_BS_PM_priors_model_lnRR" = "Main Model with Random Slopes - D. Varovic, B. Schoenfeld, & P. Mikulic Priors",
-                                        "steele_priors_model_lnRR" = "Main Model with Random Slopes - J. Steele Priors")
+    rename("Pre-registered Main Model - Wolf et al. (2023) Informed Priors" = 2,
+           "Main Model - Uninformed Priors" = 3,
+           "Main Model with Random Slopes - Wolf et al. (2023) Informed Priors" = 4,
+           "Main Model with Random Slopes - J. Steele Informed Priors" = 5,
+           "Main Model with Random Slopes - Other Authors Informed Priors" = 6) |>
+    pivot_longer(2:6, names_to = "Numerator", values_to = "logBF")
   
   BF_mean_models |> 
     mutate(Denominator = factor(Denominator, levels= c( 
+      "Pre-registered Main Model - Wolf et al. (2023) Informed Priors",
       "Main Model - Uninformed Priors",
-      "Main Model with Random Slopes - Uninformed Priors",
-      "Main Model with Random Slopes - D. Varovic, B. Schoenfeld, & P. Mikulic Priors",
-      "Main Model with Random Slopes - J. Steele Priors")),
+      "Main Model with Random Slopes - Wolf et al. (2023) Informed Priors",
+      "Main Model with Random Slopes - J. Steele Informed Priors",
+      "Main Model with Random Slopes - Other Authors Informed Priors")),
       Numerator = factor(Numerator, levels= c( 
+        "Pre-registered Main Model - Wolf et al. (2023) Informed Priors",
         "Main Model - Uninformed Priors",
-        "Main Model with Random Slopes - Uninformed Priors",
-        "Main Model with Random Slopes - D. Varovic, B. Schoenfeld, & P. Mikulic Priors",
-        "Main Model with Random Slopes - J. Steele Priors")),
+        "Main Model with Random Slopes - Wolf et al. (2023) Informed Priors",
+        "Main Model with Random Slopes - J. Steele Informed Priors",
+        "Main Model with Random Slopes - Other Authors Informed Priors")),
       logBF = as.numeric(logBF)) |>
     ggplot(aes(x=Numerator, y=Denominator, fill=logBF)) +
     geom_tile() +
@@ -1305,7 +1630,8 @@ plot_BF_model_comparisons <- function(model1,
          caption = "Kass and Raferty (1995) scale:
        -Inf to 0 = Negative; 0 to 2 = Weak; 2 to 6 = Positive; 6 to 10 = Strong; 10 to +Inf = Very Strong") +
     theme_classic() +
-    theme(panel.border = element_rect(colour = "black", fill=NA, size=2.5))
+    theme(panel.border = element_rect(colour = "black", fill=NA, size=2.5),
+          axis.text = element_text(size = 6))
 }
 
 # Model checks

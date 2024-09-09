@@ -149,74 +149,138 @@ data_wolf <- read.csv("data/wolf_et_al_meta_data.csv", na.strings=c(""," ","NA")
 
 # add within group correlations assumptions
 # NOTE - change and rerun to check with 0.5 and 0.9
-data_wolf$ri70 <- as.numeric(strrep(0.7, 1))
+data_wolf$ri <- as.numeric(strrep(0.7, 1))
 
-### Standardised effect size calculations
-# Pooled baseline SD
-data_wolf$SD_pool <- (((data_wolf$FULL_ni - 1)*data_wolf$FULL_sd_pre) + ((data_wolf$PART_ni - 1)*data_wolf$PART_sd_pre)) / (data_wolf$FULL_ni + data_wolf$PART_ni - 2)
+# ### Standardised effect size calculations
+# # Pooled baseline SD
+# data_wolf$SD_pool <- (((data_wolf$FULL_ni - 1)*data_wolf$FULL_sd_pre) + ((data_wolf$PART_ni - 1)*data_wolf$PART_sd_pre)) / (data_wolf$FULL_ni + data_wolf$PART_ni - 2)
+# 
+# # Effects for measures where increase is good
+# data_wolf_increase <- subset(data_wolf, increase_decrease == "increase")
+# 
+# data_wolf_increase_int <- escalc(measure="SMCR", m1i=FULL_m_post,
+#                                  m2i=FULL_m_pre, sd1i=SD_pool, ni=FULL_ni, ri=ri70, data = data_wolf_increase)
+# data_wolf_increase_con <- escalc(measure="SMCR", m1i=PART_m_post,
+#                                  m2i=PART_m_pre, sd1i=SD_pool, ni=PART_ni, ri=ri70, data = data_wolf_increase)
+# 
+# data_wolf_increase$yi <- (data_wolf_increase_int$yi - data_wolf_increase_con$yi)
+# data_wolf_increase$vi <- (data_wolf_increase_int$vi + data_wolf_increase_con$vi)
+# 
+# data_wolf_increase$lnRR_yi <- log(data_wolf_increase$FULL_m_post/data_wolf_increase$FULL_m_pre) - log(data_wolf_increase$PART_m_post/data_wolf_increase$PART_m_pre)
+# 
+# data_wolf_increase$lnRR_vi <- (data_wolf_increase$FULL_sd_post^2/(data_wolf_increase$FULL_m_post^2*data_wolf_increase$FULL_ni)) + (data_wolf_increase$FULL_sd_pre^2/(data_wolf_increase$FULL_sd_post^2*data_wolf_increase$FULL_ni)) + (data_wolf_increase$PART_sd_post^2/(data_wolf_increase$PART_m_post^2*data_wolf_increase$PART_ni)) + (data_wolf_increase$PART_sd_pre^2/(data_wolf_increase$PART_m_pre^2*data_wolf_increase$PART_ni))
+# 
+# # Effects for measures where increase is good
+# data_wolf_decrease <- subset(data_wolf, increase_decrease == "decrease")
+# 
+# data_wolf_decrease_int <- escalc(measure="SMCR", m1i=FULL_m_pre,
+#                                  m2i=FULL_m_post, sd1i=SD_pool, ni=FULL_ni, ri=ri70, data = data_wolf_decrease)
+# data_wolf_decrease_con <- escalc(measure="SMCR", m1i=PART_m_pre,
+#                                  m2i=PART_m_post, sd1i=SD_pool, ni=PART_ni, ri=ri70, data = data_wolf_decrease)
+# 
+# data_wolf_decrease$yi <- (data_wolf_decrease_int$yi - data_wolf_decrease_con$yi)
+# data_wolf_decrease$vi <- (data_wolf_decrease_int$vi + data_wolf_decrease_con$vi)
+# 
+# data_wolf_decrease$lnRR_yi <- log(data_wolf_decrease$PART_m_post/data_wolf_decrease$PART_m_pre) - log(data_wolf_decrease$FULL_m_post/data_wolf_decrease$FULL_m_pre)
+# 
+# data_wolf_decrease$lnRR_vi <- (data_wolf_decrease$FULL_sd_post^2/(data_wolf_decrease$FULL_m_post^2*data_wolf_decrease$FULL_ni)) + (data_wolf_decrease$FULL_sd_pre^2/(data_wolf_decrease$FULL_sd_post^2*data_wolf_decrease$FULL_ni)) + (data_wolf_decrease$PART_sd_post^2/(data_wolf_decrease$PART_m_post^2*data_wolf_decrease$PART_ni)) + (data_wolf_decrease$PART_sd_pre^2/(data_wolf_decrease$PART_m_pre^2*data_wolf_decrease$PART_ni))
+# 
+# 
+# ### Recombine
+# 
+# data_wolf_effects <- rbind(data_wolf_increase, data_wolf_decrease) %>%
+#   mutate(se = sqrt(vi),
+#          lnRR_se = sqrt(lnRR_vi),
+#          wi = 1/sqrt(vi),
+#          size = 0.5 + 3 * (wi - min(wi, na.rm = TRUE))/(max(wi, na.rm = TRUE) - min(wi, na.rm = TRUE)),
+#          lnRR_wi = 1/sqrt(lnRR_vi),
+#          lnRR_size = 0.5 + 3 * (lnRR_wi - min(lnRR_wi, na.rm = TRUE))/(max(lnRR_wi, na.rm = TRUE) - min(lnRR_wi, na.rm = TRUE)))
 
-# Effects for measures where increase is good
-data_wolf_increase <- subset(data_wolf, increase_decrease == "increase")
-
-data_wolf_increase_int <- escalc(measure="SMCR", m1i=FULL_m_post,
-                                 m2i=FULL_m_pre, sd1i=SD_pool, ni=FULL_ni, ri=ri70, data = data_wolf_increase)
-data_wolf_increase_con <- escalc(measure="SMCR", m1i=PART_m_post,
-                                 m2i=PART_m_pre, sd1i=SD_pool, ni=PART_ni, ri=ri70, data = data_wolf_increase)
-
-data_wolf_increase$yi <- (data_wolf_increase_int$yi - data_wolf_increase_con$yi)
-data_wolf_increase$vi <- (data_wolf_increase_int$vi + data_wolf_increase_con$vi)
-
-data_wolf_increase$lnRR_yi <- log(data_wolf_increase$FULL_m_post/data_wolf_increase$FULL_m_pre) - log(data_wolf_increase$PART_m_post/data_wolf_increase$PART_m_pre)
-
-data_wolf_increase$lnRR_vi <- (data_wolf_increase$FULL_sd_post^2/(data_wolf_increase$FULL_m_post^2*data_wolf_increase$FULL_ni)) + (data_wolf_increase$FULL_sd_pre^2/(data_wolf_increase$FULL_sd_post^2*data_wolf_increase$FULL_ni)) + (data_wolf_increase$PART_sd_post^2/(data_wolf_increase$PART_m_post^2*data_wolf_increase$PART_ni)) + (data_wolf_increase$PART_sd_pre^2/(data_wolf_increase$PART_m_pre^2*data_wolf_increase$PART_ni))
-
-# Effects for measures where increase is good
-data_wolf_decrease <- subset(data_wolf, increase_decrease == "decrease")
-
-data_wolf_decrease_int <- escalc(measure="SMCR", m1i=FULL_m_pre,
-                                 m2i=FULL_m_post, sd1i=SD_pool, ni=FULL_ni, ri=ri70, data = data_wolf_decrease)
-data_wolf_decrease_con <- escalc(measure="SMCR", m1i=PART_m_pre,
-                                 m2i=PART_m_post, sd1i=SD_pool, ni=PART_ni, ri=ri70, data = data_wolf_decrease)
-
-data_wolf_decrease$yi <- (data_wolf_decrease_int$yi - data_wolf_decrease_con$yi)
-data_wolf_decrease$vi <- (data_wolf_decrease_int$vi + data_wolf_decrease_con$vi)
-
-data_wolf_decrease$lnRR_yi <- log(data_wolf_decrease$PART_m_post/data_wolf_decrease$PART_m_pre) - log(data_wolf_decrease$FULL_m_post/data_wolf_decrease$FULL_m_pre)
-
-data_wolf_decrease$lnRR_vi <- (data_wolf_decrease$FULL_sd_post^2/(data_wolf_decrease$FULL_m_post^2*data_wolf_decrease$FULL_ni)) + (data_wolf_decrease$FULL_sd_pre^2/(data_wolf_decrease$FULL_sd_post^2*data_wolf_decrease$FULL_ni)) + (data_wolf_decrease$PART_sd_post^2/(data_wolf_decrease$PART_m_post^2*data_wolf_decrease$PART_ni)) + (data_wolf_decrease$PART_sd_pre^2/(data_wolf_decrease$PART_m_pre^2*data_wolf_decrease$PART_ni))
-
-
-### Recombine
-
-data_wolf_effects <- rbind(data_wolf_increase, data_wolf_decrease) %>%
-  mutate(se = sqrt(vi),
-         lnRR_se = sqrt(lnRR_vi),
-         wi = 1/sqrt(vi),
-         size = 0.5 + 3 * (wi - min(wi, na.rm = TRUE))/(max(wi, na.rm = TRUE) - min(wi, na.rm = TRUE)),
-         lnRR_wi = 1/sqrt(lnRR_vi),
-         lnRR_size = 0.5 + 3 * (lnRR_wi - min(lnRR_wi, na.rm = TRUE))/(max(lnRR_wi, na.rm = TRUE) - min(lnRR_wi, na.rm = TRUE)))
+# Calculate standardised effects
+data_wolf_effects <- escalc(
+  measure = "ROMC",
+  m1i = PART_m_post,
+  m2i = PART_m_pre,
+  sd1i = PART_sd_post,
+  sd2i = PART_sd_pre,
+  ri = ri,
+  ni = PART_ni,
+  data = data_wolf
+)
 
 # Muscle Length - Hypertrophy
 data_wolf_effects_hypertrophy <- data_wolf_effects %>%
-  mutate(muscle_length = as.factor(muscle_length)) %>%
-  filter(outcome_subcategory == "muscle_size" & percent_distal == 0.5)
+  mutate(muscle_length = case_when(
+    muscle_length == "short" ~ -0.25,
+    muscle_length == "long" ~ 0.25,
+    .default = NA
+  )) %>%
+  filter(!is.na(muscle_length)) |>
+  filter(outcome_subcategory == "muscle_size") |>
+  filter(study_name != "McMahon et al. (2014)" & study_name != "Valamatos et al. (2018)" & study_name != "Pedrosa et al. (2021)") |>
+  mutate(site_centred = percent_distal-0.5) |>
+  rowid_to_column("effect") |>
+  rename(study_number = study,
+         arm_number = group,
+         effect_number = effect)
 
-muscle_length_hypertrophy_model <- brm(yi|se(se) ~ 1 + muscle_length + (1 | study) + (1|group),
+prior <-
+  c(
+    # Priors set for Intercept (overall fixed mean) and tau at study level from Steele et al., (2023) DOI: 10.1080/02640414.2023.2286748
+    set_prior("student_t(3, 0, 1)", class = "b", coef = "Intercept"),
+    # set_prior("student_t(3, 0.2111, 0.048)", class = "sd", coef = "Intercept", group = "study"),
+    # set_prior("student_t(3, 0.0224, 0.0517)", class = "sd", coef = "Intercept", group = "group"),
+    # set_prior("student_t(3, 0.0477, 0.0401)", class = "sd", coef = "Intercept", group = "effect"),
+    # 
+    # Wolf et al (2023) DOI: https://doi.org/10.47206/ijsc.v3i1.182 found similar (point estimate withing 0.1 SESOI) effects for short length partial vs full ROM
+    # Given constraints on interaction effects, the estimate for long vs short from this is implausibly large given general 0.34 effects for RT on hypertrophy
+    # It would seem more reasonable to have more mass on a null effect, but slightly more weight towards small (<0.1) effects for muscle length
+    # This prior is set such that a difference of 50% in length reflecting a typical difference in short vs long training (at a site of 50%) produces effects of the magnitudes ~0 to ~0.05
+    set_prior("student_t(3, 0, 1)", class = "b", coef = "muscle_length",),
+    
+    # It is unclear (DOI: 10.1519/SSC.0000000000000574) whether hypertrophy differs by site of measurement overall 
+    # Thus we set a prior centred on null effects but allowing for effects of similar magnitude (~0.05) in either direction
+    set_prior("student_t(3, 0, 1)", class = "b", coef = "site_centred"),
+    
+    # Lastly given interaction constraints, the interaction of length and site must necessarily be small given other priors
+    # Thus we set this to have half the width of the prior for site
+    set_prior("student_t(3, 0, 1)", class = "b", coef = "muscle_length:site_centred")
+    
+    # All other priors for variance parameters are kept as default weakly regularising
+  )
+
+
+
+muscle_length_hypertrophy_model <- brm(yi|se(sqrt(vi)) ~ 0 + Intercept + muscle_length * site_centred + (1 | study_number) + (1|arm_number) + (1|effect_number),
                                        data=data_wolf_effects_hypertrophy,
                                        chains = 4,
                                        cores = 4,
                                        seed = 1988,
                                        warmup = 2000,
                                        iter = 6000,
-                                       control = list(adapt_delta = 0.99)
+                                       # init = list_of_inits,
+                                       prior = prior,
+                                       control = list(adapt_delta = 0.99),
+                                       save_pars = save_pars(all = TRUE)
 )
 
 draws <- muscle_length_hypertrophy_model |>
-  spread_draws(b_muscle_lengthshort)
+  spread_draws(
+               sd_study_number__Intercept, sd_arm_number__Intercept, sd_effect_number__Intercept)
+
+
+
+intercept_prior <- MASS::fitdistr(draws$b_Intercept, "t")$estimate
+muscle_length_prior <- MASS::fitdistr(draws$draw, "t")$estimate
+site_centred_prior <- MASS::fitdistr(draws$b_site_centred, "t")$estimate
+interaction_prior <- MASS::fitdistr(draws$`b_muscle_lengthlong:site_centred`, "t")$estimate
+sd_study_intercept_prior <- MASS::fitdistr(draws$sd_study_number__Intercept, "t")$estimate
+sd_arm_intercept_prior <- MASS::fitdistr(draws$sd_arm_number__Intercept, "t")$estimate
+sd_effect_intercept_prior <- MASS::fitdistr(draws$sd_effect_number__Intercept, "t")$estimate
 
 posterior <- tibble(
-  m = MASS::fitdistr(draws$b_muscle_lengthshort, "t")$estimate[1]/50,
-  s = MASS::fitdistr(draws$b_muscle_lengthshort, "t")$estimate[2]/50,
+  m = MASS::fitdistr(draws$b_muscle_lengthlong, "t")$estimate[1],
+  s = MASS::fitdistr(draws$b_muscle_lengthlong, "t")$estimate[2],
   df = MASS::fitdistr(draws$b_muscle_lengthshort, "t")$estimate[3]
 )
 
@@ -224,6 +288,120 @@ draws |>
   ggplot(aes(x=b_muscle_lengthshort)) +
   stat_slabinterval()
 
+
+main_model_w_prior
+
+a <- conditional_effects(muscle_length_hypertrophy_model, "muscle_length", re_formula = NA)
+
+plot(a, points = TRUE)
+
+b <- conditional_effects(muscle_length_hypertrophy_model, "site_centred", re_formula = NA)
+
+plot(b, points = TRUE)
+
+c <- conditional_effects(muscle_length_hypertrophy_model, "muscle_length:site_centred", re_formula = NA)
+
+plot(c, points = TRUE)
+
+
+prior_steele <-
+  c(
+    # Priors set for Intercept (overall fixed mean) and tau at study level from Steele et al., (2023) DOI: 10.1080/02640414.2023.2286748
+    set_prior("student_t(103, 0.3372, 0.0253)", class = "b", coef = "Intercept"),
+    set_prior("student_t(3, 0.2111, 0.048)", class = "sd", coef = "Intercept", group = "study"),
+    set_prior("student_t(3, 0.0224, 0.0517)", class = "sd", coef = "Intercept", group = "group"),
+    set_prior("student_t(3, 0.0477, 0.0401)", class = "sd", coef = "Intercept", group = "effect"),
+    
+    # Wolf et al (2023) DOI: https://doi.org/10.47206/ijsc.v3i1.182 found similar (point estimate withing 0.1 SESOI) effects for short length partial vs full ROM
+    # Given constraints on interaction effects, the estimate for long vs short from this is implausibly large given general 0.34 effects for RT on hypertrophy
+    # It would seem more reasonable to have more mass on a null effect, but slightly more weight towards small (<0.1) effects for muscle length
+    # This prior is set such that a difference of 50% in length reflecting a typical difference in short vs long training (at a site of 50%) produces effects of the magnitudes ~0 to ~0.05
+    set_prior("skew_normal(0, 0.1, 5)", class = "b", coef = "muscle_lengthlong",),
+    
+    # It is unclear (DOI: 10.1519/SSC.0000000000000574) whether hypertrophy differs by site of measurement overall 
+    # Thus we set a prior centred on null effects but allowing for effects of similar magnitude (~0.05) in either direction
+    set_prior("student_t(3, 0, 0.04)", class = "b", coef = "site_centred"),
+    
+    # Lastly given interaction constraints, the interaction of length and site must necessarily be small given other priors
+    # Thus we set this to have half the width of the prior for site
+    set_prior("student_t(3, 0, 0.02)", class = "b", coef = "muscle_lengthlong:site_centred")
+    
+    # All other priors for variance parameters are kept as default weakly regularising
+  )
+
+# Set initial values to improve chain convergence
+set_inits <- function(seed = 1) {
+  
+  set.seed(seed)
+  list(
+    beta = rnorm(n = 1, mean = 0.05, sd = 0.004),
+    sd = runif(n = 1, min = 0, max = 0.05)
+  )
+  
+}
+
+list_of_inits <- list(
+  # different seed values will return different results
+  set_inits(seed = 1),
+  set_inits(seed = 2),
+  set_inits(seed = 3),
+  set_inits(seed = 4)
+)
+
+muscle_length_hypertrophy_model_steele <- brm(yi|se(sqrt(vi)) ~ 0 + Intercept + muscle_length * site_centred + (1 | study) + (1|group) + (1|effect),
+                                       data=data_wolf_effects_hypertrophy,
+                                       chains = 4,
+                                       cores = 4,
+                                       seed = 1988,
+                                       warmup = 2000,
+                                       iter = 6000,
+                                       prior = prior_steele,
+                                       init = list_of_inits,
+                                       control = list(adapt_delta = 0.99),
+                                       save_pars = save_pars(all = TRUE)
+)
+
+
+BF_mean_models <- bayestestR::bayesfactor_models(muscle_length_hypertrophy_model, muscle_length_hypertrophy_model_steele)
+
+BF_2log <- function(x) (2*x)
+
+BF_mean_models <- as_tibble(as.matrix(BF_mean_models))  |>
+  mutate_at(1:2, BF_2log) |>
+  rowid_to_column("Denominator") |>
+  mutate(Denominator = case_when(
+    Denominator == 1 ~ "Wolf et al.",
+    Denominator == 2 ~  "Wolf et al. - Steele priors"
+  )) |>
+  rename("Wolf et al." = 2,
+         "Wolf et al. - Steele priors" = 3) |>
+  pivot_longer(2:3, names_to = "Numerator", values_to = "logBF")
+
+BF_mean_models$Denominator <-  recode(BF_mean_models$Denominator,
+                                      "main_model_lnRR" = "Wolf et al.",
+                                      "main_model_r_slopes_lnRR" = "Wolf et al. - Steele priors")
+
+BF_mean_models |> 
+  mutate(Denominator = factor(Denominator, levels= c( 
+    "Wolf et al.",
+    "Wolf et al. - Steele priors")),
+    Numerator = factor(Numerator, levels= c( 
+      "Wolf et al.",
+      "Wolf et al. - Steele priors")),
+    logBF = as.numeric(logBF)) |>
+  ggplot(aes(x=Numerator, y=Denominator, fill=logBF)) +
+  geom_tile() +
+  geom_raster() +
+  geom_text(aes(label = round(logBF,2))) +
+  scale_fill_gradient2(low = "#E69F00", mid="white", high = "#56B4E9") +
+  scale_y_discrete(limits=rev, labels = function(x) str_wrap(x, width = 25)) +
+  scale_x_discrete(position = "top", labels = function(x) str_wrap(x, width = 25)) +
+  labs(title = "Comparing models using 2×log(BF)",
+       fill = "2×log(BF)",
+       caption = "Kass and Raferty (1995) scale:
+       -Inf to 0 = Negative; 0 to 2 = Weak; 2 to 6 = Positive; 6 to 10 = Strong; 10 to +Inf = Very Strong") +
+  theme_classic() +
+  theme(panel.border = element_rect(colour = "black", fill=NA, size=2.5))
 
 ### Need to get proper prior for muscle length slope - rerun models exlcuding any studies from here and get marginal effect estimate
 ### Also need to add a prior for intercept variance at study level from large MA dataset
