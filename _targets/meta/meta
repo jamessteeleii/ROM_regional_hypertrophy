@@ -1,6 +1,5 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|7d871283e33d4106|||||||||||||||
-analysis_results|stem||b0ab53c531a3b7bc|4a5def682a4c40fb|-1628769239||t19975.6932350484s||0|file|local|vector|||663.391||Error running quarto cli.ℹ Rerun with quiet  FALSE to see the full error message.Caused by error System command quarto.exe failed
+.Random.seed|object|7b3d7e95b49d9bee|||||||||||||||
 authors_priors_lnRR|stem|6c82032b6a28f03c|8056f8cd29cb280f|5cff7a2c57ab0ea1|484400923||t19974.6664078988s|852ca65165b9cec5|312|qs|local|vector|||7.281||
 authors_priors_model_diagnostic_plots|stem|cd622a8f2f06a70c|44b5d2803eb5af46|3680693fb0ea0e7a|396348338|plots/authors_priors_model_diagnostic_plots.pdf*plots/authors_priors_model_diagnostic_plots.qmd|t19975.3263855664s|6d02b3057499d3d2|17297654|file|local|vector|||85.172||
 authors_priors_model_lnRR|stem|8c43e7387865b97d|55d835194197a38a|d2aeb382885856eb|1101073311||t19974.6794061631s|ed160f8f9dd48b90|1221687169|qs|local|vector|||495.047||
@@ -43,8 +42,6 @@ data_lnRR|stem|ec950394317dae07|3ac058ca4c3e1b64|3a56599eae3aec00|-224819188||t1
 data_SMD|stem|7bbf4cb649c75dc6|c5fd0bec1845e7b8|1aa7cc04b89981a6|1558862474||t19967.4204469928s|eab107e8a20bb9e1|13243|qs|local|vector|||0.063||
 data_wolf_lnRR|stem|c8f51481e59b74b4|934eb5393e64c26e|c8069a88cfe3dd0f|67578024||t19973.8332156786s|71d8a27d37dd8112|5162|qs|local|vector|||0.047||
 data_wolf_SMD|stem|eac26a50e310c985|72bab284e6efc6cb|2473bd9010ac1e8a|835028887||t19973.8332125071s|b26ba05c3a7da7f5|5188|qs|local|vector|||0.062||
-diagnostic_plots_lnRR|stem|bf4685c30d8e4efa|cd9536554171842e|b2b5c1c9b826db46|1201338574|plots/diagnostic_plots_lnRR.pdf*plots/diagnostic_plots_lnRR.qmd|t19974.8379460135s|ea53bd061aaed423|87170783|file|local|vector|||377.734||
-diagnostic_plots_SMD|stem|e0352d0852611590|450d7539a4a8001d|7acd0c691835dbb3|-1588913598|plots/diagnostic_plots_SMD.pdf*plots/diagnostic_plots_SMD.qmd|t19974.8449115172s|127cf81895815f2a|87515850|file|local|vector|||366.312||
 file|stem|6b236b6d4cc80580|a80011998be61174|2c530c1562a7fbd1|1735323524|C:/Users/james/Dropbox/Research/ROM_regional_hypertrophy/data/ROM_regional_hypertrophy_data.csv|t19959.9228999486s|81d8ffd5856bffcd|39400|file|local|vector|||4.406||
 file_wolf|stem|677a380691377bc6|29bc759b28f37a0a|2c530c1562a7fbd1|-102408941|C:/Users/james/Dropbox/Research/ROM_regional_hypertrophy/data/wolf_et_al_meta_data.csv|t19488.6849533039s|0334a2f3da4ed897|87752|file|local|vector|||4.812||
 fit_authors_priors_model_lnRR|function|ace1da8ac1195a43|||||||||||||||
@@ -213,8 +210,6 @@ tidy_wolf_priors_model_slopes_SMD|stem|29ea08553ffddeb0|98a6fe5b2ab883c7|ea1ed3f
 tidy_wolf_priors_model_SMD|stem|ba48123ecb72a8b1|b9ea757260c6efb1|64d013984608576e|-94492254||t19974.810165566s|0b511ff9f117fb66|620|qs|local|vector|||0.782|some parameter names contain underscores term naming may be unreliable|
 trace_plot_authors_priors_model_lnRR|stem|0cbc40cfae100698|87e1b226c20be0e0|f6613ff70e40007d|1081538986||t19974.7020336757s|f5f690a9f45f4258|177614292|qs|local|vector|||15.672||
 trace_plot_authors_priors_model_SMD|stem|7a2185a1cab3e9d1|4de8832233ad39b9|64c8478a5e3060bc|774757061||t19974.7108681734s|dd40600aba3d0d71|177432981|qs|local|vector|||16.047||
-trace_plot_main_model_lnRR|stem|41dbf902beb798ba|2c1519ba5405e682|1cfccf3dc8617729|-133293918||t19974.696765682s|0519688de30aae08|103800687|qs|local|vector|||10.11||
-trace_plot_main_model_SMD|stem|5a700fe32f433d2c|c0b31ae86c9d4994|a9d85d4a5ae45777|-26495440||t19974.7067956279s|809375a2715c187e|103852838|qs|local|vector|||9.656||
 trace_plot_muscle_action_model_lnRR|stem|faebe52e597fc8b7|62da4e561fea0898|9af8c8542aa124d3|767048454||t19974.8081268877s|a374da4e5b8453d8|282852586|qs|local|vector|||25.766||
 trace_plot_muscle_action_model_SMD|stem|373ea654589e596e|dd0e5fe55b39345b|91025a0b4498db05|-1156633134||t19974.8164854508s|84130d90da9aee35|285197028|qs|local|vector|||24.297||
 trace_plot_muscle_model_lnRR|stem|6e39fdb746318c3a|adbdcd272ef995a2|4f6deb97ca74dc13|-1058546939||t19974.7905674564s|b56a0e6b0a8c7319|645946183|qs|local|vector|||54.828||
