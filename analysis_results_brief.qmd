@@ -1,0 +1,247 @@
+---
+title: "Statistical Analysis and Results"
+format: docx
+  # docx:
+  #   toc: false
+  #   number-sections: true
+  #   highlight-style: github
+  #   # prefer-html: true
+bibliography: 
+  references.bib
+csl: apa.csl
+---
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| include: false
+
+knitr::opts_chunk$set(echo = TRUE, fig.align="center")
+options(knitr.kable.NA = '')
+
+library(tidyverse)
+library(patchwork)
+library(marginaleffects)
+library(bayestestR)
+
+```
+
+# Statistical Analysis
+
+All code utilised for data preparation and analyses are available in either the Open Science Framework page for this project <https://osf.io/c2657/> or the corresponding GitHub repository <https://github.com/jamessteeleii/ROM_regional_hypertrophy>. We cite all software and packages used in the analysis pipeline using the `grateful` package [@rodriguez-sanchezGratefulFacilitateCitation2023] which can be seen here: <https://osf.io/pgx6v>. As noted, the project was previously pre-registered however in hindsight we realise that the details of our analysis plan were imprecise and left open many researcher degrees of freedom. Thus, we present the planned analyses as closely as possible given the pre-registration as written and our original intention, but note where we have deviated from this plan below. Further, given the ambiguity we have conducted several additional analyses, including varying the priors used and the model parametrisation, the methods and results of which are described in full detail in the supplementary materials here [https://osf.io/rqavs](https://osf.io/rqavs). In the main text here we report only the pre-registered main models.
+
+All analyses have been conducted within a Bayesian meta-analytic framework and all posterior estimates and their precision, along with conclusions based upon them, will be interpreted continuously and probabilistically, considering priors, data quality, and all within the context of each outcome and the assumptions of the model employed as the estimator [@kruschkeBayesianNewStatistics2018]. We deviate from the pre-registration in the number of sampling iterations (pre-registered as 6000) used as we include comparisons between all models fit in the supplementary materials using Bayes Factors and the Savage-Dickey ratio where it is recommended that at least 40000 iterations are used to obtain precise Bayes-Factors [@gronauBridgesamplingPackageEstimating2020]. Trace plots were produced along with $\hat{R}$ values to examine whether chains had converged, and posterior predictive checks for each model were also examined to understand the model implied distributions.
+
+## Effect sizes
+
+We explored effects calculated for within arm pre- to post-intervention (and for studies with multiple post baseline time points pre- to each time point) as the standardized mean change using raw score standardization with heteroscedastic population variances (SMD) [@bonettConfidenceIntervalsStandardized2008] given it is known that variances scale with mean values in resistance training study outcomes [@steeleMetaanalysisVariationSport2023a] and so a pre-post intervention effect upon the mean will influence this. We also examined the log transformed response ratio (lnRR) [@lajeunesseMetaanalysisResponseRatios2011], which was exponentiated back to the percentage change scale after model fitting (though note that all prior distributions were set on the lnRR scale directly) accounting for the total variance in the model when doing so for the meta-analytic predicted effects [@spakeUnderstandingItDepends2023; @nakagawaCoefficientDeterminationR22017], as this effect size statistic is unaffected (except in its sampling variance) by the estimates for standard deviations within individual studies which are likely underpowered in the typical sample sizes found in the resistance training literature [@steeleMetaanalysisVariationSport2023a]. The use of both additive and multiplicative effect sizes also allows us to explore the sensitivity of interaction effects to scaling as interactions, our primary estimand of interest, are very sensitive to this [@rohrerPreciseAnswersVague2021; @spakeUnderstandingItDepends2023]. Effects were weighted in each model by their inverse sampling variance.
+
+## Models
+
+The primary estimand of interest was the population level (i.e, fixed effect) muscle length by site of measurement interaction. In each model, as per the preregistration, muscle length and site of measurement were centred at 50%, and rescaled to be on the $(-0.5,0.5)$ interval[^1]. As such, the population level coefficients in each of the models corresponded to the overall average effect of resistance training on hypertrophy when at a muscle length of 50% at a site of measurement of 50% (i.e., the intercept: $\mu_{\alpha_{i}}$ in each model below), the slope of the difference i.e., comparison between 0% and 100% muscle length at a site of measurement of 50% (i.e., muscle length coefficient: $\beta_{1}$ in each model below), the slope of the difference i.e., comparison between 0% and 100% site of measurement at a muscle length of 50% (i.e., site of measurement coefficient: $\beta_{2}$ in each model below), and the slope of the difference i.e., comparison between 0% and 100% site of measurement on the slope of the difference i.e., comparison between 0% and 100% muscle length (i.e., muscle length by site of measurement interaction coefficient: $\beta_{3}$ in each model below). Notably, the interpretation of continuous by continuous predictors can be quite challenging. As such, we present for each of these models draws from the posterior of the expectation of the predicted global grand mean across muscle length and at three levels of site of measurement (25%, 50%, and 75%) which shows the predicted effect size magnitudes at particular combinations of muscle length and site of measurement, in addition to the slopes for muscle length (transformed to be the slope of a difference in muscle length of 50% e.g., the slope of the difference between 25% and 75% muscle length) at three levels of site of measurement (25%, 50%, and 75%) which shows the magnitude of the difference in effect size for a 50% difference in muscle length at different sites. We present the predicted values and slopes as mean and 95% quantile intervals. We also, whilst not pre-registered for this project, agreed upon a smallest effect size of interest on both the standardised mean change $(-0.1,0.1)$[^2] and the percentage change scales $(-3\%,3\%)$ and thus set these as regions of practical equivalence (ROPE). This allows us to also examine the probability that the slopes for muscle length might produce a meaningful effect (i.e., greater than the smallest effect size of interest) by examining the mass of the posterior distribution exceeding the upper limits of the ROPE, and also the percentage of the posterior distributions mass that was within the ROPE thus reflecting the probability of practically equivalent effects.
+
+[^1]: The rescaling was in order to have the values for coefficients in the model on a similar scale as the intercept values so that when setting initial values for Monte Carlo Markov Chain sampling these could be set to similar values.
+
+[^2]: Though some of the authors here were those who had been involved in eliciting the smallest effect size of interest used for a currently pre-registered trial examining the effects lengthened partial training upon hypertrophy (see <https://osf.io/9sgjk>).
+
+For the secondary predictor models we explored the muscle length by site of measurement by each additional predictor (e.g., upper or lower body OR muscle group OR muscle action) interaction respectively. For these models, we only present the predicted effect size magnitudes at particular combinations of muscle length and site of measurement similarly to the above.
+
+### Pre-Registered Main Model
+
+As noted, the pre-registered main model involved population level effects for the intercept, slope of muscle length, slope of measurement site, and the muscle length by measurement site interaction. The model also included random intercepts for study, arm, and effect levels. The model equation was as follows:
+
+$$
+\begin{aligned}
+  \operatorname{\hat{\theta}}_{ijk}  &\sim N \left(\mu, \sigma_{ijk} \right) \\
+    \mu &=\alpha_{i} + \alpha_{j} + \alpha_{k} + \beta_{1}(\operatorname{muscle\ length}_{centred}) + \beta_{2}(\operatorname{site_{centred}}) + \beta_{3}(\operatorname{muscle\ length_{centred}} \times \operatorname{site_{centred}}) \\
+    \alpha_{i}  &\sim N \left(\mu_{\alpha_{i}}, \sigma_{\alpha_{i}} \right)
+    \text{, for study i = 1,} \dots \text{,I} \\
+    \alpha_{j}  &\sim N \left(0, \sigma_{\alpha_{j}} \right)
+    \text{, for arm j = 1,} \dots \text{,J} \\
+    \alpha_{k}  &\sim N \left(0, \sigma_{\alpha_{k}} \right)
+    \text{, for effect k = 1,} \dots \text{,K} \\
+\end{aligned}
+$$ {#eq-main-model}
+
+where $\operatorname{\hat{\theta}}_{ijk}$ is the $k$th effect size ($\text{k = 1,} \dots \text{,K}$), here the SMD or lnRR, from the $j$th arm ($\text{j = 1,} \dots \text{,J}$) for the $i$th study ($\text{i = 1,} \dots \text{,I}$), and $\operatorname{\alpha}_{i}$, $\operatorname{\alpha}_{j}$, and $\operatorname{\alpha}_{k}$ are the random intercepts for study, arm, and effect respectively. Prior distributions[^3] taken from Wolf et al. [-@wolfPartialVsFull2023] for the SMD model were (note, values rounded; plots for the population level effect distributions can be seen in the supplementary materials here <https://osf.io/uxhdj>):
+
+[^3]: We obtained priors from studies in the dataset of Wolf et al. [-@wolfPartialVsFull2023] by firstly calculating the within arm pre- to post-intervention changes for the partial range of motion groups only (both SMD and lnRR effect sizes as detailed above) for only muscle size outcomes. We excluded any studies that were already included in the present dataset. Muscle length categorised as short or long was then recoded to be -0.5 and 0.5 respectively such that the predictor was centred; we assumed that the typical difference between short and long was \~50% as noted above in extracting slopes for reporting and so these codes corresponded to \~25% and \~75% muscle length respectively. Measurement site was also centred at 50%. We then fit a model with the same parametrisation as the present pre-registered model in @eq-main-model with the primary difference being that muscle length was categorical and the coefficient in the model fit to the Wolf et al. [-@wolfPartialVsFull2023] data reflected the slope of the difference i.e., comparison between \~25% and \~75% muscle length. We set weakly regularising priors of $student\ t(df=3,\mu=0,\sigma=1)$ for the population parameters for this model as with default uninformative priors chains did not converge. Other priors were left as defaults. We then extracted, assuming $student\ t$ distributions, the hyperparameters $df$, $\mu$, and $\sigma$ for the following parameters: intercept, muscle length coefficient, measurement site coefficient, muscle length by measurement site interaction, and the random effects standard deviations for the study, arm, and effect level intercepts.
+
+$$
+\begin{aligned}
+        \mu_{\alpha_i}  &\sim student\ t \left(df=4.17,\mu=0.16, \sigma=0.53 \right) \\
+     \sigma_{\alpha_i}  &\sim half\ student\ t \left(df=2.32,\mu=0.79, \sigma=0.60 \right) \\
+     \sigma_{\alpha_j}  &\sim half\ student\ t \left(df=2.32,\mu=0.62, \sigma=0.46 \right) \\
+     \sigma_{\alpha_k}  &\sim half\ student\ t \left(df=3.53,\mu=0.14, \sigma=0.10 \right) \\
+     \beta_{1}  &\sim student\ t \left(df=4.39,\mu=0.40, \sigma=1.15 \right) \\
+     \beta_{2}  &\sim student\ t \left(df=7.03,\mu=-0.02, \sigma=0.91 \right) \\
+     \beta_{3}  &\sim student\ t \left(df=4.45,\mu=-0.09, \sigma=1.95 \right) \\
+\end{aligned}
+$$ {#eq-wolf-priors-SMD}
+
+Prior distributions taken from Wolf et al. [-@wolfPartialVsFull2023] for the lnRR model were (note, values rounded; plots for the population level effect distributions can be seen in the supplementary materials here <https://osf.io/tvpes>):
+
+$$
+\begin{aligned}
+        \mu_{\alpha_i}  &\sim student\ t \left(df=2.82,\mu=0.04, \sigma=0.39 \right) \\
+     \sigma_{\alpha_i}  &\sim half\ student\ t \left(df=1.92,\mu=0.55, \sigma=0.47 \right) \\
+     \sigma_{\alpha_j}  &\sim half\ student\ t \left(df=1.96,\mu=0.43, \sigma=0.35 \right) \\
+     \sigma_{\alpha_k}  &\sim half\ student\ t \left(df=7.38,\mu=0.06, \sigma=0.04 \right) \\
+     \beta_{1}  &\sim student\ t \left(df=2.80,\mu=0.10, \sigma=0.80 \right) \\
+     \beta_{2}  &\sim student\ t \left(df=7.74,\mu=0.10, \sigma=0.48 \right) \\
+     \beta_{3}  &\sim student\ t \left(df=5.95,\mu=0.08, \sigma=1.70 \right) \\
+\end{aligned}
+$$ {#eq-wolf-priors-lnRR}
+
+### Secondary Predictor Models - Uninformed Priors
+
+Although we noted these in the pre-registration we do not focus on them in the present manuscript instead focusing on the primary estimand noted above of the muscle length by measurement site interaction. We treat these secondary predictor models as highly exploratory given the amount of data available and the corresponding uncertainty of inferences, and present them only in the supplementary materials (see <https://osf.io/tgzpk>, <https://osf.io/f86ng>, and <https://osf.io/gp2vr> for the upper or lower body, muscle group, and muscle action SMD models respectively and <https://osf.io/hxbv6>, <https://osf.io/w8mbg>, and <https://osf.io/9mhcu> for the upper or lower body, muscle group, and muscle action lnRR models respectively). For reference these models were the same parametrisation as the pre-registered model using the same priors as noted above, with the exception of the additional categorical predictor of either upper or lower body OR muscle group OR muscle action added under a deviation coding scheme (i.e., such that the coefficients for each level were in comparison to the overall mean reflected by the intercept). The added predictors used default uninformative priors of $uniform(lb = -\infty, ub = \infty)$.
+
+# Results
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(wolf_priors_model_SMD)
+targets::tar_load(wolf_priors_model_lnRR)
+targets::tar_load(tidy_wolf_priors_model_SMD)
+targets::tar_load(tidy_wolf_priors_model_lnRR)
+```
+
+The final models presented all included `r length(unique(wolf_priors_model_SMD$data$effect_number))` effects nested within `r length(unique(wolf_priors_model_SMD$data$arm_number))` intervention arms extracted from `r length(unique(wolf_priors_model_SMD$data$study_number))` studies.
+
+## Pre-Registered Main Model
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+
+# Get SMD model summaries
+# Interaction plot - slopes
+  wolf_priors_model_SMD_summary <- avg_slopes(
+    wolf_priors_model_SMD,
+    variables = "mean_muscle_length_centred",
+    newdata = datagrid(
+      mean_muscle_length_centred = seq(-0.35, 0.35, length = 101),
+      site_centred = c(-0.25,0,0.25),
+      vi = 0
+    ),
+    by = "site_centred"
+  ) 
+  
+  wolf_priors_model_SMD_slopes <- wolf_priors_model_SMD_summary |>
+    posterior_draws()
+  
+  wolf_priors_model_SMD_rope_percents <- tibble(
+    site_centred = c(-0.25,0,0.25),
+    rope_percent = c(
+      bayestestR::rope(filter(wolf_priors_model_SMD_slopes, site_centred == -0.25)$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(wolf_priors_model_SMD_slopes, site_centred == 0)$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(wolf_priors_model_SMD_slopes, site_centred == 0.25)$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage
+    ),
+    pd = c(
+      bayestestR::rope(filter(wolf_priors_model_SMD_slopes, site_centred == -0.25)$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(wolf_priors_model_SMD_slopes, site_centred == 0)$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(wolf_priors_model_SMD_slopes, site_centred == 0.25)$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage
+    )
+  )
+
+# Get lnRR model summaries
+# Interaction plot - slopes
+  
+  wolf_priors_model_total_var <- insight::get_variance_random(wolf_priors_model_lnRR)
+  
+  wolf_priors_model_lnRR_summary <- avg_slopes(
+    wolf_priors_model_lnRR,
+    variables = "mean_muscle_length_centred",
+    newdata = datagrid(
+      mean_muscle_length_centred = seq(-0.35, 0.35, length = 101),
+      site_centred = c(-0.25,0,0.25),
+      vi = 0
+    ),
+    by = "site_centred"
+  ) 
+  
+  wolf_priors_model_lnRR_slopes <- wolf_priors_model_lnRR_summary |>
+    posterior_draws() |>
+    mutate(draw = 100*(exp(draw+0.5*wolf_priors_model_total_var)-1))
+  
+   wolf_priors_model_lnRR_summary <- wolf_priors_model_lnRR_summary |>
+    mutate(
+      estimate = 100*(exp(estimate+0.5*wolf_priors_model_total_var)-1),
+      conf.low = 100*(exp(conf.low+0.5*wolf_priors_model_total_var)-1),
+      conf.high = 100*(exp(conf.high+0.5*wolf_priors_model_total_var)-1)
+    )
+  
+  wolf_priors_model_lnRR_rope_percents <- tibble(
+    site_centred = c(-0.25,0,0.25),
+    rope_percent = c(
+      bayestestR::rope(filter(wolf_priors_model_lnRR_slopes, site_centred == -0.25)$draw/2, range = c(-3, 3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(wolf_priors_model_lnRR_slopes, site_centred == 0)$draw/2, range = c(-3, 3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(wolf_priors_model_lnRR_slopes, site_centred == 0.25)$draw/2, range = c(-3, 3), ci = 1)$ROPE_Percentage
+    ),
+    pd = c(
+      bayestestR::rope(filter(wolf_priors_model_lnRR_slopes, site_centred == -0.25)$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(wolf_priors_model_lnRR_slopes, site_centred == 0)$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(wolf_priors_model_lnRR_slopes, site_centred == 0.25)$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage
+    )
+  )
+
+  
+```
+
+For the main pre-registered model utilising priors from Wolf et al. [-@wolfPartialVsFull2023] the predicted effect size magnitudes across muscle length and at three levels of site of measurement (25%, 50%, and 75%) in addition to the slopes for muscle length (transformed to be the slope of a difference in muscle length of 50% e.g., the slope of the difference between 25% and 75% muscle length) at three levels of site of measurement (25%, 50%, and 75%) can be seen in @fig-wolf-SMD-plot for the SMD model, and @fig-wolf-lnRR-plot for the lnRR model. 
+
+For the SMD model the magnitude of muscle length slope was `r round(wolf_priors_model_SMD_summary$estimate[1]/2,2)` [95% quantile interval: `r round(wolf_priors_model_SMD_summary$conf.low[1]/2,2)`, `r round(wolf_priors_model_SMD_summary$conf.high[1]/2,2)`] at the 25% measurement site with probability of a meaningful positive effect (i.e., 0.1) of `r round(wolf_priors_model_SMD_rope_percents$pd[1]*100,2)`% and percentage within the ROPE (i.e., -0.1,0.1) of `r round(wolf_priors_model_SMD_rope_percents$rope_percent[1]*100,2)`%, `r round(wolf_priors_model_SMD_summary$estimate[2]/2,2)` [95% quantile interval: `r round(wolf_priors_model_SMD_summary$conf.low[2]/2,2)`,`r round(wolf_priors_model_SMD_summary$conf.high[2]/2,2)`] at the 50% measurement site with probability of a meaningful positive effect (i.e., 0.1) of `r round(wolf_priors_model_SMD_rope_percents$pd[2]*100,2)`% and percentage within the ROPE (i.e., -0.1,0.1) of `r round(wolf_priors_model_SMD_rope_percents$rope_percent[2]*100,2)`%, and `r round(wolf_priors_model_SMD_summary$estimate[3]/2,2)` [95% quantile interval: `r round(wolf_priors_model_SMD_summary$conf.low[3]/2,2)`,`r round(wolf_priors_model_SMD_summary$conf.high[3]/2,2)`] at the 75% measurement site with probability of a meaningful positive effect (i.e., 0.1) of `r round(wolf_priors_model_SMD_rope_percents$pd[3]*100,2)`% and percentage within the ROPE (i.e., -0.1,0.1) of `r round(wolf_priors_model_SMD_rope_percents$rope_percent[3]*100,2)`%. There was considerable heterogeneity of effects relative to the magnitude of the population level effects, particularly at the study level, with $\tau_{study}=$ `r round(tidy_wolf_priors_model_SMD$estimate[7]/2,2)` [95% quantile interval: `r round(tidy_wolf_priors_model_SMD$conf.low[7],2)`,`r round(tidy_wolf_priors_model_SMD$conf.high[7],2)`], $\tau_{arm}=$ `r round(tidy_wolf_priors_model_SMD$estimate[5]/2,2)` [95% quantile interval: `r round(tidy_wolf_priors_model_SMD$conf.low[5],2)`,`r round(tidy_wolf_priors_model_SMD$conf.high[5],2)`], and $\tau_{effect}=$ `r round(tidy_wolf_priors_model_SMD$estimate[6]/2,2)` [95% quantile interval: `r round(tidy_wolf_priors_model_SMD$conf.low[6],2)`,`r round(tidy_wolf_priors_model_SMD$conf.high[6],2)`]. 
+
+For the lnRR model the magnitude of muscle length slope was `r round(wolf_priors_model_lnRR_summary$estimate[1]/2,2)`% [95% quantile interval: `r round(wolf_priors_model_lnRR_summary$conf.low[1]/2,2)`%, `r round(wolf_priors_model_lnRR_summary$conf.high[1]/2,2)`%] at the 25% measurement site with probability of a meaningful positive effect (i.e., 0.1) of `r round(wolf_priors_model_lnRR_rope_percents$pd[1]*100,2)`% and percentage within the ROPE (i.e., -0.1,0.1) of `r round(wolf_priors_model_lnRR_rope_percents$rope_percent[1]*100,2)`%, `r round(wolf_priors_model_lnRR_summary$estimate[2]/2,2)`% [95% quantile interval: `r round(wolf_priors_model_lnRR_summary$conf.low[2]/2,2)`%,`r round(wolf_priors_model_lnRR_summary$conf.high[2]/2,2)`%] at the 50% measurement site with probability of a meaningful positive effect (i.e., 0.1) of `r round(wolf_priors_model_lnRR_rope_percents$pd[2]*100,2)`% and percentage within the ROPE (i.e., -0.1,0.1) of `r round(wolf_priors_model_lnRR_rope_percents$rope_percent[2]*100,2)`%, and `r round(wolf_priors_model_lnRR_summary$estimate[3]/2,2)`% [95% quantile interval: `r round(wolf_priors_model_lnRR_summary$conf.low[3]/2,2)`%,`r round(wolf_priors_model_lnRR_summary$conf.high[3]/2,2)`%] at the 75% measurement site with probability of a meaningful positive effect (i.e., 0.1) of `r round(wolf_priors_model_lnRR_rope_percents$pd[3]*100,2)`% and percentage within the ROPE (i.e., -0.1,0.1) of `r round(wolf_priors_model_lnRR_rope_percents$rope_percent[3]*100,2)`%. There was considerable heterogeneity of effects relative to the magnitude of the population level effects, particularly at the study level, with $\tau_{study}=$ `r round(100*(exp(tidy_wolf_priors_model_lnRR$estimate[7]/2+0.5*wolf_priors_model_total_var)-1),2)`% [95% quantile interval: `r round(100*(exp(tidy_wolf_priors_model_lnRR$conf.low[7]+0.5*wolf_priors_model_total_var)-1),2)`%,`r round(100*(exp(tidy_wolf_priors_model_lnRR$conf.high[7]+0.5*wolf_priors_model_total_var)-1),2)`%], $\tau_{arm}=$ `r round(100*(exp(tidy_wolf_priors_model_lnRR$estimate[5]/2+0.5*wolf_priors_model_total_var)-1),2)`% [95% quantile interval: `r round(100*(exp(tidy_wolf_priors_model_lnRR$conf.low[5]+0.5*wolf_priors_model_total_var)-1),2)`%,`r round(100*(exp(tidy_wolf_priors_model_lnRR$conf.high[5]+0.5*wolf_priors_model_total_var)-1),2)`%], and $\tau_{effect}=$ `r round(100*(exp(tidy_wolf_priors_model_lnRR$estimate[6]/2+0.5*wolf_priors_model_total_var)-1),2)`% [95% quantile interval: `r round(100*(exp(tidy_wolf_priors_model_lnRR$conf.low[6]+0.5*wolf_priors_model_total_var)-1),2)`%,`r round(100*(exp(tidy_wolf_priors_model_lnRR$conf.high[6]+0.5*wolf_priors_model_total_var)-1),2)`%]. 
+
+Model diagnostics can be seen in the supplementary materials here: [https://osf.io/3ybcs](https://osf.io/3ybcs). 
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| label: fig-wolf-SMD-plot 
+#| fig-width: 10
+#| fig-height: 5.5
+#| fig-cap: Results from primary pre-registered main model for standardised mean difference effects.
+
+targets::tar_load(wolf_priors_model_plot_preds_SMD)
+targets::tar_load(wolf_priors_model_plot_slopes_SMD)
+
+(wolf_priors_model_plot_preds_SMD + wolf_priors_model_plot_slopes_SMD) +
+    plot_annotation(
+      title = "Interaction between mean muscle length and site of measurement",
+      subtitle = "Global grand mean and 95% quantile intervals presented for predictions and slopes at 25%, 50%, and 75% of centred site of measurement",
+      caption = "Note, the slopes have been transformed to the effect when increasing muscle length by 50% to reflect typical difference between short vs long lengths"
+    ) + 
+    plot_layout(guides = "collect") & theme(legend.position = "bottom")
+```
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| label: fig-wolf-lnRR-plot 
+#| fig-width: 10
+#| fig-height: 5.5
+#| fig-cap: Results from primary pre-registered main model for exponentiated log response ratio effects.
+
+targets::tar_load(wolf_priors_model_plot_preds_lnRR)
+targets::tar_load(wolf_priors_model_plot_slopes_lnRR)
+
+(wolf_priors_model_plot_preds_lnRR + wolf_priors_model_plot_slopes_lnRR) +
+    plot_annotation(
+      title = "Interaction between mean muscle length and site of measurement",
+      subtitle = "Global grand mean and 95% quantile intervals presented for predictions and slopes at 25%, 50%, and 75% of centred site of measurement",
+      caption = "Note, the slopes have been transformed to the effect when increasing muscle length by 50% to reflect typical difference between short vs long lengths"
+    ) + 
+    plot_layout(guides = "collect") & theme(legend.position = "bottom")
+```
+
+# References
