@@ -53,7 +53,7 @@ As noted, the pre-registered main model involved population level effects for th
 
 $$
 \begin{aligned}
-  \operatorname{\hat{\theta}}_{ijk}  &\sim N \left(\mu, \sigma_{ijk} \right) \\
+  \hat{\theta}_{ijk}  &\sim N \left(\mu, \sigma_{ijk} \right) \\
     \mu &=\alpha_{i} + \alpha_{j} + \alpha_{k} + \beta_{1}(\operatorname{muscle\ length}_{centred}) + \beta_{2}(\operatorname{site_{centred}}) + \beta_{3}(\operatorname{muscle\ length_{centred}} \times \operatorname{site_{centred}}) \\
     \alpha_{i}  &\sim N \left(\mu_{\alpha_{i}}, \sigma_{\alpha_{i}} \right)
     \text{, for study i = 1,} \dots \text{,I} \\
@@ -64,7 +64,7 @@ $$
 \end{aligned}
 $$ {#eq-main-model}
 
-where $\operatorname{\hat{\theta}}_{ijk}$ is the $k$th effect size ($\text{k = 1,} \dots \text{,K}$), here the SMD or lnRR, from the $j$th arm ($\text{j = 1,} \dots \text{,J}$) for the $i$th study ($\text{i = 1,} \dots \text{,I}$), and $\operatorname{\alpha}_{i}$, $\operatorname{\alpha}_{j}$, and $\operatorname{\alpha}_{k}$ are the random intercepts for study, arm, and effect respectively. Prior distributions[^3] taken from Wolf et al. [-@wolfPartialVsFull2023] for the SMD model were (note, values rounded; plots for the population level effect distributions can be seen in the supplementary materials here <https://osf.io/uxhdj>):
+where $\hat{\theta}_{ijk}$ is the $k$th effect size ($\text{k = 1,} \dots \text{,K}$), here the SMD or lnRR, from the $j$th arm ($\text{j = 1,} \dots \text{,J}$) for the $i$th study ($\text{i = 1,} \dots \text{,I}$), and $\alpha_{i}$, $\alpha_{j}$, and $\alpha_{k}$ are the random intercepts for study, arm, and effect respectively. Prior distributions[^3] taken from Wolf et al. [-@wolfPartialVsFull2023] for the SMD model were (note, values rounded; plots for the population level effect distributions can be seen in the supplementary materials here <https://osf.io/uxhdj>):
 
 [^3]: We obtained priors from studies in the dataset of Wolf et al. [-@wolfPartialVsFull2023] by firstly calculating the within arm pre- to post-intervention changes for the partial range of motion groups only (both SMD and lnRR effect sizes as detailed above) for only muscle size outcomes. We excluded any studies that were already included in the present dataset. Muscle length categorised as short or long was then recoded to be -0.5 and 0.5 respectively such that the predictor was centred; we assumed that the typical difference between short and long was \~50% as noted above in extracting slopes for reporting and so these codes corresponded to \~25% and \~75% muscle length respectively. Measurement site was also centred at 50%. We then fit a model with the same parametrisation as the present pre-registered model in @eq-main-model with the primary difference being that muscle length was categorical and the coefficient in the model fit to the Wolf et al. [-@wolfPartialVsFull2023] data reflected the slope of the difference i.e., comparison between \~25% and \~75% muscle length. We set weakly regularising priors of $student\ t(df=3,\mu=0,\sigma=1)$ for the population parameters for this model as with default uninformative priors chains did not converge. Other priors were left as defaults. We then extracted, assuming $student\ t$ distributions, the hyperparameters $df$, $\mu$, and $\sigma$ for the following parameters: intercept, muscle length coefficient, measurement site coefficient, muscle length by measurement site interaction, and the random effects standard deviations for the study, arm, and effect level intercepts.
 

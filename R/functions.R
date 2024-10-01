@@ -4,7 +4,7 @@ read_prepare_data_SMD <- function(file) {
   data <- read.csv(here("data", "ROM_regional_hypertrophy_data.csv"), dec = ",") |>
   
   # clean up names
-  clean_names() |>
+  janitor::clean_names() |>
   
   # add code for each arm; note "within" designs have mutliple conditions but a single group
   mutate(arm_number = if_else(design == "Within", paste(study_number, design), paste(study_number,group)),
@@ -55,15 +55,15 @@ read_prepare_data_lnRR <- function(file) {
   data <- read.csv(here("data", "ROM_regional_hypertrophy_data.csv"), dec = ",") |>
     
     # clean up names
-    clean_names() |>
+    janitor::clean_names() |>
     
     # add code for each arm; note "within" designs have mutliple conditions but a single group
     mutate(arm_number = if_else(design == "Within", paste(study_number, design), paste(study_number,group)),
            arm_number = as.factor(unclass(factor(unlist(arm_number))))) |>
-    
+
     # add code for effects
     rowid_to_column("effect_number") |>
-    
+
     # convert means/sds to numeric
     mutate(m_pre = as.numeric(m_pre),
            m_post = as.numeric(m_post),
@@ -71,15 +71,15 @@ read_prepare_data_lnRR <- function(file) {
            sd_post = as.numeric(sd_post),
            mean_muscle_length = as.numeric(mean_muscle_length)*100
     ) |>
-    
+
     # rescale muscle length and centre along with site
     mutate(mean_muscle_length_centred = (mean_muscle_length-50)/100,
            site_centred = (site-50)/100) |>
-    
+
     # add assumed pre-post correlation
     mutate(ri = 0.7)
-  
-  
+
+
   # Calculate standardised effects
   data <- escalc(
     measure = "ROMC",
@@ -91,14 +91,14 @@ read_prepare_data_lnRR <- function(file) {
     ni = n,
     data = data
   )
-  
+
   data <- data |>
-    
+
     # add study weights/sizes
     mutate(
       wi = 1/sqrt(vi),
       size = 0.5 + 3.0 * (wi - min(wi, na.rm=TRUE))/(max(wi, na.rm=TRUE) - min(wi, na.rm=TRUE)))
-  
+
 }
 
 read_prepare_wolf_data_SMD <- function(file) {
