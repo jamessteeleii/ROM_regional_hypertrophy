@@ -535,6 +535,35 @@ fit_muscle_action_model <- function(data, prior) {
     )
 }
 
+fit_muscle_length_manipulation_model <- function(data, prior) {
+  
+  # assigning the deviation contrasts
+  
+  data <- data |>
+    mutate(muscle_length_manipulation = as.factor(if_else(author %in% c("Alegre et al", "Bloomquist et al", "McMahon et al", "Noorkoiv et al", "Pedrosa et al.", "Sato et al", "Valmatos et al"),
+                                                          "Range of Motion", "Exercise Selection")
+    ))
+    
+  contrasts(data$muscle_length_manipulation) = contr.sum(length(unique(data$muscle_length_manipulation)))
+  
+  model <-
+    brm(
+      yi | se(sqrt(vi)) ~ 0 + Intercept + mean_muscle_length_centred * site_centred * muscle_length_manipulation +
+        (1 | study_number) +
+        (1 | arm_number) +
+        (1 | effect_number),
+      data = data,
+      prior = prior,
+      chains = 4,
+      cores = 4,
+      seed = 1988,
+      warmup = 2000,
+      iter = 42000,
+      control = list(adapt_delta = 0.99),
+      save_pars = save_pars(all = TRUE)
+    )
+}
+
 # Additional models not in pre-registration
 
 # Fit uninformed model
@@ -1640,6 +1669,64 @@ plot_muscle_action_model_preds_SMD <- function(data, model) {
   
 }
 
+plot_muscle_length_manipulation_model_preds_SMD <- function(data, model) {
+  
+  data <- data |>
+    mutate(muscle_length_manipulation = as.factor(if_else(author %in% c("Alegre et al", "Bloomquist et al", "McMahon et al", "Noorkoiv et al", "Pedrosa et al.", "Sato et al", "Valmatos et al"),
+                                                          "Range of Motion", "Exercise Selection")
+    ))
+  
+  # Interaction plot
+  preds <- crossing(
+    mean_muscle_length_centred = seq(-0.35, 0.35, length = 11),
+    site_centred = c(-0.25,0,0.25),
+    muscle_length_manipulation = unique(data$muscle_length_manipulation),
+    vi = 0
+  ) |>
+    add_epred_draws(model, re_formula = NA)
+  
+  summary <- preds |>
+    group_by(mean_muscle_length_centred, site_centred, muscle_length_manipulation) |>
+    mean_qi() 
+  
+  summary |>
+    ggplot(aes(x = (mean_muscle_length_centred*100)+50, y = .epred)) +
+    geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.75) +
+    geom_ribbon(aes(ymin = .epred.lower, ymax = .epred.upper,
+                    group = as.factor((site_centred*100)+50), fill = (site_centred*100)+50),
+                alpha = 0.5, color = "black", size = 0.25) +
+    geom_line(aes(y = .epred,
+                  group = as.factor((site_centred*100)+50)), size = 1, color = "black") +
+    geom_line(aes(y = .epred,
+                  group = as.factor((site_centred*100)+50), color = (site_centred*100)+50)) +
+    geom_point(data = data,
+               aes(y = yi, size = size + 0.25), color = "black", fill = NA, shape = 21, alpha = 0.5) +
+    geom_point(data = data,
+               aes(y = yi, size = size, color = (site_centred*100)+50), alpha = 0.5) +
+    scale_color_viridis_c() +
+    scale_fill_viridis_c() +
+    scale_x_continuous(breaks = c(0,25,50,75,100)) +
+    # scale_y_continuous(breaks = c(0,0.5,1,1.5,2,2.5)) +
+    facet_wrap("muscle_length_manipulation") +
+    guides(
+      size = "none",
+      color = "none"
+    ) +
+    labs(
+      x = "Mean Muscle Length (%)",
+      y = "Standardised Mean Change",
+      fill = "Site of Measurement (%)",
+      title = "Interaction between mean muscle length, site of measurement, and method for manipulating muscle length",
+      subtitle = "Global grand mean and 95% quantile intervals presented for predictions at 25%, 50%, and 75% of centred site of measurement"
+    ) +
+    theme_classic() +
+    theme(panel.border = element_rect(fill = NA),
+          legend.position = "bottom",
+          axis.title = element_text(size=10))
+  
+}
+
+
 plot_upper_lower_model_preds_lnRR <- function(data, model) {
   
   total_var <- get_variance_random(model)
@@ -1817,6 +1904,67 @@ plot_muscle_action_model_preds_lnRR <- function(data, model) {
           axis.title = element_text(size=10))
   
 }
+
+plot_muscle_length_manipulation_model_preds_lnRR <- function(data, model) {
+  
+  total_var <- get_variance_random(model)
+  
+  data <- data |>
+    mutate(muscle_length_manipulation = as.factor(if_else(author %in% c("Alegre et al", "Bloomquist et al", "McMahon et al", "Noorkoiv et al", "Pedrosa et al.", "Sato et al", "Valmatos et al"),
+                                                          "Range of Motion", "Exercise Selection")
+    ))
+  
+  # Interaction plot
+  preds <- crossing(
+    mean_muscle_length_centred = seq(-0.35, 0.35, length = 11),
+    site_centred = c(-0.25,0,0.25),
+    muscle_length_manipulation = unique(data$muscle_length_manipulation),
+    vi = 0
+  ) |>
+    add_epred_draws(model, re_formula = NA) |>
+    mutate(.epred = 100*(exp(.epred+0.5*total_var)-1))
+  
+  summary <- preds |>
+    group_by(mean_muscle_length_centred, site_centred, muscle_length_manipulation) |>
+    mean_qi() 
+  
+  summary |>
+    ggplot(aes(x = (mean_muscle_length_centred*100)+50, y = .epred)) +
+    geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.75) +
+    geom_ribbon(aes(ymin = .epred.lower, ymax = .epred.upper,
+                    group = as.factor((site_centred*100)+50), fill = (site_centred*100)+50),
+                alpha = 0.5, color = "black", size = 0.25) +
+    geom_line(aes(y = .epred,
+                  group = as.factor((site_centred*100)+50)), size = 1, color = "black") +
+    geom_line(aes(y = .epred,
+                  group = as.factor((site_centred*100)+50), color = (site_centred*100)+50)) +
+    geom_point(data = data,
+               aes(y = 100*(exp(yi)-1), size = size + 0.25), color = "black", fill = NA, shape = 21, alpha = 0.5) +
+    geom_point(data = data,
+               aes(y = 100*(exp(yi)-1), size = size, color = (site_centred*100)+50), alpha = 0.5) +
+    scale_color_viridis_c() +
+    scale_fill_viridis_c() +
+    scale_x_continuous(breaks = c(0,25,50,75,100)) +
+    # scale_y_continuous(breaks = c(0,0.5,1,1.5,2,2.5)) +
+    facet_wrap("muscle_length_manipulation") +
+    guides(
+      size = "none",
+      color = "none"
+    ) +
+    labs(
+      x = "Mean Muscle Length (%)",
+      y = "Exponentiated Log Response Ratio (%)",
+      fill = "Site of Measurement (%)",
+      title = "Interaction between mean muscle length, site of measurement, and method for manipulating muscle length",
+      subtitle = "Global grand mean and 95% quantile intervals presented for predictions at 25%, 50%, and 75% of centred site of measurement"
+    ) +
+    theme_classic() +
+    theme(panel.border = element_rect(fill = NA),
+          legend.position = "bottom",
+          axis.title = element_text(size=10))
+  
+}
+
 
 plot_BF_model_comparisons <- function(model1,
                                       model2,

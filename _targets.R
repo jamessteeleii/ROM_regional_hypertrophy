@@ -88,6 +88,14 @@ list(
   tar_target(pp_check_muscle_action_model_SMD, make_pp_check(muscle_action_model_SMD)),
   tar_target(muscle_action_model_plot_preds_SMD, plot_muscle_action_model_preds_SMD(data_SMD, muscle_action_model_SMD)),
   tar_target(tidy_muscle_action_model_SMD, get_tidy_model(muscle_action_model_SMD)),
+  
+  # Fit, check, and plot muscle length manipulation model with uninformed priors
+  tar_target(muscle_length_manipulation_model_SMD, fit_muscle_length_manipulation_model(data_SMD,wolf_priors_SMD)),
+  tar_target(rhat_muscle_length_manipulation_model_SMD, make_rhat_plot(muscle_length_manipulation_model_SMD)),
+  tar_target(trace_plot_muscle_length_manipulation_model_SMD, make_trace_plot(muscle_length_manipulation_model_SMD)),
+  tar_target(pp_check_muscle_length_manipulation_model_SMD, make_pp_check(muscle_length_manipulation_model_SMD)),
+  tar_target(muscle_length_manipulation_model_plot_preds_SMD, plot_muscle_length_manipulation_model_preds_SMD(data_SMD, muscle_length_manipulation_model_SMD)),
+  tar_target(tidy_muscle_length_manipulation_model_SMD, get_tidy_model(muscle_length_manipulation_model_SMD)),
 
   # Fit, check, and plot uninformed model with uninformed priors
   tar_target(uninformed_model_SMD, fit_uninformed_model(data_SMD)),
@@ -183,6 +191,14 @@ list(
   tar_target(pp_check_muscle_action_model_lnRR, make_pp_check(muscle_action_model_lnRR)),
   tar_target(muscle_action_model_plot_preds_lnRR, plot_muscle_action_model_preds_lnRR(data_lnRR, muscle_action_model_lnRR)),
   tar_target(tidy_muscle_action_model_lnRR, get_tidy_model(muscle_action_model_lnRR)),
+  
+  # Fit, check, and plot muscle length manipulation model with uninformed priors
+  tar_target(muscle_length_manipulation_model_lnRR, fit_muscle_length_manipulation_model(data_lnRR,wolf_priors_lnRR)),
+  tar_target(rhat_muscle_length_manipulation_model_lnRR, make_rhat_plot(muscle_length_manipulation_model_lnRR)),
+  tar_target(trace_plot_muscle_length_manipulation_model_lnRR, make_trace_plot(muscle_length_manipulation_model_lnRR)),
+  tar_target(pp_check_muscle_length_manipulation_model_lnRR, make_pp_check(muscle_length_manipulation_model_lnRR)),
+  tar_target(muscle_length_manipulation_model_plot_preds_lnRR, plot_muscle_length_manipulation_model_preds_lnRR(data_lnRR, muscle_length_manipulation_model_lnRR)),
+  tar_target(tidy_muscle_length_manipulation_model_lnRR, get_tidy_model(muscle_length_manipulation_model_lnRR)),
 
   # Fit, check, and plot uninformed model with uninformed priors
   tar_target(uninformed_model_lnRR, fit_uninformed_model(data_lnRR)),
@@ -246,6 +262,7 @@ list(
   tar_target(upper_lower_model_plot_preds_SMD_tiff, make_plot_tiff(upper_lower_model_plot_preds_SMD, 10, 5.5, "plots/upper_lower_model_plot_preds_SMD.tiff")),
   tar_target(muscle_model_plot_preds_SMD_tiff, make_plot_tiff(muscle_model_plot_preds_SMD, 10, 5.5, "plots/muscle_model_plot_preds_SMD.tiff")),
   tar_target(muscle_action_model_plot_preds_SMD_tiff, make_plot_tiff(muscle_action_model_plot_preds_SMD, 10, 7.5, "plots/muscle_action_model_plot_preds_SMD.tiff")),
+  tar_target(muscle_length_manipulation_model_plot_preds_SMD_tiff, make_plot_tiff(muscle_length_manipulation_model_plot_preds_SMD, 10, 5.5, "plots/muscle_length_manipulation_model_plot_preds_SMD.tiff")),
   tar_target(uninformed_model_plot_SMD_tiff, make_plot_tiff(combined_uninformed_model_plot_SMD, 10, 5.5, "plots/uninformed_model_SMD.tiff")),
   tar_target(wolf_priors_model_slopes_plot_SMD_tiff, make_plot_tiff(combined_wolf_priors_model_slopes_plot_SMD, 10, 5.5, "plots/wolf_priors_model_slopes_SMD.tiff")),
   tar_target(authors_priors_plot_SMD_tiff, make_plot_tiff(authors_priors_plot_SMD, 7.5, 5, "plots/authors_priors_SMD.tiff")),
@@ -260,6 +277,7 @@ list(
   tar_target(upper_lower_model_plot_preds_lnRR_tiff, make_plot_tiff(upper_lower_model_plot_preds_lnRR, 10, 5.5, "plots/upper_lower_model_plot_preds_lnRR.tiff")),
   tar_target(muscle_model_plot_preds_lnRR_tiff, make_plot_tiff(muscle_model_plot_preds_lnRR, 10, 5.5, "plots/muscle_model_plot_preds_lnRR.tiff")),
   tar_target(muscle_action_model_plot_preds_lnRR_tiff, make_plot_tiff(muscle_action_model_plot_preds_lnRR, 10, 7.5, "plots/muscle_action_model_plot_preds_lnRR.tiff")),
+  tar_target(muscle_length_manipulation_model_plot_preds_lnRR_tiff, make_plot_tiff(muscle_length_manipulation_model_plot_preds_lnRR, 10, 5.5, "plots/muscle_length_manipulation_model_plot_preds_lnRR.tiff")),
   tar_target(uninformed_model_plot_lnRR_tiff, make_plot_tiff(combined_uninformed_model_plot_lnRR, 10, 5.5, "plots/uninformed_model_lnRR.tiff")),
   tar_target(wolf_priors_model_slopes_plot_lnRR_tiff, make_plot_tiff(combined_wolf_priors_model_slopes_plot_lnRR, 10, 5.5, "plots/wolf_priors_model_slopes_lnRR.tiff")),
   tar_target(authors_priors_plot_lnRR_tiff, make_plot_tiff(authors_priors_plot_lnRR, 7.5, 5, "plots/authors_priors_lnRR.tiff")),
