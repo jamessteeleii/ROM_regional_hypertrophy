@@ -1,0 +1,357 @@
+---
+title: "Diagnostic Plots - Secondary Predictor Models"
+subtitle: "The effects of muscle length during resistance training on regional hypertrophy adaptations: A systematic review and meta-analysis"
+author: "Dorian Varovic, Milo Wolf, Brad J. Schoenfeld, James Steele, Jozo Grgic Pavle Mikulic"
+format:
+  pdf:
+    documentclass: report
+    toc: false
+    number-sections: false
+    highlight-style: github
+    fig-width: 10
+    fig-height: 10
+---
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| include: false
+targets::tar_config_set(store = here::here('_targets'))
+```
+
+# Standardised Mean Difference Models
+
+## Upper vs Lower Body
+
+### $\hat{R}$
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(rhat_upper_lower_model_SMD)
+
+rhat_upper_lower_model_SMD 
+
+```
+
+### Trace plots
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(trace_plot_upper_lower_model_SMD)
+
+trace_plot_upper_lower_model_SMD
+
+```
+
+### Posterior predictive check
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(pp_check_upper_lower_model_SMD)
+
+pp_check_upper_lower_model_SMD
+
+```
+
+## Muscle Group
+
+### $\hat{R}$
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(rhat_muscle_model_SMD)
+
+rhat_muscle_model_SMD 
+
+```
+
+### Trace plots
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(trace_plot_muscle_model_SMD)
+
+trace_plot_muscle_model_SMD
+
+```
+
+### Posterior predictive check
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(pp_check_muscle_model_SMD)
+
+pp_check_muscle_model_SMD
+
+```
+
+## Muscle Action
+
+### $\hat{R}$
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(rhat_muscle_action_model_SMD)
+
+rhat_muscle_action_model_SMD 
+
+```
+
+### Trace plots
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(trace_plot_muscle_action_model_SMD)
+
+trace_plot_muscle_action_model_SMD
+
+```
+
+### Posterior predictive check
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(pp_check_muscle_action_model_SMD)
+
+pp_check_muscle_action_model_SMD
+
+```
+
+## Method of Manipulating Muscle Length
+
+### $\hat{R}$
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(rhat_muscle_length_manipulation_model_SMD)
+
+rhat_muscle_length_manipulation_model_SMD 
+
+```
+
+### Trace plots
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(trace_plot_muscle_length_manipulation_model_SMD)
+
+trace_plot_muscle_length_manipulation_model_SMD
+
+```
+
+### Posterior predictive check
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(pp_check_muscle_length_manipulation_model_SMD)
+
+pp_check_muscle_length_manipulation_model_SMD
+
+```
+
+# Log Response Ratio Models
+
+## Upper vs Lower Body
+
+### $\hat{R}$
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(rhat_upper_lower_model_lnRR)
+
+rhat_upper_lower_model_lnRR 
+
+```
+
+### Trace plots
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(trace_plot_upper_lower_model_lnRR)
+
+trace_plot_upper_lower_model_lnRR
+
+```
+
+### Posterior predictive check
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(pp_check_upper_lower_model_lnRR)
+
+pp_check_upper_lower_model_lnRR
+
+```
+
+## Muscle Group
+
+### $\hat{R}$
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(rhat_muscle_model_lnRR)
+
+rhat_muscle_model_lnRR 
+
+```
+
+### Trace plots
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(trace_plot_muscle_model_lnRR)
+
+trace_plot_muscle_model_lnRR
+
+```
+
+### Posterior predictive check
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(pp_check_muscle_model_lnRR)
+
+pp_check_muscle_model_lnRR
+
+```
+
+## Muscle Action
+
+### $\hat{R}$
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(rhat_muscle_action_model_lnRR)
+
+rhat_muscle_action_model_lnRR 
+
+```
+
+### Trace plots
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(trace_plot_muscle_action_model_lnRR)
+
+trace_plot_muscle_action_model_lnRR
+
+```
+
+### Posterior predictive check
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(pp_check_muscle_action_model_lnRR)
+
+pp_check_muscle_action_model_lnRR
+
+```
+
+## Method of Manipulating Muscle Length
+
+### $\hat{R}$
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(rhat_muscle_length_manipulation_model_lnRR)
+
+rhat_muscle_length_manipulation_model_lnRR 
+
+```
+
+### Trace plots
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(trace_plot_muscle_length_manipulation_model_lnRR)
+
+trace_plot_muscle_length_manipulation_model_lnRR
+
+```
+
+### Posterior predictive check
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(pp_check_muscle_length_manipulation_model_lnRR)
+
+pp_check_muscle_length_manipulation_model_lnRR
+
+```
+
+
+
+
+

@@ -1,7 +1,7 @@
 ---
 title: "Diagnostic Plots - Main Model with Random Slopes - J. Steele Informed Priors"
 subtitle: "The effects of muscle length during resistance training on regional hypertrophy adaptations: A systematic review and meta-analysis"
-author: "Dorian Varovic, Milo Wolf, Brad J. Schoenfeld, James Steele, Pavle Mikulic"
+author: "Dorian Varovic, Milo Wolf, Brad J. Schoenfeld, James Steele, Jozo Grgic Pavle Mikulic"
 format:
   pdf:
     documentclass: report

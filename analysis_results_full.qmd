@@ -27,7 +27,7 @@ library(marginaleffects)
 library(bayestestR)
 
 ```
-This supplementary document contains the full statistical methods and results for all models, both the pre-registered main model and additional supplementary models varying priors and also model parametrisations, for the project titled *"The effects of muscle length during resistance training on regional hypertrophy adaptations: A systematic review and meta-analysis"*  by Dorian Varovic, Milo Wolf, Brad Jon Schoenfeld, James Steele, and Pavle Mikulić.
+This supplementary document contains the full statistical methods and results for all models, both the pre-registered main model and additional supplementary models varying priors and also model parametrisations, for the project titled *"The effects of muscle length during resistance training on regional hypertrophy adaptations: A systematic review and meta-analysis"*  by Dorian Varovic, Milo Wolf, Brad Jon Schoenfeld, James Steele, Jozo Grgic, and Pavle Mikulić.
 
 # Statistical Analysis
 

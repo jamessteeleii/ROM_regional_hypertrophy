@@ -310,7 +310,9 @@ list(
   tar_quarto(uninformed_model_diagnostic_plots, path = "plots/uninformed_model_diagnostic_plots.qmd"),
   tar_quarto(wolf_priors_model_slopes_diagnostic_plots, path = "plots/wolf_priors_model_slopes_diagnostic_plots.qmd"),
   tar_quarto(steele_priors_model_diagnostic_plots, path = "plots/steele_priors_model_diagnostic_plots.qmd"),
-  tar_quarto(authors_priors_model_diagnostic_plots, path = "plots/authors_priors_model_diagnostic_plots.qmd")
+  tar_quarto(authors_priors_model_diagnostic_plots, path = "plots/authors_priors_model_diagnostic_plots.qmd"),
+  tar_quarto(secondary_predictors_model_diagnostic_plots, path = "plots/secondary_predictors_model_diagnostic_plots.qmd")
+  
   # tar_quarto(analysis_results, path = "analysis_results.qmd")
   
 )

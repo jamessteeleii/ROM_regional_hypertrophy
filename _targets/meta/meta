@@ -1,7 +1,7 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|20f27a5950985ac3|||||||||||||||
+.Random.seed|object|193e227a1384ff97|||||||||||||||
 authors_priors_lnRR|stem|6c82032b6a28f03c|8056f8cd29cb280f|5cff7a2c57ab0ea1|484400923||t19974.6664078988s|852ca65165b9cec5|312|qs|local|vector|||7.281||
-authors_priors_model_diagnostic_plots|stem|d9b055e659a65d35|44b5d2803eb5af46|f0ebe3656407fc88|396348338|plots/authors_priors_model_diagnostic_plots.pdf*plots/authors_priors_model_diagnostic_plots.qmd|t19997.0191819732s|22c3ed4aabd09c81|17342816|file|local|vector|||86.797||
+authors_priors_model_diagnostic_plots|stem|d0b87d2815b9d3d5|44b5d2803eb5af46|f0ebe3656407fc88|396348338|plots/authors_priors_model_diagnostic_plots.pdf*plots/authors_priors_model_diagnostic_plots.qmd|t19999.5005726066s|889f3337f72117f1|17343064|file|local|vector|||93.39||
 authors_priors_model_lnRR|stem|a43f693b1c1d2b35|55d835194197a38a|622d883c7baf3eba|1101073311||t19996.9064768773s|af2cabdc0d829d02|1221621498|qs|local|vector|||755.593||
 authors_priors_model_plot_lnRR_tiff|stem|c854cdf09932b866|9eb3b00bb1394c5a|69a6fc1e80df475e|2049385340||t19997.0726455732s|e12065d620e41fd5|76|qs|local|vector|||2.14||
 authors_priors_model_plot_preds_lnRR|stem|be7c596ed5da068a|a7e815aa655a04b4|7bfa0d75ad0acfc1|1336334714||t19996.9332088152s|33e4ceddadb1c801|1542382739|qs|local|vector|||138.609||
@@ -195,6 +195,7 @@ rstan_setup|function|d82cad57281e544d|||||||||||||||
 sample_and_plot_priors|function|3695a33d37842fed|||||||||||||||
 sample_and_plot_priors_lnRR|function|40f3f0fe83b45d96|||||||||||||||
 sample_and_plot_priors_SMD|function|40f3f0fe83b45d96|||||||||||||||
+secondary_predictors_model_diagnostic_plots|stem|2778208484ef9656|888a549ba35e9025|f8a95556620bf821|407977192|plots/secondary_predictors_model_diagnostic_plots.pdf*plots/secondary_predictors_model_diagnostic_plots.qmd|t19999.5090291707s|309b3ecd08adc04f|21333183|file|local|vector|||91.656||
 set_authors_priors_lnRR|function|c96a1652fb4ec108|||||||||||||||
 set_authors_priors_SMD|function|4cf48f740338dd32|||||||||||||||
 set_DV_BS_PM_priors_lnRR|function|c96a1652fb4ec108|||||||||||||||
@@ -209,7 +210,7 @@ set_steele_priors_SMD|function|23f2b07fe36fb7e2|||||||||||||||
 set_wolf_priors_lnRR|function|a189ba1c7799a044|||||||||||||||
 set_wolf_priors_SMD|function|3d3d726e0b8771a7|||||||||||||||
 steele_priors_lnRR|stem|777eb136d805ca1b|c91392d72e3b1807|b3b7def86f20cc5c|-171516681||t19967.9420248163s|123ce49f82eb3e1b|315|qs|local|vector|||0||
-steele_priors_model_diagnostic_plots|stem|36c792c4d402ea6b|0330559e5e6c3be2|b2af032c2457aca3|819480816|plots/steele_priors_model_diagnostic_plots.pdf*plots/steele_priors_model_diagnostic_plots.qmd|t19997.0207261015s|ecc7133a8921c17f|17251274|file|local|vector|||86.031||
+steele_priors_model_diagnostic_plots|stem|6783b3b86484a066|0330559e5e6c3be2|b2af032c2457aca3|819480816|plots/steele_priors_model_diagnostic_plots.pdf*plots/steele_priors_model_diagnostic_plots.qmd|t19999.501715731s|419816b45494fc52|17251521|file|local|vector|||93.375||
 steele_priors_model_lnRR|stem|f5605f0d04e0d6c2|922180f09a9949cc|63535f6129660ac1|1528250599||t19996.8965210033s|22e4ddb3cc9f2f48|1222431203|qs|local|vector|||781.718||
 steele_priors_model_plot_lnRR_tiff|stem|48f04f8c16901bdd|8f6ef6bb3d36ed7a|ead71696653c63b0|-2124099036||t19997.0723000894s|a057b906461a46f0|75|qs|local|vector|||2.188||
 steele_priors_model_plot_preds_lnRR|stem|bcdbce020c115e64|ffb6343b6baf7dfd|84e512aa77a5c180|595164557||t19996.9290549585s|2145f3a66711327b|1535751137|qs|local|vector|||136.015||
@@ -261,7 +262,7 @@ trace_plot_wolf_priors_model_lnRR|stem|993edb84da7c6b82|590e3337cbe31cba|1b1c135
 trace_plot_wolf_priors_model_slopes_lnRR|stem|3b0d15de1b10f3e0|5909f81a2d9473f7|6c9c015d8dd15073|2056524714||t19997.0239475835s|db73a74fd52b8fdb|178715435|qs|local|vector|||16.281||
 trace_plot_wolf_priors_model_slopes_SMD|stem|da11ad2b422f7c89|e6650595bfb34c0c|7ab66174ca2d2748|2033416273||t19997.0666543068s|7df72239bf2dfd43|178536375|qs|local|vector|||21.875||
 trace_plot_wolf_priors_model_SMD|stem|2525056fa05c2783|4f503248dc576b9c|57d9d781b98e5fcd|-951459389||t19997.051659448s|fbcb35495fc5cf18|103802273|qs|local|vector|||10.531||
-uninformed_model_diagnostic_plots|stem|4206bd3ebc24a94d|f54bcb33cbffba42|94370e8ac83f6cc1|4428704|plots/uninformed_model_diagnostic_plots.pdf*plots/uninformed_model_diagnostic_plots.qmd|t19997.0172713636s|b55c270c73d3119f|10333575|file|local|vector|||64.36||
+uninformed_model_diagnostic_plots|stem|f03ca84dcc10fafb|f54bcb33cbffba42|94370e8ac83f6cc1|4428704|plots/uninformed_model_diagnostic_plots.pdf*plots/uninformed_model_diagnostic_plots.qmd|t19999.5025114246s|587e0624d2d0df9e|10333817|file|local|vector|||64.234||
 uninformed_model_lnRR|stem|e51a48d93e7f248a|acdbc088f88eed20|ffd3ba7474170e3c|-1240714078||t19996.8862608281s|4e09e2de41d7c7a8|1083512256|qs|local|vector|||528.921||
 uninformed_model_plot_lnRR_tiff|stem|ce296e8248be5e77|3bee3341fb1fac9d|c6703082b5662239|-1062525474||t19997.0720280449s|3ed5ce5eeeea6e9a|72|qs|local|vector|||2.594||
 uninformed_model_plot_preds_lnRR|stem|de86ade7de00f666|15dffb5f5267c5b5|900a61fd18c4e7e5|-112999574||t19996.9261443326s|6c9357edb30174e8|1403754227|qs|local|vector|||132.766|Using size aesthetic for lines was deprecated in ggplot2 3.4.0.ℹ Please use linewidth instead.|
@@ -281,7 +282,7 @@ upper_lower_model_plot_slopes_SMD|stem|544da8889058c4a4|633d302da6030089|a56d268
 upper_lower_model_plot_slopes_SMD_tiff|stem|65cf1c55b8b968b0|c8dfef069a309415|4c1e657055c2bfa2|-321212806||t19999.4799220848s|e5403c57657c131e|84|qs|local|vector|||1.078|Removed 37 rows containing missing values or values outside the scale rangestat_slabinterval.|
 upper_lower_model_SMD|stem|af93ba36cd2ebfe3|7e35c457d3cd76aa|e1be7fc28a659e35|-1102020807||t19999.4244151733s|c167faaf608e1a3e|210277730|qs|local|vector|||127.532||
 wolf_priors_lnRR|stem|75d0947b876f4bde|99aafc4403d49495|0405b37d092a1a29|-621790673||t19974.356938284s|1cc2a93401665b3a|515|qs|local|vector|||161.906|Rows containing NAs were excluded from the model.. There were 90 divergent transitions after warmup. Seehttpsmcstan.orgmiscwarnings.htmldivergenttransitionsafterwarmupto find out why this is a problem and how to eliminate them.. There were 22630 transitions after warmup that exceeded the maximum treedepth. Increase max_treedepth above 10. Seehttpsmcstan.orgmiscwarnings.htmlmaximumtreedepthexceeded. Examine the pairs plot to diagnose sampling problems. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced. NaNs produced|
-wolf_priors_model_diagnostic_plots|stem|ee1fe13f359dc06f|7be788a87c010669|3855bea10ef0ba8f|614364955|plots/wolf_priors_model_diagnostic_plots.pdf*plots/wolf_priors_model_diagnostic_plots.qmd|t19997.0785449688s|532cd5a76d375af1|10314268|file|local|vector|||61.391||
+wolf_priors_model_diagnostic_plots|stem|70138240d6795044|7be788a87c010669|3855bea10ef0ba8f|614364955|plots/wolf_priors_model_diagnostic_plots.pdf*plots/wolf_priors_model_diagnostic_plots.qmd|t19999.5033250046s|2c99ac6d7bfbff27|10314517|file|local|vector|||65.531||
 wolf_priors_model_lnRR|stem|bcc04104217e3a6b|2bb0a0af75844f79|fe355a2d6a1ad265|-693071239||t19996.9740662152s|5929975377a16189|1081499376|qs|local|vector|||533.485||
 wolf_priors_model_plot_lnRR_tiff|stem|411b277941eabedd|3eeb831eb3fdb746|b9346ef8fdc3c3ba|931756129||t19997.0825644466s|e7b83425a991cb39|73|qs|local|vector|||2.5||
 wolf_priors_model_plot_preds_lnRR|stem|24cd352b4a3e6a0d|8bcc85514e633def|8ec0a678438de312|1478309761||t19997.0379143888s|44f76cec2443caf3|1401782266|qs|local|vector|||144.391||
@@ -289,7 +290,7 @@ wolf_priors_model_plot_preds_SMD|stem|03a0fbf7401c002d|71d7907447a0b711|8c41aae0
 wolf_priors_model_plot_slopes_lnRR|stem|422f2eb50ef5d409|2dd7274c2f1adebd|4236813e5c2bdedf|807395168||t19997.0393099359s|8c02f90b67cb84fa|1099136306|qs|local|vector|||108.031||
 wolf_priors_model_plot_slopes_SMD|stem|239e2f1bded3458e|4ae3dd83ccabfc06|48311dfdab1259de|-149340937||t19997.0530106154s|6c578ed3238cc70e|2180530157|qs|local|vector|||103.125||
 wolf_priors_model_plot_SMD_tiff|stem|89e3eb54561fb329|ce2f8983bae571d7|2e4b8faa8853720d|1457325215||t19997.083019598s|3ed5ce5eeeea6e9a|72|qs|local|vector|||2.172||
-wolf_priors_model_slopes_diagnostic_plots|stem|9758eaf1409eab6f|56b535feef037790|9245c2cc2b4ee962|1084350592|plots/wolf_priors_model_slopes_diagnostic_plots.pdf*plots/wolf_priors_model_slopes_diagnostic_plots.qmd|t19997.0807354964s|c09f53fdf37654bf|17318054|file|local|vector|||86.125||
+wolf_priors_model_slopes_diagnostic_plots|stem|1be2ceabc02da389|56b535feef037790|9245c2cc2b4ee962|1084350592|plots/wolf_priors_model_slopes_diagnostic_plots.pdf*plots/wolf_priors_model_slopes_diagnostic_plots.qmd|t19999.5044586162s|f5b74a344f8b156a|17318297|file|local|vector|||91.672||
 wolf_priors_model_slopes_lnRR|stem|94ad40ebbe6f745a|3085a5bba0101a6a|cd5efdb84a0c03ba|-637271966||t19996.9570502454s|c9ae3b890ccbe248|1221303639|qs|local|vector|||812.656||
 wolf_priors_model_slopes_plot_lnRR_tiff|stem|6b7920918bd68e68|806513cbc58529b0|69ff2342e1866bbd|-909209262||t19997.0822849194s|87bbe5f41aaaedf6|80|qs|local|vector|||2.5||
 wolf_priors_model_slopes_plot_preds_lnRR|stem|012ccbf5f2d45adc|409be921d074d29a|547f7414a653452b|788406120||t19997.0225155756s|dcdbc1215bd48753|1542661970|qs|local|vector|||134.781||
