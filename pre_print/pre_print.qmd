@@ -1,0 +1,428 @@
+---
+articletitle: |
+  Regional Hypertrophy with Resistance Training — Does Muscle Length Matter? A Systematic Review and Meta-Analysis
+shorttitle: "Regional Hypertrophy with Resistance Training — Does Muscle Length Matter?"
+format: 
+  sportrxiv-pdf:
+    include-in-header:
+      text: |
+       \usepackage[font=scriptsize]{caption}
+       \usepackage{lscape}
+        \newcommand{\blandscape}{\begin{landscape}}
+        \newcommand{\elandscape}{\end{landscape}}
+author:
+  - name: Dorian Varovic
+    affiliations:
+      - ref: 1
+    orcid: 0000-0002-1593-4717
+    corresponding: true
+    email: varovic.dorian@gmail.com
+  - name: Milo Wolf
+    affiliations:
+      - ref: 2
+    orcid: 0000-0002-9124-3977
+  - name: Brad J. Schoenfeld
+    affiliations:
+      - ref: 2
+    orcid: 0000-0003-4979-5783
+  - name: James Steele
+    affiliations:
+      - ref: 3
+    orcid: 0000-0002-8003-0757
+  - name: Jozo Grgic
+    affiliations:
+      - ref: 4
+      - ref: 5
+    orcid: 0000-0002-6929-2844
+  - name: Pavle Mikulic
+    affiliations:
+      - ref: 1
+    orcid: 0000-0003-1244-631X
+affiliations:
+      - id: 1
+        name: University of Zagreb Faculty of Kinesiology, Zagreb, Croatia
+      - id: 2
+        name: Department of Exercise Science and Recreation, Applied Muscle Development Lab, CUNY Lehman College, Bronx, NY
+      - id: 3
+        name: Steele Research Limited, UK
+      - id: 4
+        name: National University of Singapore, Healthy Longevity Translational Research Program, Yong Loo Lin School of Medicine, Singapore
+      - id: 5
+        name: National University Health System, Centre for Healthy Longevity, Singapore
+abstract: |
+  The aim of this systematic review and meta-analysis was to examine how mean muscle length during resistance training (RT) influences regional muscle hypertrophy. We included studies that manipulated muscle length through range of motion (ROM) or exercise selection and evaluated regional muscle hypertrophy (i.e., changes at proximal, mid-belly, and/or distal sites). After systematically searching through three databases with additional secondary searches 12 studies were included in a meta-analysis. The meta-analysis was performed within the Bayesian meta-analytic framework. Standardized mean changes indicated small hypertrophic effects favoring training at longer muscle lengths at distal sites (75% muscle length; SMD: 0.20; Exponentiated lnRR: 4.13%) while smaller effects were found mid-belly (50% muscle length; SMD: 0.15; Exponentiated lnRR: 2.61%) and proximal sites (25% muscle length; SMD: 0.10; Exponentiated lnRR: 1.1%). The probability of finding a meaningful positive effect at proximal, mid-belly and distal sites was 50.70%, 69.78%, and 80.75%, respectively. Our pre-registered model analysis revealed a high degree of imprecision and uncertainty in the interaction between mean muscle length and site of measurement. Substantial uncertainty and imprecision, as reflected by wide 95% quantile intervals, were observed in all secondary predictor models (upper- or lower-body muscle groups, individual muscle groups, and muscle actions). In summary, our results indicate that if positive effects of training at longer muscle lengths on regional muscle hypertrophy exist, they may be the greatest at the distal sites. However, due to the imprecision in the posterior distributions for effects, our findings should be considered exploratory.
+license-type: ccby # change if neccessary
+# year: 2025 # defaults to current year
+keywords: [muscle hypertrophy; muscle length; range of motion; resistance training] # optional
+# optional link to Supplementary Material:
+suppl-link: https://osf.io/c2657/ 
+reference-section-title: References
+printnote: "PREPRINT - NOT PEER REVIEWED" # if post print, include "POSTPRINT" then link to the published article
+bibliography: bibliography.bib  
+pdf-engine: xelatex
+---
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| include: false
+targets::tar_config_set(store = here::here('_targets'))
+```
+
+# **Introduction**
+
+Resistance training (RT) is an often-used intervention for promoting increases in muscle size (i.e., hypertrophy) [@kraemer_fundamentals_2004]. The preponderance of current evidence exploring the effects of RT variables on muscle hypertrophy focused on manipulating training load, volume, and rest intervals [@schoenfeld_resistance_2021]. One RT variable that has been increasingly gaining scientific attention in recent years is range of motion (ROM) [@wolf_partial_2023; @goto_partial_2019; @bloomquist_effect_2013; @maeo_triceps_2023 @maeo_greater_2021; @nunes_placing_2020]. Haff & Triplett [-@haff_essentials_2016] define ROM as the degree of movement occurring at a given joint when performing an exercise. Training through both a full ROM (fROM) and partial ROM (pROM) has previously been shown to be effective for muscle hypertrophy. However, the impact of ROM on muscle hypertrophy may be moderated by the mean muscle lengths being trained through (i.e., shorter vs. longer muscle length) [@wolf_partial_2023]. The mean muscle length refers to the average muscle length at which muscle actions occur during a specific resistance exercise within a given ROM. A recent meta-analysis explored the effects of training with a fROM vs. pROM on muscle hypertrophy [@wolf_partial_2023]. Overall, their results indicated similar effectiveness of training with fROM and pROM on muscle hypertrophy, even when the pROM exercise was performed at shorter muscle lengths. However, when the pROM was performed at longer muscle lengths vs fROM, the data seemed to favor pROM (Hedges' *g* = -0.28) even though the 95% confidence interval was also wide (-0.81, 0.16).
+
+Previous research has found that muscle hypertrophy can occur in a non-uniform manner, with growth varying along the length or different compartments of a muscle group, a physiological adaptation called regional hypertrophy [@zabaleta-korta_regional_2020; @wakahara_nonuniform_2013; @antonio_nonuniform_2000; @nunes_determining_2024]. Manipulation of certain RT variables such as exercise selection and muscle length may elicit such regional adaptations [@costa_does_2021; @zabaleta-korta_role_2021; @wolf_partial_2023]. Due to the muscle length-tension relationship, which specifies that a muscle's ability to produce force changes depending on its length, training at longer muscle lengths might induce greater muscle hypertrophy compared to training at shorter muscle lengths because of greater amounts of passive and/or total tension [@brughelli_altering_2007; @linke_titin_2018]. For example, Maeo et al. [-@maeo_greater_2021] compared seated vs. lying leg curl exercises where the former trains biarticular heads of the hamstring muscles at longer, while the latter at shorter muscle lengths. Both exercises were performed through the same ROM at the knee joint (90°-0° knee flexion) but due to greater hip flexion in the seated leg curl exercise (\~90° hip flexion), hamstrings were trained at longer muscle lengths. Employing a within-subject design, authors reported greater hypertrophy of semitendinosus, semimembranosus and biceps femoris long head muscles after performing seated leg curls. Conversely, greater growth of the sartorius muscle was observed in the lying leg curl exercise. Sartorius is a biarticular muscle involved in both knee and hip flexion. Therefore, when performing lying leg curl exercise, it was also trained at longer muscle lengths due to a lesser hip flexion angle (\~30° hip flexion). These results highlight that moderating muscle length through exercise selection may influence hypertrophy outcomes even within a given muscle group.
+
+While muscle length may produce differential hypertrophy adaptations within a given muscle group (e.g., hamstrings), this training variable may also produce site-specific (i.e., proximal, mid-belly, or distal) hypertrophy effects in one specific muscle. For example, several studies reported that training at longer muscle lengths produces greater hypertrophy at distal sites. Sato et al. [-@sato_elbow_2021] compared hypertrophy of elbow flexors after training at longer (EXT: 0° - 50° elbow flexion) vs. shorter (FLEX: 80° - 130° elbow flexion) muscle lengths. Regional muscle hypertrophy was assessed at proximal, mid-belly and distal sites (50%, 60%, 70%). Following 5 weeks of training, authors reported similar growth at proximal and mid-belly sites between groups; however, greater increases at distal sites were found following training at longer muscle lengths than the mid-belly and proximal sites (12.8%, 7.1%, 5.4%, respectively). Still, these findings are not necessarily consistent in the literature. Stasinaki et al. [-@stasinaki_triceps_2018] reported that there was no significant difference in hypertrophy of the long head of the triceps brachii measured at 50% and 70% along the muscle's length when performing cable pushdowns (shorter muscle lengths) vs. cable overhead extension (longer muscle lengths). Elucidating this matter is of relevance as targeted hypertrophy of certain muscle regions may be of practical importance in sports performance but also to physique athletes and bodybuilders. For example, nonuniform changes of quadriceps femoris muscle after performing unilateral open- and closed kinetic chain RT have been reported to alter the distribution of mass within the quadriceps femoris, influencing its center of mass and moment of inertia [@earp_differing_2023]. Greater proximal muscle mass might be indicative of better running economy and movement efficiency because the minimal increments in moment of inertia reduce the resistance to motion during the swing phase of running. Conversely, greater distal muscle mass might increase inertial resistance, and potentially hinder sports performance [@earp_differing_2023]. Furthermore, understanding how to specifically target undeveloped muscle regions through exercise selection or varying ROM can be particularly relevant to bodybuilders who are aiming for maximal muscle development and symmetry, both of which are critical criteria in competitions [@antonio_nonuniform_2000; @escalante_peak_2021; @rukstela_bodybuilding_2023].
+
+Although several studies explored how training at different muscle lengths via the manipulation of ROM or exercise selection affects regional muscle hypertrophy, inconsistencies in findings might have been affected by the small sample sizes in these studies (e.g., 10 participants [@stasinaki_triceps_2018]). This warrants the need for a meta-analytical approach to synthesize the available data and provide a clearer understanding of how muscle length during RT affects regional hypertrophy. Therefore, the aim of this systematic review and meta-analysis was to examine how mean muscle length during RT manipulated through ROM or exercise selection influences muscle hypertrophy at distinct measurement sites (i.e., proximal, mid-belly, and distal regions).
+
+# Methods
+
+We performed a systematic review in accordance with the guidelines of the "Preferred Reporting Items for Systematic Reviews and Meta-Analyses" (PRISMA). This study was pre-registered on the Open Science Framework (<https://osf.io/gxtk6>) on April 7th, 2024.
+
+## Search strategy
+
+We searched through three databases that index published articles (PubMed/MEDLINE, Scopus, and Web of Science) from inception to April 2024 using the following search syntax: ("resistance training" OR "resistance exercise" OR "resistive exercise" OR "strength training" OR "strength\* exercise" OR "weight training" OR "weight lifting" OR "weightlifting") AND ("range of motion" OR "muscle length\*") AND ("muscle hypertrophy" OR "muscular hypertrophy" OR "muscle mass" OR "muscle size" OR "muscular size" OR "muscle thickness" OR "muscle development" OR "muscular development" OR "cross-sectional area" OR "cross sectional area" OR "muscle growth" OR "muscular growth") to locate relevant studies. We performed secondary "forward" and "backward" citation searches by examining papers that cited the included studies in Google Scholar as well as in the included studies' reference lists. In addition, authors' personal libraries were screened for any additional papers that might meet the inclusion criteria. Two researchers (DV and MW) individually screened titles and abstracts to assess if a study met inclusion criteria using an online software (<https://www.rayyan.ai/>). If a study was deemed potentially relevant, the full text was evaluated to determine whether it should be included for further analysis. Any disputes that could not be resolved by the two researchers (DV and MW) were settled by a third researcher (BJS). The search was finalized in April 2024.
+
+## Inclusion criteria
+
+To be included in the review, studies had to meet the following criteria: (a) including apparently healthy young men and women as participants, (b) RT intervention lasting a minimum of 4 weeks, (c) directly comparing at least two groups or conditions training at different joint angles (isometric training), or through different joint angles (isotonic training), or muscle lengths, (d) randomized experimental design (within- or between-subjects), (e) assessed muscle hypertrophy outcomes via direct imaging methods (ultrasound, computerized tomography \[CT\], MRI), (f) assessed regional changes through at least two measurement points along the length of a muscle, (g) published in an English-written peer-reviewed journal. We made an addendum to pre-registration as we did not include the following inclusion criteria in our original submission: (1) both groups performed RT using the same muscle actions[^1], (2) we included studies that compared exercises with different resistance curves.
+
+[^1]: As previous research indicates different contraction types/muscle actions can independently influence regional adaptations.
+
+## Data extraction and analysis
+
+Two researchers (DV and MW) independently extracted the following data into a predefined coding sheet using Google Sheets: lead author name(s), article title, and year of publication; sample size; participant characteristics (e.g., weight, height, sex, age, training status), intervention characteristics (e.g., duration, ROM used by the fROM and pROM group/condition, muscle length, volume, repetitions, frequency, resistance exercises, intensity, rest intervals, muscle action, modality); method for muscle size assessment (e.g., MRI, ultrasound); assessment locations and distality (i.e., specific muscle group and at what section of the muscle was measurement taken[^2]); mean pre- and post-study values for muscle size with corresponding standard deviations or if a study reported standard error of the mean (SEM), they were converted to standard deviations (SD) via following equation: $\text{SEM} \times \sqrt{n}$. In cases where the data for muscle hypertrophy were not reported, we contacted the corresponding author(s) to obtain the data. If we were unable to acquire data directly from the authors, we extracted the values from figures using WebPlotDigitizer online software (<https://apps.automeris.io/wpd/>). Any disagreements between the two researchers were resolved through discussion and mutual consensus. If consensus between the two researchers could not be reached, a third researcher (BJS) resolved the dispute. To assess potential coder drift, a third researcher (BS) re-coded 30% of the studies that were randomly selected for assessment [@mcmahon_muscular_2014; @pedrosa_training_2023; @valamatos_influence_2018; @zabaleta-korta_regional_2023].
+
+[^2]: Reference points are usually defined via anatomical landmarks with the distance between them amounting to the total length of a segment by which the proximal, mid and distal sites are individually set.
+
+## Muscle length estimation
+
+To operationally define muscle length, it is important to note that joint angle and muscle length likely do not correlate perfectly [@raiteri_biceps_2021]. However, as mean muscle length was one of the primary predictors, we followed specific procedures to estimate muscle length used within each group or conditions. First, calculations of muscle length were based on several assumptions: a) when biarticular muscles were explored, both joints would contribute equally and linearly to the muscle length; and b) previously established anatomical ranges of motion for each joint were used. Procedures differed on whether one or two joints were involved in movement. For example, if only one joint was involved, we would first define a maximum joint ROM[^3]. Then, the joint angle at the start of the concentric phase was divided by maximum joint ROM to obtain muscle length start point (SML) value. Similarly, to obtain muscle length end point (EML) value, we would divide the joint angle at the end of the concentric phase by maximum joint ROM. Finally, mean muscle length (MML) was calculated as an average of muscle length start and end point values. To calculate muscle length of biarticular muscles we repeated the same steps as mentioned above, but for each joint individually (i.e., hip and knee joints). Values of both joints were summed and divided by two per following equations:
+
+[^3]: Maximum joint ROM is constituted of different joint movements. For example, maximum shoulder joint ROM is thought to be 230˚ (180˚ flexion + 50˚ hyperextension)
+
+$$ 
+\begin{aligned} 
+SML &=\left (\frac{\text{J}^1_{startCON}}{\text{J}^1_{maxROM}}+\frac{\text{J}^2_{startCON}}{\text{J}^2_{maxROM}} \right ) \div 2 \\
+EML &=\left (\frac{\text{J}^1_{endCON}}{\text{J}^1_{maxROM}}+\frac{\text{J}^2_{endCON}}{\text{J}^2_{maxROM}} \right ) \div 2 
+\end{aligned} 
+$$ {#eq-muscle-length}
+
+where $\text{J}^1$ is joint 1, $\text{J}^1$ is joint 2, and the subscripts $startCON$ indicate the start of the concentric phase, $endCON$ the end of the concentric phase, and $maxROM$ the maximum joint ROM. MML was calculated as an average of muscle length start and end point values. All estimations of muscle lengths were performed by DV and MW.
+
+## Methodological quality
+
+We decided to use the recently developed tool called Standards Method for Assessment of Resistance Training in Longitudinal Designs (SMART-LD), which was specifically designed to assess the quality (both in terms of risk of bias as well as transparency of reporting) of longitudinal RT research [@schoenfeld_smart-ld_2023]. The SMART-LD tool consists of 20 questions that address aspects of a study's methodology (potential bias and reporting quality) as follows: general (items 1-2); participants (items 3-7); training program (items 8-11); outcomes (items 12-16); and statistical analyses (17-20). Each item in the checklist is given 1 point if the criterion is satisfied or 0 points if the criterion is not satisfied. The values of all questions are summed, with the final total used to classify studies as follows: "good quality" (16-20 points); "fair quality" (12-15 points); or "poor quality" (≤ 11 points) [@schoenfeld_smart-ld_2023]. Two reviewers (DV and MW) independently rated each study using the SMART-LD tool; any disputes were resolved through discussion and mutual consensus.
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| include: false
+
+knitr::opts_chunk$set(echo = TRUE, fig.align="center")
+options(knitr.kable.NA = '')
+
+library(tidyverse)
+library(patchwork)
+library(marginaleffects)
+library(bayestestR)
+library(kableExtra)
+
+```
+
+## Statistical Analysis
+
+All code utilised for data preparation and analyses are available in either the Open Science Framework page for this project <https://osf.io/c2657/> or the corresponding GitHub repository <https://github.com/jamessteeleii/ROM_regional_hypertrophy>. We cite all software and packages used in the analysis pipeline using the `grateful` package [@rodriguez-sanchezGratefulFacilitateCitation2023] which can be seen here: <https://osf.io/pgx6v>. As noted, the project was previously pre-registered however in hindsight we realise that the details of our analysis plan were imprecise and left open many researcher degrees of freedom. Thus, we present the planned analyses as closely as possible given the pre-registration as written and our original intention, but note where we have deviated from this plan below. Further, given the ambiguity we have conducted several additional analyses, including varying the priors used and the model parametrisation, the methods and results of which are described in full detail in the supplementary materials here <https://osf.io/rqavs>. In the main text here we report only the pre-registered main models.
+
+All analyses have been conducted within a Bayesian meta-analytic framework and all posterior estimates and their precision, along with conclusions based upon them, will be interpreted continuously and probabilistically, considering priors, data quality, and all within the context of each outcome and the assumptions of the model employed as the estimator [@kruschkeBayesianNewStatistics2018]. We deviate from the pre-registration in the number of sampling iterations (pre-registered as 6000) used as we include comparisons between all models fit in the supplementary materials using Bayes Factors and the Savage-Dickey ratio where it is recommended that at least 40000 iterations are used to obtain precise Bayes-Factors [@gronauBridgesamplingPackageEstimating2020]. Trace plots were produced along with $\hat{R}$ values to examine whether chains had converged, and posterior predictive checks for each model were also examined to understand the model implied distributions.
+
+## Effect sizes
+
+We explored effects calculated for within arm pre- to post-intervention (and for studies with multiple post baseline time points pre- to each time point) as the standardized mean change using raw score standardization with heteroscedastic population variances (SMD) [@bonettConfidenceIntervalsStandardized2008] given it is known that variances scale with mean values in resistance training study outcomes [@steeleMetaanalysisVariationSport2023a] and so a pre-post intervention effect upon the mean will influence this. We also examined the log transformed response ratio (lnRR) [@lajeunesseMetaanalysisResponseRatios2011], which was exponentiated back to the percentage change scale after model fitting (though note that all prior distributions were set on the lnRR scale directly) accounting for the total variance in the model when doing so for the meta-analytic predicted effects [@spakeUnderstandingItDepends2023; @nakagawaCoefficientDeterminationR22017], as this effect size statistic is unaffected (except in its sampling variance) by the estimates for standard deviations within individual studies which are likely underpowered in the typical sample sizes found in the resistance training literature [@steeleMetaanalysisVariationSport2023a]. The use of both additive and multiplicative effect sizes also allows us to explore the sensitivity of interaction effects to scaling as interactions, our primary estimand of interest, are very sensitive to this [@rohrerPreciseAnswersVague2021; @spakeUnderstandingItDepends2023]. Effects were weighted in each model by their inverse sampling variance.
+
+## Models
+
+The primary estimand of interest was the population level (i.e, fixed effect) muscle length by site of measurement interaction. In each model, as per the preregistration, muscle length and site of measurement were centred at 50%, and rescaled to be on the $(-0.5,0.5)$ interval[^4]. As such, the population level coefficients in each of the models corresponded to the overall average effect of resistance training on hypertrophy when at a muscle length of 50% at a site of measurement of 50% (i.e., the intercept: $\mu_{\alpha_{i}}$ in each model below), the slope of the difference i.e., comparison between 0% and 100% muscle length at a site of measurement of 50% (i.e., muscle length coefficient: $\beta_{1}$ in each model below), the slope of the difference i.e., comparison between 0% and 100% site of measurement at a muscle length of 50% (i.e., site of measurement coefficient: $\beta_{2}$ in each model below), and the slope of the difference i.e., comparison between 0% and 100% site of measurement on the slope of the difference i.e., comparison between 0% and 100% muscle length (i.e., muscle length by site of measurement interaction coefficient: $\beta_{3}$ in each model below). Notably, the interpretation of continuous by continuous predictors can be quite challenging. As such, we present for each of these models draws from the posterior of the expectation of the predicted global grand mean across muscle length and at three levels of site of measurement (25%, 50%, and 75%) which shows the predicted effect size magnitudes at particular combinations of muscle length and site of measurement, in addition to the slopes for muscle length (transformed to be the slope of a difference in muscle length of 50% e.g., the slope of the difference between 25% and 75% muscle length) at three levels of site of measurement (25%, 50%, and 75%) which shows the magnitude of the difference in effect size for a 50% difference in muscle length at different sites. We present the predicted values and slopes as mean and 95% quantile intervals. We also, whilst not pre-registered for this project, agreed upon a smallest effect size of interest on both the standardised mean change $(-0.1,0.1)$[^5] and the percentage change scales $(-3\%,3\%)$ and thus set these as regions of practical equivalence (ROPE). This allows us to also examine the probability that the slopes for muscle length might produce a meaningful effect (i.e., greater than the smallest effect size of interest) by examining the mass of the posterior distribution exceeding the upper limits of the ROPE, and also the percentage of the posterior distributions mass that was within the ROPE thus reflecting the probability of practically equivalent effects.
+
+[^4]: The rescaling was in order to have the values for coefficients in the model on a similar scale as the intercept values so that when setting initial values for Monte Carlo Markov Chain sampling these could be set to similar values.
+
+[^5]: Though some of the authors here were those who had been involved in eliciting the smallest effect size of interest used for a currently pre-registered trial examining the effects lengthened partial training upon hypertrophy (see <https://osf.io/9sgjk>).
+
+For the secondary predictor models we explored the muscle length by site of measurement by each additional predictor (e.g., upper or lower body OR muscle group OR muscle action) interaction respectively. For these models, we only present the predicted effect size magnitudes at particular combinations of muscle length and site of measurement similarly to the above.
+
+### Pre-Registered Main Model
+
+As noted, the pre-registered main model involved population level effects for the intercept, slope of muscle length, slope of measurement site, and the muscle length by measurement site interaction. The model also included random intercepts for study, arm, and effect levels. The model equation was as follows:
+
+$$
+\begin{aligned}
+  \hat{\theta}_{ijk}  &\sim N \left(\mu, \sigma_{ijk} \right) \\
+    \mu &=\alpha_{i} + \alpha_{j} + \alpha_{k} + \beta_{1}(\operatorname{muscle\ length}_{centred}) + \beta_{2}(\operatorname{site_{centred}}) + \beta_{3}(\operatorname{muscle\ length_{centred}} \times \operatorname{site_{centred}}) \\
+    \alpha_{i}  &\sim N \left(\mu_{\alpha_{i}}, \sigma_{\alpha_{i}} \right)
+    \text{, for study i = 1,} \dots \text{,I} \\
+    \alpha_{j}  &\sim N \left(0, \sigma_{\alpha_{j}} \right)
+    \text{, for arm j = 1,} \dots \text{,J} \\
+    \alpha_{k}  &\sim N \left(0, \sigma_{\alpha_{k}} \right)
+    \text{, for effect k = 1,} \dots \text{,K} \\
+\end{aligned}
+$$ {#eq-main-model}
+
+where $\hat{\theta}_{ijk}$ is the $k$th effect size ($\text{k = 1,} \dots \text{,K}$), here the SMD or lnRR, from the $j$th arm ($\text{j = 1,} \dots \text{,J}$) for the $i$th study ($\text{i = 1,} \dots \text{,I}$), and $\alpha_{i}$, $\alpha_{j}$, and $\alpha_{k}$ are the random intercepts for study, arm, and effect respectively. Prior distributions[^6] taken from Wolf et al. [-@wolfPartialVsFull2023] for the SMD model were (note, values rounded; plots for the population level effect distributions can be seen in the supplementary materials here <https://osf.io/uxhdj>):
+
+[^6]: We obtained priors from studies in the dataset of Wolf et al. [-@wolfPartialVsFull2023] by firstly calculating the within arm pre- to post-intervention changes for the partial range of motion groups only (both SMD and lnRR effect sizes as detailed above) for only muscle size outcomes. We excluded any studies that were already included in the present dataset. Muscle length categorised as short or long was then recoded to be -0.5 and 0.5 respectively such that the predictor was centred; we assumed that the typical difference between short and long was \~50% as noted above in extracting slopes for reporting and so these codes corresponded to \~25% and \~75% muscle length respectively. Measurement site was also centred at 50%. We then fit a model with the same parametrisation as the present pre-registered model in @eq-main-model with the primary difference being that muscle length was categorical and the coefficient in the model fit to the Wolf et al. [-@wolfPartialVsFull2023] data reflected the slope of the difference i.e., comparison between \~25% and \~75% muscle length. We set weakly regularising priors of $student\ t(df=3,\mu=0,\sigma=1)$ for the population parameters for this model as with default uninformative priors chains did not converge. Other priors were left as defaults. We then extracted, assuming $student\ t$ distributions, the hyperparameters $df$, $\mu$, and $\sigma$ for the following parameters: intercept, muscle length coefficient, measurement site coefficient, muscle length by measurement site interaction, and the random effects standard deviations for the study, arm, and effect level intercepts.
+
+$$
+\begin{aligned}
+        \mu_{\alpha_i}  &\sim student\ t \left(df=4.17,\mu=0.16, \sigma=0.53 \right) \\
+     \sigma_{\alpha_i}  &\sim half\ student\ t \left(df=2.32,\mu=0.79, \sigma=0.60 \right) \\
+     \sigma_{\alpha_j}  &\sim half\ student\ t \left(df=2.32,\mu=0.62, \sigma=0.46 \right) \\
+     \sigma_{\alpha_k}  &\sim half\ student\ t \left(df=3.53,\mu=0.14, \sigma=0.10 \right) \\
+     \beta_{1}  &\sim student\ t \left(df=4.39,\mu=0.40, \sigma=1.15 \right) \\
+     \beta_{2}  &\sim student\ t \left(df=7.03,\mu=-0.02, \sigma=0.91 \right) \\
+     \beta_{3}  &\sim student\ t \left(df=4.45,\mu=-0.09, \sigma=1.95 \right) \\
+\end{aligned}
+$$ {#eq-wolf-priors-SMD}
+
+Prior distributions taken from Wolf et al. [-@wolfPartialVsFull2023] for the lnRR model were (note, values rounded; plots for the population level effect distributions can be seen in the supplementary materials here <https://osf.io/tvpes>):
+
+$$
+\begin{aligned}
+        \mu_{\alpha_i}  &\sim student\ t \left(df=2.82,\mu=0.04, \sigma=0.39 \right) \\
+     \sigma_{\alpha_i}  &\sim half\ student\ t \left(df=1.92,\mu=0.55, \sigma=0.47 \right) \\
+     \sigma_{\alpha_j}  &\sim half\ student\ t \left(df=1.96,\mu=0.43, \sigma=0.35 \right) \\
+     \sigma_{\alpha_k}  &\sim half\ student\ t \left(df=7.38,\mu=0.06, \sigma=0.04 \right) \\
+     \beta_{1}  &\sim student\ t \left(df=2.80,\mu=0.10, \sigma=0.80 \right) \\
+     \beta_{2}  &\sim student\ t \left(df=7.74,\mu=0.10, \sigma=0.48 \right) \\
+     \beta_{3}  &\sim student\ t \left(df=5.95,\mu=0.08, \sigma=1.70 \right) \\
+\end{aligned}
+$$ {#eq-wolf-priors-lnRR}
+
+### Secondary Predictor Models - Uninformed Priors
+
+Although we noted these in the pre-registration we do not focus on them in the present manuscript instead focusing on the primary estimand noted above of the muscle length by measurement site interaction. We treat these secondary predictor models as highly exploratory given the amount of data available and the corresponding uncertainty of inferences, and present them only in the supplementary materials (see <https://osf.io/tgzpk>, <https://osf.io/f86ng>, and <https://osf.io/gp2vr> for the upper or lower body, muscle group, and muscle action SMD models respectively and <https://osf.io/hxbv6>, <https://osf.io/w8mbg>, and <https://osf.io/9mhcu> for the upper or lower body, muscle group, and muscle action lnRR models respectively). In addition, and not pre-registered either, we included a model comparing studies which manipulated mean muscle length by means of range of motion manipulation, or by means of exercise selection (see <https://osf.io/pbqwe> and <https://osf.io/9snkh>). For reference these models were the same parametrisation as the pre-registered model using the same priors as noted above, with the exception of the additional categorical predictor of either upper or lower body OR muscle group OR muscle action added under a deviation coding scheme (i.e., such that the coefficients for each level were in comparison to the overall mean reflected by the intercept). The added predictors used default uninformative priors of $uniform(lb = -\infty, ub = \infty)$.
+
+# Results
+
+When searching the three databases there were 499 results. We excluded 478 references after reading their titles or abstracts. As a result, 21 full texts were read. Eleven studies satisfied the inclusion criteria [@alegre_effects_2014; @bloomquist_effect_2013; @maeo_greater_2021; @mcmahon_impact_2014; @mcmahon_muscular_2014; @noorkoiv_neuromuscular_2014; @noorkoiv_effects_2015; @pedrosa_partial_2022; @sato_elbow_2021; @valamatos_influence_2018; @zabaleta-korta_regional_2023], while 10 were excluded because: eight did not assess regional changes [@goto_partial_2019; @pinto_effect_2012; @kinoshita_triceps_2023; @maeo_triceps_2023; @kassiano_greater_2023; @nunes_placing_2020; @marusic_effects_2020; @akagi_differential_2020], one did not manipulate ROM/muscle length [@earp_differing_2023], and one did not employ a relevant comparison group [@earp_inhomogeneous_2015]. Two additional studies were identified via citation searches [@pedrosa_training_2023; @stasinaki_triceps_2018]. Therefore, a total of 13 studies were included. However, 12 studies were meta-analyzed due to one study [@noorkoiv_effects_2015] using the same dataset as in a previous publication [@noorkoiv_neuromuscular_2014]. @fig-prisma provides a flow chart of the search process.
+
+\newpage
+
+\blandscape
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| label: fig-prisma
+#| fig-cap: PRISMA 2020 flow diagram for new systematic reviews.
+
+
+knitr::include_graphics(here::here("pre_print", "prisma.png"))
+
+```
+
+\elandscape
+
+## Summary of the Included Studies
+
+All studies employed young participants (18.8 -- 27.2 years of age) [@alegre_effects_2014; @bloomquist_effect_2013; @maeo_greater_2021; @mcmahon_impact_2014; @sato_elbow_2021; @valamatos_influence_2018; @mcmahon_muscular_2014; @noorkoiv_neuromuscular_2014; @pedrosa_partial_2022; @pedrosa_training_2023; @stasinaki_triceps_2018; @zabaleta-korta_regional_2023]. Eleven studies employed untrained participants [@alegre_effects_2014; @bloomquist_effect_2013; @maeo_greater_2021; @mcmahon_impact_2014; @sato_elbow_2021; @valamatos_influence_2018; @mcmahon_muscular_2014; @noorkoiv_neuromuscular_2014; @pedrosa_partial_2022; @pedrosa_training_2023; @stasinaki_triceps_2018], and one study employed resistance-trained participants [@zabaleta-korta_regional_2023]. Three studies employed male participants [@bloomquist_effect_2013; @noorkoiv_neuromuscular_2014; @valamatos_influence_2018], four studies employed female participants [@pedrosa_partial_2022; @pedrosa_training_2023; @stasinaki_triceps_2018; @zabaleta-korta_regional_2023], and five studies employed both male and female participants [@alegre_effects_2014; @mcmahon_impact_2014; @mcmahon_muscular_2014; @sato_elbow_2021; @maeo_greater_2021]. Four studies assessed upper-body measures of hypertrophy (elbow flexors and triceps brachii long head) [@pedrosa_training_2023; @sato_elbow_2021; @stasinaki_triceps_2018; @zabaleta-korta_regional_2023], and eight studies assessed lower body measures of hypertrophy (quadriceps femoris, biceps femoris, semitendinosus, front, and back thigh) [@alegre_effects_2014; @bloomquist_effect_2013; @maeo_greater_2021; @mcmahon_impact_2014; @mcmahon_muscular_2014; @noorkoiv_neuromuscular_2014; @pedrosa_partial_2022; @valamatos_influence_2018]. Four studies assessed only relatively distal regions of the muscle groups [@pedrosa_training_2023; @sato_elbow_2021; @stasinaki_triceps_2018; @zabaleta-korta_regional_2023]. Nine studies [@alegre_effects_2014; @bloomquist_effect_2013; @mcmahon_impact_2014; @mcmahon_muscular_2014; @noorkoiv_neuromuscular_2014; @pedrosa_training_2023; @pedrosa_partial_2022; @sato_elbow_2021; @valamatos_influence_2018] manipulated muscle length with ROM, while only three [@maeo_greater_2021; @stasinaki_triceps_2018; @zabaleta-korta_regional_2023] studies manipulated muscle lengths by performing different exercises. The duration of the included studies ranged from 5 to 15 weeks. The summary table in the supplementary materials provides a descriptive overview of each study's methodological design (see [https://osf.io/zq2cr](https://osf.io/zq2cr)).
+
+
+## Methodological quality
+
+The mean score on the SMART-LD tool was 11 ± 2 (range: 8-15 points). Six studies were judged to be of fair quality [@maeo_greater_2021; @pedrosa_training_2023; @sato_elbow_2021; @stasinaki_triceps_2018; @valamatos_influence_2018; @zabaleta-korta_regional_2023], and six studies were judged to be of poor quality [@alegre_effects_2014; @bloomquist_effect_2013; @mcmahon_impact_2014; @mcmahon_muscular_2014; @noorkoiv_neuromuscular_2014; @pedrosa_partial_2022].
+
+## Meta-analysis results
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+targets::tar_load(wolf_priors_model_SMD)
+targets::tar_load(wolf_priors_model_lnRR)
+targets::tar_load(tidy_wolf_priors_model_SMD)
+targets::tar_load(tidy_wolf_priors_model_lnRR)
+```
+
+The final models presented all included `r length(unique(wolf_priors_model_SMD$data$effect_number))` effects nested within `r length(unique(wolf_priors_model_SMD$data$arm_number))` intervention arms extracted from `r length(unique(wolf_priors_model_SMD$data$study_number))` studies.
+
+## Pre-Registered Main Model
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+
+
+# Get SMD model summaries
+# Interaction plot - slopes
+  wolf_priors_model_SMD_summary <- avg_slopes(
+    wolf_priors_model_SMD,
+    variables = "mean_muscle_length_centred",
+    newdata = datagrid(
+      mean_muscle_length_centred = seq(-0.35, 0.35, length = 101),
+      site_centred = c(-0.25,0,0.25),
+      vi = 0
+    ),
+    by = "site_centred"
+  ) 
+  
+  wolf_priors_model_SMD_slopes <- wolf_priors_model_SMD_summary |>
+    posterior_draws()
+  
+  wolf_priors_model_SMD_rope_percents <- tibble(
+    site_centred = c(-0.25,0,0.25),
+    rope_percent = c(
+      bayestestR::rope(filter(wolf_priors_model_SMD_slopes, site_centred == -0.25)$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(wolf_priors_model_SMD_slopes, site_centred == 0)$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(wolf_priors_model_SMD_slopes, site_centred == 0.25)$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage
+    ),
+    pd = c(
+      bayestestR::rope(filter(wolf_priors_model_SMD_slopes, site_centred == -0.25)$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(wolf_priors_model_SMD_slopes, site_centred == 0)$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(wolf_priors_model_SMD_slopes, site_centred == 0.25)$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage
+    )
+  )
+
+# Get lnRR model summaries
+# Interaction plot - slopes
+  
+  wolf_priors_model_total_var <- insight::get_variance_random(wolf_priors_model_lnRR)
+  
+  wolf_priors_model_lnRR_summary <- avg_slopes(
+    wolf_priors_model_lnRR,
+    variables = "mean_muscle_length_centred",
+    newdata = datagrid(
+      mean_muscle_length_centred = seq(-0.35, 0.35, length = 101),
+      site_centred = c(-0.25,0,0.25),
+      vi = 0
+    ),
+    by = "site_centred"
+  ) 
+  
+  wolf_priors_model_lnRR_slopes <- wolf_priors_model_lnRR_summary |>
+    posterior_draws() |>
+    mutate(draw = 100*(exp(draw+0.5*wolf_priors_model_total_var)-1))
+  
+   wolf_priors_model_lnRR_summary <- wolf_priors_model_lnRR_summary |>
+    mutate(
+      estimate = 100*(exp(estimate+0.5*wolf_priors_model_total_var)-1),
+      conf.low = 100*(exp(conf.low+0.5*wolf_priors_model_total_var)-1),
+      conf.high = 100*(exp(conf.high+0.5*wolf_priors_model_total_var)-1)
+    )
+  
+  wolf_priors_model_lnRR_rope_percents <- tibble(
+    site_centred = c(-0.25,0,0.25),
+    rope_percent = c(
+      bayestestR::rope(filter(wolf_priors_model_lnRR_slopes, site_centred == -0.25)$draw/2, range = c(-3, 3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(wolf_priors_model_lnRR_slopes, site_centred == 0)$draw/2, range = c(-3, 3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(wolf_priors_model_lnRR_slopes, site_centred == 0.25)$draw/2, range = c(-3, 3), ci = 1)$ROPE_Percentage
+    ),
+    pd = c(
+      bayestestR::rope(filter(wolf_priors_model_lnRR_slopes, site_centred == -0.25)$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(wolf_priors_model_lnRR_slopes, site_centred == 0)$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(wolf_priors_model_lnRR_slopes, site_centred == 0.25)$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage
+    )
+  )
+
+  
+```
+
+For the main pre-registered model utilising priors from Wolf et al. [-@wolfPartialVsFull2023] the predicted effect size magnitudes across muscle length and at three levels of site of measurement (25%, 50%, and 75%) in addition to the slopes for muscle length (transformed to be the slope of a difference in muscle length of 50% e.g., the slope of the difference between 25% and 75% muscle length) at three levels of site of measurement (25%, 50%, and 75%) can be seen in @fig-wolf-SMD-plot for the SMD model, and @fig-wolf-lnRR-plot for the lnRR model.
+
+For the SMD model the magnitude of muscle length slope was `r round(wolf_priors_model_SMD_summary$estimate[1]/2,2)` \[95% quantile interval: `r round(wolf_priors_model_SMD_summary$conf.low[1]/2,2)`, `r round(wolf_priors_model_SMD_summary$conf.high[1]/2,2)`\] at the 25% measurement site with probability of a meaningful positive effect (i.e., 0.1) of `r round(wolf_priors_model_SMD_rope_percents$pd[1]*100,2)`% and percentage within the ROPE (i.e., -0.1,0.1) of `r round(wolf_priors_model_SMD_rope_percents$rope_percent[1]*100,2)`%, `r round(wolf_priors_model_SMD_summary$estimate[2]/2,2)` \[95% quantile interval: `r round(wolf_priors_model_SMD_summary$conf.low[2]/2,2)`,`r round(wolf_priors_model_SMD_summary$conf.high[2]/2,2)`\] at the 50% measurement site with probability of a meaningful positive effect (i.e., 0.1) of `r round(wolf_priors_model_SMD_rope_percents$pd[2]*100,2)`% and percentage within the ROPE (i.e., -0.1,0.1) of `r round(wolf_priors_model_SMD_rope_percents$rope_percent[2]*100,2)`%, and `r round(wolf_priors_model_SMD_summary$estimate[3]/2,2)` \[95% quantile interval: `r round(wolf_priors_model_SMD_summary$conf.low[3]/2,2)`,`r round(wolf_priors_model_SMD_summary$conf.high[3]/2,2)`\] at the 75% measurement site with probability of a meaningful positive effect (i.e., 0.1) of `r round(wolf_priors_model_SMD_rope_percents$pd[3]*100,2)`% and percentage within the ROPE (i.e., -0.1,0.1) of `r round(wolf_priors_model_SMD_rope_percents$rope_percent[3]*100,2)`%. There was considerable heterogeneity of effects relative to the magnitude of the population level effects, particularly at the study level, with $\tau_{study}=$ `r round(tidy_wolf_priors_model_SMD$estimate[7]/2,2)` \[95% quantile interval: `r round(tidy_wolf_priors_model_SMD$conf.low[7],2)`,`r round(tidy_wolf_priors_model_SMD$conf.high[7],2)`\], $\tau_{arm}=$ `r round(tidy_wolf_priors_model_SMD$estimate[5]/2,2)` \[95% quantile interval: `r round(tidy_wolf_priors_model_SMD$conf.low[5],2)`,`r round(tidy_wolf_priors_model_SMD$conf.high[5],2)`\], and $\tau_{effect}=$ `r round(tidy_wolf_priors_model_SMD$estimate[6]/2,2)` \[95% quantile interval: `r round(tidy_wolf_priors_model_SMD$conf.low[6],2)`,`r round(tidy_wolf_priors_model_SMD$conf.high[6],2)`\].
+
+For the lnRR model the magnitude of muscle length slope was `r round(wolf_priors_model_lnRR_summary$estimate[1]/2,2)`% \[95% quantile interval: `r round(wolf_priors_model_lnRR_summary$conf.low[1]/2,2)`%, `r round(wolf_priors_model_lnRR_summary$conf.high[1]/2,2)`%\] at the 25% measurement site with probability of a meaningful positive effect (i.e., 0.1) of `r round(wolf_priors_model_lnRR_rope_percents$pd[1]*100,2)`% and percentage within the ROPE (i.e., -0.1,0.1) of `r round(wolf_priors_model_lnRR_rope_percents$rope_percent[1]*100,2)`%, `r round(wolf_priors_model_lnRR_summary$estimate[2]/2,2)`% \[95% quantile interval: `r round(wolf_priors_model_lnRR_summary$conf.low[2]/2,2)`%,`r round(wolf_priors_model_lnRR_summary$conf.high[2]/2,2)`%\] at the 50% measurement site with probability of a meaningful positive effect (i.e., 0.1) of `r round(wolf_priors_model_lnRR_rope_percents$pd[2]*100,2)`% and percentage within the ROPE (i.e., -0.1,0.1) of `r round(wolf_priors_model_lnRR_rope_percents$rope_percent[2]*100,2)`%, and `r round(wolf_priors_model_lnRR_summary$estimate[3]/2,2)`% \[95% quantile interval: `r round(wolf_priors_model_lnRR_summary$conf.low[3]/2,2)`%,`r round(wolf_priors_model_lnRR_summary$conf.high[3]/2,2)`%\] at the 75% measurement site with probability of a meaningful positive effect (i.e., 0.1) of `r round(wolf_priors_model_lnRR_rope_percents$pd[3]*100,2)`% and percentage within the ROPE (i.e., -0.1,0.1) of `r round(wolf_priors_model_lnRR_rope_percents$rope_percent[3]*100,2)`%. There was considerable heterogeneity of effects relative to the magnitude of the population level effects, particularly at the study level, with $\tau_{study}=$ `r round(100*(exp(tidy_wolf_priors_model_lnRR$estimate[7]/2+0.5*wolf_priors_model_total_var)-1),2)`% \[95% quantile interval: `r round(100*(exp(tidy_wolf_priors_model_lnRR$conf.low[7]+0.5*wolf_priors_model_total_var)-1),2)`%,`r round(100*(exp(tidy_wolf_priors_model_lnRR$conf.high[7]+0.5*wolf_priors_model_total_var)-1),2)`%\], $\tau_{arm}=$ `r round(100*(exp(tidy_wolf_priors_model_lnRR$estimate[5]/2+0.5*wolf_priors_model_total_var)-1),2)`% \[95% quantile interval: `r round(100*(exp(tidy_wolf_priors_model_lnRR$conf.low[5]+0.5*wolf_priors_model_total_var)-1),2)`%,`r round(100*(exp(tidy_wolf_priors_model_lnRR$conf.high[5]+0.5*wolf_priors_model_total_var)-1),2)`%\], and $\tau_{effect}=$ `r round(100*(exp(tidy_wolf_priors_model_lnRR$estimate[6]/2+0.5*wolf_priors_model_total_var)-1),2)`% \[95% quantile interval: `r round(100*(exp(tidy_wolf_priors_model_lnRR$conf.low[6]+0.5*wolf_priors_model_total_var)-1),2)`%,`r round(100*(exp(tidy_wolf_priors_model_lnRR$conf.high[6]+0.5*wolf_priors_model_total_var)-1),2)`%\].
+
+Model diagnostics can be seen in the supplementary materials here: <https://osf.io/3ybcs>.
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| label: fig-wolf-SMD-plot 
+#| fig-width: 10
+#| fig-height: 5.5
+#| fig-cap: Results from primary pre-registered main model for standardised mean difference effects.
+
+targets::tar_load(wolf_priors_model_plot_preds_SMD)
+targets::tar_load(wolf_priors_model_plot_slopes_SMD)
+
+(wolf_priors_model_plot_preds_SMD + wolf_priors_model_plot_slopes_SMD) +
+    plot_annotation(
+      title = "Interaction between mean muscle length and site of measurement",
+      subtitle = "Global grand mean and 95% quantile intervals presented for predictions and slopes at 25%, 50%, and 75% of centred site of measurement",
+      caption = "Note, the slopes have been transformed to the effect when increasing muscle length by 50% to reflect typical difference between short vs long lengths"
+    ) + 
+    plot_layout(guides = "collect") & theme(legend.position = "bottom")
+```
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| label: fig-wolf-lnRR-plot 
+#| fig-width: 10
+#| fig-height: 5.5
+#| fig-cap: Results from primary pre-registered main model for exponentiated log response ratio effects.
+
+targets::tar_load(wolf_priors_model_plot_preds_lnRR)
+targets::tar_load(wolf_priors_model_plot_slopes_lnRR)
+
+(wolf_priors_model_plot_preds_lnRR + wolf_priors_model_plot_slopes_lnRR) +
+    plot_annotation(
+      title = "Interaction between mean muscle length and site of measurement",
+      subtitle = "Global grand mean and 95% quantile intervals presented for predictions and slopes at 25%, 50%, and 75% of centred site of measurement",
+      caption = "Note, the slopes have been transformed to the effect when increasing muscle length by 50% to reflect typical difference between short vs long lengths"
+    ) + 
+    plot_layout(guides = "collect") & theme(legend.position = "bottom")
+```
+
+# Discussion
+
+## Main findings
+
+We explored the effects of mean muscle length (manipulated through exercise ROM or exercise selection) during RT on regional muscle hypertrophy. Our main findings suggest that the effects of mean muscle length, as indicated by point estimates, might be greatest at distal sites (75% muscle length; SMD: 0.20; Exponentiated lnRR: 4.13%), while smaller effects were found at mid-belly (50% muscle length; SMD: 0.15; Exponentiated lnRR: 2.61%) and proximal sites (25% muscle length; SMD: 0.10; Exponentiated lnRR: 1.1%). The probability of finding a meaningful positive effect at proximal, mid-belly and distal sites was 50.70%, 69.78%, and 80.75%, respectively. To help contextualize our findings, we agreed upon the smallest effect size of interest (SMD \>0.1) and percentage changes (\>3%) to ensure that any observed change in muscle hypertrophy was practically meaningful in the context of muscle development. Based on these data and our a priori thresholds, it seems that if positive effects of training at longer muscle lengths on regional muscle hypertrophy exist, they may be the greatest at the distal sites.
+
+Results from our pre-registered model indicate that point estimate effects of mean muscle length on regional muscle hypertrophy were compatible with trivial to small effects (SMD point estimates: 0.10-0.20; Exponentiated lnRR point estimates: 1.1%-4.13%). This magnitude of effect for manipulating muscle length is perhaps not surprising given the magnitude of hypertrophy resultant from RT in general (SMD: 0.34; 95%CI: 0.29, 0.39; Exponentiated lnRR: 5.13%; 95%CI: 4.08%, 6.18%) [@steele_meta-analysis_2023]. Whilst point estimates support trivial to small effects for mean muscle length, as noted, posterior distributions and corresponding interval estimates were imprecise such that further data may result in more precise posterior estimates of a smaller magnitude. However, for those seeking to maximize muscle hypertrophy, small effects, such as those observed at distal sites, may be practically relevant.
+
+## Model comparison
+
+In addition to our pre-registered model, we opted to present other models (see full results of these models at: <https://osf.io/rqavs>) using different informed priors as one author (JS) advocated for more skeptical priors (see <https://osf.io/g8stn> and <https://osf.io/4fhvz>), based on their previously mentioned large-scale meta-analysis [@steele_meta-analysis_2023], regarding the possible effects of muscle length compared to both the priors elicited from the [@wolf_partial_2023] data (see <https://osf.io/uxhdj> and <https://osf.io/tvpes>; note that JS priors were unaffected by this data also, see <https://osf.io/h6ks7> and <https://osf.io/w7zmk>) and than other authors of the group (DV, MW, BJS, JG, PM; see <https://osf.io/rhs7d> and <https://osf.io/e5hz3>). Across all models, the general effects of mean muscle length on regional muscle hypertrophy were small. However, some models showed stronger evidence for positive effects at distal sites than others. For example, in the pre-registered main model, the distal site (75%) showed small effects (SMD: 0.20; 95%QI \[-0.03, 0.43\]), with an 80.75% probability of finding a meaningful positive effect. This was also true for the exponentiated lnRR results, where the distal site showed a 4.13% slope (95%QI \[-1.2%, 9.76%\]) with a 65.87% probability of a meaningful positive effect. The uninformed priors model indicated similar effect size at the distal site (SMD: 0.21, 95%QI \[-0.03, 0.44\], <https://osf.io/58fzs>; Exponentiated lnRR: 4.12% \[95%QI: -1.2%, 9.8%\], <https://osf.io/637e2>), with a similar probability of a meaningful positive effect (65.65%) as the pre-registered model. When random slopes were added to account for study-level variability, the effect size at the distal site increased slightly (SMD: 0.26, 95%QI \[-0.1, 0.61\], <https://osf.io/ej48h>; Exponentiated lnRR: 5.01% \[95%QI: -4.03%, 15.66%\], <https://osf.io/caz8r>), although this additional random effect led to greater imprecision across all measurement sites. Conversely, the model by author (JS) produced more consistent effect size estimates across all sites (SMD: 0.13 \[95%QI: -0.1, 0.45\], <https://osf.io/gkw69>; Exponentiated lnRR: 1.97-1.98% \[95%QI: -5.89%, 12.94%\], <https://osf.io/pmkyf>). The probabilities of producing a meaningful positive effect hovered around \~59% for SMDs and \~41% for exponentiated lnRRs, with a considerable portion of the posterior distributions falling within the ROPE. This model was the most conservative of all that were used and gives greatest support to the probability of finding either null, or small positive effects. In contrast, the model using other authors' (DV, MW, BJS, JG, PM) informed priors showed stronger support for muscle hypertrophy at longer muscle lengths, particularly at the distal site (SMD: 0.26, 95%QI \[0.02, 0.52\], <https://osf.io/7m8q3>; Exponentiated lnRR: 7.54% \[95%QI: -1.3%, 15.45%\], <https://osf.io/bwsez>), with a high probability of a meaningful positive effect (92.32%). By calculating Bayes Factors for each model, we were able to present relative evidence of the observed data being more probable under one model compared to another (see <https://osf.io/gdnph> and <https://osf.io/hm6j9>). Although these results suggest that longer muscle lengths may lead to greater muscle hypertrophy, particularly in distal regions, substantial uncertainty remains in all models, especially at the proximal and mid-belly sites.
+
+In addition to our main model, we pre-registered secondary predictor models. Specifically, we aimed to explore whether the effects of mean muscle length differ between upper- or lower-body muscle groups, individual muscle groups or the type of muscle action. For all secondary models, effects of additional predictors upon the effects of mean muscle lengths on regional muscle hypertrophy are largely inconclusive (see Secondary Predictor Models - Uninformed Priors section). This is primarily due to lack of studies included in each of the analyses, and high degree of uncertainty and imprecision as reflected by wide 95% quantile intervals in the majority of models which is to be expected given the complexity of exploring three-way interactions. Therefore, these analyses should be considered exploratory and interpreted with caution. However, one potentially worth noting is the model including the study level predictor for how muscle length was manipulated: studies that varied muscle length via alterations in exercise selection vs. alterations in ROM. Results indicated that when solely analyzing studies that manipulated ROM, the effect strengthened for greater muscle hypertrophy at the distal site (SMD: 0.52, 95%QI \[0.17, 0.81\], <https://osf.io/6ydrn>); Exponentiated lnRR: 10.55% \[95%QI: -0.18%, 18.4%\], <https://osf.io/3puzj>). This suggests that performing repetitions at longer muscle lengths where muscle length is manipulated by means of increasing ROM (i.e., lengthened partials) may preferentially elicit greater distal muscle hypertrophy vs. more proximal sites. Alternatively, the effects of alteration of exercise selection were unclear. However, similarly to other secondary predictor models, these analyses should be interpreted cautiously given the limited number of studies that investigated the topic, and that this additional analysis was not pre-registered.
+
+## Suggestions for future research
+
+There are several potential avenues for future studies on the topic. One is to explore whether different muscle lengths indeed cause distinct muscle activation patterns, as measured via T2 MRI. It seems plausible that greater effects in the distal regions following training at longer muscle lengths could be due to greater muscle activation [@wakahara_inter_2017; @wakahara_nonuniform_2013; @wakahara_association_2012]. Thus, this would allow us to better understand potential underlying mechanisms. Researchers should also aim to increase the number of measurement points along the muscle, particularly at proximal sites. Instead of measuring only a few sites (i.e. proximal, mid-belly and distal), future studies could employ (if resources allow) advanced imaging techniques, such as MRI, extended field of view technique for panoramic B-mode ultrasound image acquisition or to collect multiple ultrasound images and stitch them together using contour matching (stitching images method) to better measure adaptations along the whole length of a muscle [@franchi_panoramic_2020; @franchi_muscle_2018; @stokes_methodological_2021]. Further research is warranted to better understand the effects of all other secondary predictors examined: upper vs. lower body, specific muscle groups, muscle action performed, and different methods of manipulating muscle length on regional muscle hypertrophy. Current evidence seems to suggest isometric muscle actions performed at longer muscle lengths produce greater effects than isometrics at shorter muscle lengths [@oranchuk_isometric_2019]. However, only five studies [@akagi_differential_2020; @kubo_effects_2006; @alegre_effects_2014; @noorkoiv_neuromuscular_2014; @noorkoiv_effects_2015] have been published to date and none have compared performing isometric muscle actions at maximal muscle lengths, or to dynamic muscle actions (i.e., isokinetic/isotonic), which is something that future studies may consider. Studies examining the effects of manipulating muscle length through exercise selection are also far fewer than those manipulating ROM and thus further research is required examining this approach. Further investigation into the effects of training at longer muscle lengths and fROM, especially in a trained population would fill a crucial gap in the literature as only one study [@zabaleta-korta_regional_2023] on trained participants has been published in a peer-reviewed journal to date. Lastly, only Stasinaki et al. [-@stasinaki_triceps_2018] performed training at maximum muscle lengths, while other studies on the topic performed them at relatively shorter, or longer muscle lengths, respectively. Therefore, future studies should explore the effects of training at maximum muscle lengths on regional muscle hypertrophy.
+
+## Limitations
+
+The present paper has several limitations that should be considered when drawing practical inferences. First, only 13 studies were included in systematic review, and only 12 studies were meta-analyzed due to one study [@noorkoiv_effects_2015] using the same dataset as in a previous publication [@noorkoiv_neuromuscular_2014]. Even though we used an arm-based model, our analyses included only 184 effects nested within 22 intervention arms. Second, the majority of the studies examined quadriceps femoris [@alegre_effects_2014; @bloomquist_effect_2013; @mcmahon_impact_2014; @mcmahon_muscular_2014; @noorkoiv_effects_2015; @noorkoiv_neuromuscular_2014; @pedrosa_partial_2022; @valamatos_influence_2018], while only three examined elbow flexors [@pedrosa_training_2023; @sato_elbow_2021; @zabaleta-korta_regional_2023], two hamstrings/back thigh [@bloomquist_effect_2013; @maeo_greater_2021] and one elbow extensors [@stasinaki_triceps_2018] and notably our secondary models exploring predictors such as muscle group were imprecise in their estimates. Therefore, future research should evaluate regional muscle hypertrophy across a broader range of muscle groups. Based on the SMART-LD checklist, the included studies were classified of poor to fair methodological quality. Majority of the studies were graded to be of lower quality due to either not specifying sample size justification, randomization methods and concealment, adequately reporting training adherence, training supervision, or provided exact outcome values pre- and post-study. While these aspects are more a limitation of the included studies, not this review *per se*, they should be addressed by future research. Finally, the majority of studies measured mid-belly and distal regions, however, only seven studies [@alegre_effects_2014; @bloomquist_effect_2013; @maeo_greater_2021; @mcmahon_impact_2014; @mcmahon_muscular_2014; @noorkoiv_neuromuscular_2014; @valamatos_influence_2018] measured most proximal sites; therefore, future studies should endeavor to measure proximal regions to gain better understanding of changes in those regions following training at different muscle lengths.
+
+# Conclusion
+
+We found that the effects of mean muscle length might be the greatest at distal sites (SMD: 0.20) with the largest probability of finding a meaningful positive effect (80.75%). For mid-belly and proximal sites the probability of finding a meaningful positive effect and the pooled effects were smaller (50.70-69.78%; SMD: 0.10-0.15). These data indicate that if positive effects of training at longer muscle lengths on regional muscle hypertrophy exist, they may be the greatest at the distal sites. However, due to the imprecision in the posterior distributions for effects, our findings should be considered exploratory.
+
+# Author Contributions
+
+DV conceived the idea for the paper. DV, MW, BJS conceptualized the review. DV and MW conducted the study selection, data extraction, and methodological quality assessment. JS conducted the statistical analyses. DV drafted the initial manuscript. DV, MW, BJS, JG, PM contributed to writing the manuscript. All authors read and approved the final manuscript.
+
+# Competing Interests
+
+BJS serves on the scientific advisory board of Tonal Corporation, a manufacturer of fitness equipment. JS provides research and statistical consulting for organizations within the health and fitness field.
+
+# Funding Information
+
+No funding was received for this project.
+
+# Data and Supplementary Material Accessibility
+
+All extracted data and code utilised for data preparation and analyses are available in either the Open Science Framework page for this project <https://osf.io/c2657/> or the corresponding GitHub repository <https://github.com/jamessteeleii/ROM_regional_hypertrophy>. Other supplementary analyses and plots are also available there.
