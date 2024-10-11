@@ -40,6 +40,7 @@ list(
   tar_target(file, here("data","ROM_regional_hypertrophy_data.csv"), format = "file"),
   tar_target(data_SMD, read_prepare_data_SMD(file)),
   tar_target(data_lnRR, read_prepare_data_lnRR(file)),
+  tar_target(average_length_diff, get_average_length_diff(data_SMD)),
   
   # Load in and prepare Wolf et al. (2023) data
   tar_target(file_wolf, here("data","wolf_et_al_meta_data.csv"), format = "file"),

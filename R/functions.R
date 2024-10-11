@@ -29,7 +29,7 @@ read_prepare_data_SMD <- function(file) {
   mutate(ri = 0.7)
 
 
-# Calculate standardised effects
+# Calculate Standardized effects
 data <- escalc(
   measure = "SMCRH",
   m1i = m_post,
@@ -80,7 +80,7 @@ read_prepare_data_lnRR <- function(file) {
     mutate(ri = 0.7)
 
 
-  # Calculate standardised effects
+  # Calculate Standardized effects
   data <- escalc(
     measure = "ROMC",
     m1i = m_post,
@@ -107,7 +107,7 @@ read_prepare_wolf_data_SMD <- function(file) {
     # add assumed pre-post correlation
     mutate(ri = 0.7)
   
-  # Calculate standardised effects within arms for partial ROM groups
+  # Calculate Standardized effects within arms for partial ROM groups
   data_wolf <- escalc(
     measure = "SMCRH",
     m1i = PART_m_post,
@@ -148,7 +148,7 @@ read_prepare_wolf_data_lnRR <- function(file) {
     # add assumed pre-post correlation
     mutate(ri = 0.7)
   
-  # Calculate standardised effects within arms for partial ROM groups
+  # Calculate Standardized effects within arms for partial ROM groups
   data_wolf <- escalc(
     measure = "ROMC",
     m1i = PART_m_post,
@@ -183,6 +183,24 @@ read_prepare_wolf_data_lnRR <- function(file) {
   
 }
 
+get_average_length_diff <- function(data) {
+  
+  # This is for selecting the contrast over which to calculate slopes for muscle length
+  
+  length_diffs <- data |>
+    unite("arm_group", c("arm_number", "group")) |>
+    group_by(arm_group) |>
+    slice_head(n=1) |>
+    select(study_number, arm_group, mean_muscle_length) |>
+    group_by(study_number) |>
+    mutate(cond = if_else(mean_muscle_length < max(mean_muscle_length), "short", "long")) |>
+    mutate(diff = max(mean_muscle_length) - mean_muscle_length) |>
+    filter(cond == "short") |>
+    ungroup() |>
+    summarise(mean_diff = mean(diff),
+              sd_diff = sd(diff))
+}
+
 # Setup rstan to run quicker
 rstan_setup <- function() {
   rstan_options(auto_write = TRUE)
@@ -213,9 +231,9 @@ sample_and_plot_priors_SMD <- function(model) {
   model |>
     gather_draws(b_Intercept, b_mean_muscle_length_centred, b_site_centred, `b_mean_muscle_length_centred:site_centred`) |>
     mutate(.value = case_when(
-      .variable == "b_mean_muscle_length_centred" ~ .value/2,
-      .variable == "b_site_centred" ~ .value/2,
-      .variable == "b_mean_muscle_length_centred:site_centred" ~ .value/2,
+      .variable == "b_mean_muscle_length_centred" ~ .value*0.218,
+      .variable == "b_site_centred" ~ .value*0.218,
+      .variable == "b_mean_muscle_length_centred:site_centred" ~ .value*0.218,
       .variable == "b_Intercept" ~ .value
       
     )) |>
@@ -228,7 +246,7 @@ sample_and_plot_priors_SMD <- function(model) {
       x = "Model Coefficients",
       y = "Density",
       title = "Prior distribution for fixed (i.e., population level) effects",
-      subtitle = "Note, with the exception of the Intercept, coefficients have been halved to reflect a typical short vs long length/site difference of 50%"
+      subtitle = "Note, with the exception of the Intercept, coefficients have been halved to reflect a typical short vs long length/site difference of 21.8%"
     ) +
     theme_classic() +
     theme(panel.border = element_rect(fill = NA),
@@ -240,9 +258,9 @@ sample_and_plot_priors_lnRR <- function(model) {
   model |>
     gather_draws(b_Intercept, b_mean_muscle_length_centred, b_site_centred, `b_mean_muscle_length_centred:site_centred`) |>
     mutate(.value = case_when(
-      .variable == "b_mean_muscle_length_centred" ~ .value/2,
-      .variable == "b_site_centred" ~ .value/2,
-      .variable == "b_mean_muscle_length_centred:site_centred" ~ .value/2,
+      .variable == "b_mean_muscle_length_centred" ~ .value*0.218,
+      .variable == "b_site_centred" ~ .value*0.218,
+      .variable == "b_mean_muscle_length_centred:site_centred" ~ .value*0.218,
       .variable == "b_Intercept" ~ .value
       
     )) |>
@@ -255,7 +273,7 @@ sample_and_plot_priors_lnRR <- function(model) {
       x = "Model Coefficients",
       y = "Density",
       title = "Prior distribution for fixed (i.e., population level) effects",
-      subtitle = "Note, with the exception of the Intercept, coefficients have been halved to reflect a typical short vs long length/site difference of 50%"
+      subtitle = "Note, with the exception of the Intercept, coefficients have been halved to reflect a typical short vs long length/site difference of 21.8%"
     ) +
     theme_classic() +
     theme(panel.border = element_rect(fill = NA),
@@ -674,7 +692,7 @@ fit_wolf_steele_priors_only_model_SMD <- function(data) {
       # Wolf et al (2023) DOI: https://doi.org/10.47206/ijsc.v3i1.182 found similar (point estimate withing 0.1 SESOI) effects for short length partial vs full ROM
       # Given constraints on interaction effects, the estimate for long vs short from this is implausibly large given general 0.34 effects for RT on hypertrophy
       # It would seem more reasonable to have more mass on a null effect, but slightly more weight towards small (<0.1) effects for muscle length
-      # This prior is set such that a difference of 50% in length reflecting a typical difference in short vs long training (at a site of 50%) produces effects of the magnitudes ~0 to ~0.05
+      # This prior is set such that a difference of 21.8% in length reflecting a typical difference in short vs long training (at a site of 50%) produces effects of the magnitudes ~0 to ~0.05
       set_prior("skew_normal(0, 0.1, 5)", class = "b", coef = "muscle_length",),
       
       # It is unclear (DOI: 10.1519/SSC.0000000000000574) whether hypertrophy differs by site of measurement overall 
@@ -715,7 +733,7 @@ fit_wolf_steele_priors_model_SMD <- function(data) {
       # Wolf et al (2023) DOI: https://doi.org/10.47206/ijsc.v3i1.182 found similar (point estimate withing 0.1 SESOI) effects for short length partial vs full ROM
       # Given constraints on interaction effects, the estimate for long vs short from this is implausibly large given general 0.34 effects for RT on hypertrophy
       # It would seem more reasonable to have more mass on a null effect, but slightly more weight towards small (<0.1) effects for muscle length
-      # This prior is set such that a difference of 50% in length reflecting a typical difference in short vs long training (at a site of 50%) produces effects of the magnitudes ~0 to ~0.05
+      # This prior is set such that a difference of 21.8% in length reflecting a typical difference in short vs long training (at a site of 50%) produces effects of the magnitudes ~0 to ~0.05
       set_prior("skew_normal(0, 0.1, 5)", class = "b", coef = "muscle_length",),
       
       # It is unclear (DOI: 10.1519/SSC.0000000000000574) whether hypertrophy differs by site of measurement overall 
@@ -747,18 +765,18 @@ compare_wolf_steele_priors_SMD <- function(prior_model, posterior_model) {
   prior_model_draws <- prior_model |>
     gather_draws(b_Intercept, b_muscle_length, b_site_centred, `b_muscle_length:site_centred`) |>
     mutate(.value = case_when(
-      .variable == "b_muscle_length" ~ .value/2,
-      .variable == "b_site_centred" ~ .value/2,
-      .variable == "b_muscle_length:site_centred" ~ .value/2,
+      .variable == "b_muscle_length" ~ .value*0.218,
+      .variable == "b_site_centred" ~ .value*0.218,
+      .variable == "b_muscle_length:site_centred" ~ .value*0.218,
       .variable == "b_Intercept" ~ .value),
       model = "J. Steele Informed Prior")
   
   posterior_model_draws <- posterior_model |>
     gather_draws(b_Intercept, b_muscle_length, b_site_centred, `b_muscle_length:site_centred`) |>
     mutate(.value = case_when(
-      .variable == "b_muscle_length" ~ .value/2,
-      .variable == "b_site_centred" ~ .value/2,
-      .variable == "b_muscle_length:site_centred" ~ .value/2,
+      .variable == "b_muscle_length" ~ .value*0.218,
+      .variable == "b_site_centred" ~ .value*0.218,
+      .variable == "b_muscle_length:site_centred" ~ .value*0.218,
       .variable == "b_Intercept" ~ .value),
       model = "Posterior After Wolf et al. (2023) Data") 
   
@@ -774,7 +792,7 @@ compare_wolf_steele_priors_SMD <- function(prior_model, posterior_model) {
       x = "Model Coefficients",
       y = "Density",
       title = "Influence of Wolf et al. (2023) data on J. Steele informed prior for fixed (i.e., population level) effects",
-      subtitle = "Note, with the exception of the Intercept, coefficients have been halved to reflect a typical short vs long length/site difference of 50%"
+      subtitle = "Note, with the exception of the Intercept, coefficients have been halved to reflect a typical short vs long length/site difference of 21.8%"
     ) +
     theme_classic() +
     theme(panel.border = element_rect(fill = NA),
@@ -795,7 +813,7 @@ set_steele_priors_SMD <- function() {
       # Wolf et al (2023) DOI: https://doi.org/10.47206/ijsc.v3i1.182 found similar (point estimate withing 0.1 SESOI) effects for short length partial vs full ROM
       # Given constraints on interaction effects, the estimate for long vs short from this is implausibly large given general 0.34 effects for RT on hypertrophy
       # It would seem more reasonable to have more mass on a null effect, but slightly more weight towards small (<0.1) effects for muscle length
-      # This prior is set such that a difference of 50% in length reflecting a typical difference in short vs long training (at a site of 50%) produces effects of the magnitudes ~0 to ~0.05
+      # This prior is set such that a difference of 21.8% in length reflecting a typical difference in short vs long training (at a site of 50%) produces effects of the magnitudes ~0 to ~0.05
       set_prior("skew_normal(0, 0.1, 5)", class = "b", coef = "mean_muscle_length_centred",),
       
       # It is unclear (DOI: 10.1519/SSC.0000000000000574) whether hypertrophy differs by site of measurement overall 
@@ -880,7 +898,7 @@ fit_wolf_steele_priors_only_model_lnRR <- function(data) {
       # Wolf et al (2023) DOI: https://doi.org/10.47206/ijsc.v3i1.182 found similar effects for short length partial vs full ROM, but the long vs short effect was 0.10 lnRR
       # Given constraints on interaction effects, the estimate for long vs short from this is implausibly large given general 0.0525 lnRR effects for RT on hypertrophy
       # It would seem more reasonable to have more mass on a null effect, but slightly more weight towards small (<0.015) effects for muscle length
-      # This prior is set such that a difference of 50% in length reflecting a typical difference in short vs long training (at a site of 50%) produces effects of the magnitudes ~0 to ~0.0075
+      # This prior is set such that a difference of 21.8% in length reflecting a typical difference in short vs long training (at a site of 50%) produces effects of the magnitudes ~0 to ~0.0075
       set_prior("skew_normal(0, 0.016, 5)", class = "b", coef = "muscle_length",),
       
       # It is unclear (DOI: 10.1519/SSC.0000000000000574) whether hypertrophy differs by site of measurement overall 
@@ -921,7 +939,7 @@ fit_wolf_steele_priors_model_lnRR <- function(data) {
       # Wolf et al (2023) DOI: https://doi.org/10.47206/ijsc.v3i1.182 found similar effects for short length partial vs full ROM, but the long vs short effect was 0.10 lnRR
       # Given constraints on interaction effects, the estimate for long vs short from this is implausibly large given general 0.0525 lnRR effects for RT on hypertrophy
       # It would seem more reasonable to have more mass on a null effect, but slightly more weight towards small (<0.015) effects for muscle length
-      # This prior is set such that a difference of 50% in length reflecting a typical difference in short vs long training (at a site of 50%) produces effects of the magnitudes ~0 to ~0.0075
+      # This prior is set such that a difference of 21.8% in length reflecting a typical difference in short vs long training (at a site of 50%) produces effects of the magnitudes ~0 to ~0.0075
       set_prior("skew_normal(0, 0.016, 5)", class = "b", coef = "muscle_length",),
       
       # It is unclear (DOI: 10.1519/SSC.0000000000000574) whether hypertrophy differs by site of measurement overall 
@@ -953,18 +971,18 @@ compare_wolf_steele_priors_lnRR <- function(prior_model, posterior_model) {
   prior_model_draws <- prior_model |>
     gather_draws(b_Intercept, b_muscle_length, b_site_centred, `b_muscle_length:site_centred`) |>
     mutate(.value = case_when(
-      .variable == "b_muscle_length" ~ .value/2,
-      .variable == "b_site_centred" ~ .value/2,
-      .variable == "b_muscle_length:site_centred" ~ .value/2,
+      .variable == "b_muscle_length" ~ .value*0.218,
+      .variable == "b_site_centred" ~ .value*0.218,
+      .variable == "b_muscle_length:site_centred" ~ .value*0.218,
       .variable == "b_Intercept" ~ .value),
       model = "J. Steele Informed Prior")
   
   posterior_model_draws <- posterior_model |>
     gather_draws(b_Intercept, b_muscle_length, b_site_centred, `b_muscle_length:site_centred`) |>
     mutate(.value = case_when(
-      .variable == "b_muscle_length" ~ .value/2,
-      .variable == "b_site_centred" ~ .value/2,
-      .variable == "b_muscle_length:site_centred" ~ .value/2,
+      .variable == "b_muscle_length" ~ .value*0.218,
+      .variable == "b_site_centred" ~ .value*0.218,
+      .variable == "b_muscle_length:site_centred" ~ .value*0.218,
       .variable == "b_Intercept" ~ .value),
       model = "Posterior After Wolf et al. (2023) Data") 
   
@@ -980,7 +998,7 @@ compare_wolf_steele_priors_lnRR <- function(prior_model, posterior_model) {
       x = "Model Coefficients",
       y = "Density",
       title = "Influence of Wolf et al. (2023) data on J. Steele informed prior for fixed (i.e., population level) effects",
-      subtitle = "Note, with the exception of the Intercept, coefficients have been halved to reflect a typical short vs long length/site difference of 50%"
+      subtitle = "Note, with the exception of the Intercept, coefficients have been halved to reflect a typical short vs long length/site difference of 21.8%"
     ) +
     theme_classic() +
     theme(panel.border = element_rect(fill = NA),
@@ -1001,7 +1019,7 @@ set_steele_priors_lnRR <- function() {
       # Wolf et al (2023) DOI: https://doi.org/10.47206/ijsc.v3i1.182 found similar effects for short length partial vs full ROM, but the long vs short effect was 0.10 lnRR
       # Given constraints on interaction effects, the estimate for long vs short from this is implausibly large given general 0.0525 lnRR effects for RT on hypertrophy
       # It would seem more reasonable to have more mass on a null effect, but slightly more weight towards small (<0.015) effects for muscle length
-      # This prior is set such that a difference of 50% in length reflecting a typical difference in short vs long training (at a site of 50%) produces effects of the magnitudes ~0 to ~0.0075
+      # This prior is set such that a difference of 21.8% in length reflecting a typical difference in short vs long training (at a site of 50%) produces effects of the magnitudes ~0 to ~0.0075
       set_prior("skew_normal(0, 0.016, 5)", class = "b", coef = "mean_muscle_length_centred",),
       
       # It is unclear (DOI: 10.1519/SSC.0000000000000574) whether hypertrophy differs by site of measurement overall 
@@ -1269,7 +1287,7 @@ plot_main_model_preds_SMD <- function(data, model) {
     ) +
     labs(
       x = "Mean Muscle Length (%)",
-      y = "Standardised Mean Change",
+      y = "Standardized Mean Change",
       fill = "Site of Measurement (%)"
       ) +
     theme_classic() +
@@ -1298,14 +1316,14 @@ plot_main_model_slopes_SMD <- function(model) {
   rope_percents <- tibble(
     site_centred = c(-0.25,0,0.25),
     rope_percent = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25)$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0)$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25)$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25)$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0)$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25)$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage
     ),
     pd = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25)$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0)$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25)$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25)$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0)$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25)$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage
     )
   )
   
@@ -1321,25 +1339,25 @@ plot_main_model_slopes_SMD <- function(model) {
   )
   
   slopes |>
-    ggplot(aes(x = (site_centred*100)+50, y = draw/2)) +
+    ggplot(aes(x = (site_centred*100)+50, y = draw*0.218)) +
     geom_hline(yintercept = 0, linetype = "dotted", alpha = 0.75) +
     geom_hline(yintercept = c(-0.1,0.1), linetype = "dashed") +
     stat_slabinterval(aes(fill = (site_centred*100)+50), alpha = 0.75) +
     # add mean and qi
-    annotate("text", (summary$site_centred*100)+45, summary$estimate/2, label = round(summary$estimate/2,2), size = 3) +
-    annotate("text", (summary$site_centred*100)+45, summary$conf.low/2, label = round(summary$conf.low/2,2), size = 3) +
-    annotate("text", (summary$site_centred*100)+45, summary$conf.high/2, label = round(summary$conf.high/2,2), size = 3) +
+    annotate("text", (summary$site_centred*100)+45, summary$estimate*0.218, label = round(summary$estimate*0.218,2), size = 3) +
+    annotate("text", (summary$site_centred*100)+45, summary$conf.low*0.218, label = round(summary$conf.low*0.218,2), size = 3) +
+    annotate("text", (summary$site_centred*100)+45, summary$conf.high*0.218, label = round(summary$conf.high*0.218,2), size = 3) +
     # add percent in rope
-    annotate("rect", xmin = 10, xmax = 90, ymin = -1.125, ymax = -0.825, color = "black", fill = "white") +
-    annotate("text", (rope_percents$site_centred*100)+50, -1.05, label = glue::glue("{round(rope_percents$rope_percent*100,2)}%"), size = 3) +
-    annotate("text", x=50, y=-0.9, label="Percentage of Posterior Distibution Within ROPE [-0.1,0.1]", size = 3) +
+    annotate("rect", xmin = 7.5, xmax = 92.5, ymin = -0.525, ymax = -0.3583332, color = "black", fill = "white") +
+    annotate("text", (rope_percents$site_centred*100)+50, -0.4833332, label = glue::glue("{round(rope_percents$rope_percent*100,2)}%"), size = 3) +
+    annotate("text", x=50, y=-0.4, label="Percentage of Posterior Distibution Within ROPE [-0.1,0.1]", size = 3) +
     # add probability of positive effect
-    annotate("rect", xmin = 10, xmax = 90, ymin = 0.825, ymax = 1.125, color = "black", fill = "white") +
-    annotate("text", (rope_percents$site_centred*100)+50, 0.9, label = glue::glue("{round(rope_percents$pd*100,2)}%"), size = 3) +
-    annotate("text", x=50, y=1.05, label="Probability of Meaningful Positive Effect (i.e., >0.1)", size = 3) +
+    annotate("rect", xmin = 7.5, xmax = 92.5, ymin = 0.3583332, ymax = 0.525, color = "black", fill = "white") +
+    annotate("text", (rope_percents$site_centred*100)+50, 0.4833332, label = glue::glue("{round(rope_percents$pd*100,2)}%"), size = 3) +
+    annotate("text", x=50, y=0.4, label="Probability of Meaningful Positive Effect (i.e., >0.1)", size = 3) +
     scale_fill_viridis_c() +
     scale_x_continuous(breaks = c(0,25,50,75,100), limits = c(0,100)) +
-    scale_y_continuous(breaks = c(-1,-0.75,-0.5,-0.25,0,0.25,0.5,0.75,1), limits = c(-1.15,1.15)) +
+    scale_y_continuous(breaks = c(-0.5,-0.4,-0.3,-0.2,-0.1,0,0.1,0.2,0.3,0.4,0.5), limits = c(-0.575,0.575)) +
     guides(
       color = "none"
     ) +
@@ -1428,14 +1446,14 @@ plot_main_model_slopes_lnRR <- function(model) {
   rope_percents <- tibble(
     site_centred = c(-0.25,0,0.25),
     rope_percent = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25)$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0)$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25)$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25)$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0)$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25)$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage
     ),
     pd = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25)$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0)$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25)$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25)$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0)$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25)$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage
     )
   )
   
@@ -1456,25 +1474,25 @@ plot_main_model_slopes_lnRR <- function(model) {
     )
   
   slopes |>
-    ggplot(aes(x = (site_centred*100)+50, y = draw/2)) +
+    ggplot(aes(x = (site_centred*100)+50, y = draw*0.218)) +
     geom_hline(yintercept = 0, linetype = "dotted", alpha = 0.75) +
     geom_hline(yintercept = c(-3,3), linetype = "dashed") +
     stat_slabinterval(aes(fill = (site_centred*100)+50), alpha = 0.75) +
     # add mean and qi
-    annotate("text", (summary$site_centred*100)+45, summary$estimate/2, label = round(summary$estimate/2,2), size = 3) +
-    annotate("text", (summary$site_centred*100)+45, summary$conf.low/2, label = round(summary$conf.low/2,2), size = 3) +
-    annotate("text", (summary$site_centred*100)+45, summary$conf.high/2, label = round(summary$conf.high/2,2), size = 3) +
+    annotate("text", (summary$site_centred*100)+45, summary$estimate*0.218, label = round(summary$estimate*0.218,2), size = 3) +
+    annotate("text", (summary$site_centred*100)+45, summary$conf.low*0.218, label = round(summary$conf.low*0.218,2), size = 3) +
+    annotate("text", (summary$site_centred*100)+45, summary$conf.high*0.218, label = round(summary$conf.high*0.218,2), size = 3) +
     # add percent in rope
-    annotate("rect", xmin = 7.5, xmax = 92.5, ymin = -52.5, ymax = -35.83333, color = "black", fill = "white") +
-    annotate("text", (rope_percents$site_centred*100)+50, -48.33333, label = glue::glue("{round(rope_percents$rope_percent*100,2)}%"), size = 3) +
-    annotate("text", x=50, y=-40, label="Percentage of Posterior Distibution Within ROPE [-3%,3%]", size = 3) +
+    annotate("rect", xmin = 7.5, xmax = 92.5, ymin = -26.25, ymax = -17.91666, color = "black", fill = "white") +
+    annotate("text", (rope_percents$site_centred*100)+50, -24.16666, label = glue::glue("{round(rope_percents$rope_percent*100,2)}%"), size = 3) +
+    annotate("text", x=50, y=-20, label="Percentage of Posterior Distibution Within ROPE [-3%,3%]", size = 3) +
     # add probability of positive effect
-    annotate("rect", xmin = 10, xmax = 90, ymin = 35.83333, ymax = 52.5, color = "black", fill = "white") +
-    annotate("text", (rope_percents$site_centred*100)+50, 40, label = glue::glue("{round(rope_percents$pd*100,2)}%"), size = 3) +
-    annotate("text", x=50, y=48.33333, label="Probability of Meaningful Positive Effect (i.e., >3%)", size = 3) +
+    annotate("rect", xmin = 7.5, xmax = 92.5, ymin = 17.91666, ymax = 26.25, color = "black", fill = "white") +
+    annotate("text", (rope_percents$site_centred*100)+50, 20, label = glue::glue("{round(rope_percents$pd*100,2)}%"), size = 3) +
+    annotate("text", x=50, y=24.16666, label="Probability of Meaningful Positive Effect (i.e., >3%)", size = 3) +
     scale_fill_viridis_c() +
     scale_x_continuous(breaks = c(0,25,50,75,100), limits = c(0,100)) +
-    scale_y_continuous(breaks = c(-50,-40,-30,-20,-10,0,10,20,30,40,50), limits = c(-55,55)) +
+    scale_y_continuous(breaks = c(-25,-20,-15,-10,-5,0,5,10,15,20,25), limits = c(-28.75,28.75)) +
     guides(
       color = "none"
     ) +
@@ -1495,7 +1513,7 @@ combine_main_model_plots <- function(preds_plot, slopes_plot) {
     plot_annotation(
       title = "Interaction between mean muscle length and site of measurement",
       subtitle = "Global grand mean and 95% quantile intervals presented for predictions and slopes at 25%, 50%, and 75% of centred site of measurement",
-      caption = "Note, the slopes have been transformed to the effect when increasing muscle length by 50% to reflect typical difference between short vs long lengths"
+      caption = "Note, the slopes have been transformed to the effect when increasing muscle length by 21.8% to reflect typical difference between short vs long lengths"
     ) + 
     plot_layout(guides = "collect") & theme(legend.position = "bottom")
 }
@@ -1541,7 +1559,7 @@ plot_upper_lower_model_preds_SMD <- function(data, model) {
     ) +
     labs(
       x = "Mean Muscle Length (%)",
-      y = "Standardised Mean Change",
+      y = "Standardized Mean Change",
       fill = "Site of Measurement (%)",
       title = "Interaction between mean muscle length, site of measurement, and upper vs lower body",
       subtitle = "Global grand mean and 95% quantile intervals presented for predictions at 25%, 50%, and 75% of centred site of measurement"
@@ -1574,20 +1592,20 @@ plot_upper_lower_model_slopes_SMD <- function(data, model) {
     site_centred = rep(c(-0.25,0,0.25),2),
     body_region = rep(unique(data$body_region),each=3),
     rope_percent = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & body_region == "Lower")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & body_region == "Lower")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & body_region == "Lower")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & body_region == "Upper")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & body_region == "Upper")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & body_region == "Upper")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & body_region == "Lower")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & body_region == "Lower")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & body_region == "Lower")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & body_region == "Upper")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & body_region == "Upper")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & body_region == "Upper")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage
     ),
     pd = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & body_region == "Lower")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & body_region == "Lower")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & body_region == "Lower")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & body_region == "Upper")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & body_region == "Upper")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & body_region == "Upper")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & body_region == "Lower")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & body_region == "Lower")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & body_region == "Lower")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & body_region == "Upper")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & body_region == "Upper")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & body_region == "Upper")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage
     )
   )
   
@@ -1604,17 +1622,17 @@ plot_upper_lower_model_slopes_SMD <- function(data, model) {
   )
   
   slopes |>
-    ggplot(aes(x = (site_centred*100)+50, y = draw/2)) +
+    ggplot(aes(x = (site_centred*100)+50, y = draw*0.218)) +
     geom_hline(yintercept = 0, linetype = "dotted", alpha = 0.75) +
     geom_hline(yintercept = c(-0.1,0.1), linetype = "dashed") +
     stat_slabinterval(aes(fill = (site_centred*100)+50), alpha = 0.75) +
     # # add mean and qi
     geom_text(data = summary,
-              aes(x=(site_centred*100)+45, y=estimate/2, label=round(estimate/2,2)), size = 3) +
+              aes(x=(site_centred*100)+45, y=estimate*0.218, label=round(estimate*0.218,2)), size = 3) +
     geom_text(data = summary,
-              aes(x=(site_centred*100)+45, y=conf.low/2, label=round(conf.low/2,2)), size = 3) +
+              aes(x=(site_centred*100)+45, y=conf.low*0.218, label=round(conf.low*0.218,2)), size = 3) +
     geom_text(data = summary,
-              aes(x=(site_centred*100)+45, y=conf.high/2, label=round(conf.high/2,2)), size = 3) +
+              aes(x=(site_centred*100)+45, y=conf.high*0.218, label=round(conf.high*0.218,2)), size = 3) +
     # # add percent in rope
     annotate("rect", xmin = 10, xmax = 90, ymin = -1.625, ymax = -1.325, color = "black", fill = "white") +
     annotate("text", x=50, y=-1.4, label="Percentage of Posterior Distibution Within ROPE [-0.1,0.1]", size = 3) +
@@ -1635,7 +1653,7 @@ plot_upper_lower_model_slopes_SMD <- function(data, model) {
     ) +
     labs(
       x = "Site of Measurement (%)",
-      y = "Slope for Muscle Length (Standardised Mean Change)",
+      y = "Slope for Muscle Length (Standardized Mean Change)",
       fill = "Site of Measurement (%)",
       title = "Interaction between mean muscle length, site of measurement, and upper vs lower body",
       subtitle = "Global grand mean and 95% quantile intervals presented for slopes at 25%, 50%, and 75% of centred site of measurement"
@@ -1699,7 +1717,7 @@ plot_muscle_model_preds_SMD <- function(data, model) {
     ) +
     labs(
       x = "Mean Muscle Length (%)",
-      y = "Standardised Mean Change",
+      y = "Standardized Mean Change",
       fill = "Site of Measurement (%)",
       title = "Interaction between mean muscle length, site of measurement, and muscle group",
       subtitle = "Global grand mean and 95% quantile intervals presented for predictions at 25%, 50%, and 75% of centred site of measurement"
@@ -1745,68 +1763,68 @@ plot_muscle_model_slopes_SMD <- function(data, model) {
     site_centred = rep(c(-0.25,0,0.25),10),
     muscle = rep(unique(data$muscle),each=3),
     rope_percent = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus Lateralis")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus Lateralis")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus Lateralis")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Front thigh")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Front thigh")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Front thigh")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Back thigh")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Back thigh")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Back thigh")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Biceps femoris Long Head")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Biceps femoris Long Head")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Biceps femoris Long Head")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Semitendinosus")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Semitendinosus")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Semitendinosus")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Rectus Femoris")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Rectus Femoris")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Rectus Femoris")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus Medialis")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus Medialis")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus Medialis")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus intermedius")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus intermedius")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus intermedius")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Elbow Flexors")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Elbow Flexors")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Elbow Flexors")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Triceps Brachii Long Head")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Triceps Brachii Long Head")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Triceps Brachii Long Head")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus Lateralis")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus Lateralis")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus Lateralis")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Front thigh")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Front thigh")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Front thigh")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Back thigh")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Back thigh")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Back thigh")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Biceps femoris Long Head")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Biceps femoris Long Head")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Biceps femoris Long Head")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Semitendinosus")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Semitendinosus")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Semitendinosus")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Rectus Femoris")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Rectus Femoris")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Rectus Femoris")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus Medialis")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus Medialis")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus Medialis")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus intermedius")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus intermedius")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus intermedius")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Elbow Flexors")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Elbow Flexors")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Elbow Flexors")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Triceps Brachii Long Head")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Triceps Brachii Long Head")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Triceps Brachii Long Head")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage
     ),
     pd = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus Lateralis")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus Lateralis")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus Lateralis")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Front thigh")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Front thigh")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Front thigh")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Back thigh")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Back thigh")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Back thigh")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Biceps femoris Long Head")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Biceps femoris Long Head")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Biceps femoris Long Head")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Semitendinosus")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Semitendinosus")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Semitendinosus")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Rectus Femoris")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Rectus Femoris")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Rectus Femoris")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus Medialis")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus Medialis")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus Medialis")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus intermedius")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus intermedius")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus intermedius")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Elbow Flexors")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Elbow Flexors")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Elbow Flexors")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Triceps Brachii Long Head")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Triceps Brachii Long Head")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Triceps Brachii Long Head")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus Lateralis")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus Lateralis")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus Lateralis")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Front thigh")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Front thigh")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Front thigh")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Back thigh")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Back thigh")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Back thigh")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Biceps femoris Long Head")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Biceps femoris Long Head")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Biceps femoris Long Head")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Semitendinosus")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Semitendinosus")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Semitendinosus")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Rectus Femoris")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Rectus Femoris")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Rectus Femoris")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus Medialis")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus Medialis")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus Medialis")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus intermedius")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus intermedius")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus intermedius")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Elbow Flexors")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Elbow Flexors")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Elbow Flexors")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Triceps Brachii Long Head")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Triceps Brachii Long Head")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Triceps Brachii Long Head")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage
     )
   )
   
@@ -1823,7 +1841,7 @@ plot_muscle_model_slopes_SMD <- function(data, model) {
   )
   
   slopes |>
-    ggplot(aes(x = (site_centred*100)+50, y = draw/2)) +
+    ggplot(aes(x = (site_centred*100)+50, y = draw*0.218)) +
     geom_hline(yintercept = 0, linetype = "dotted", alpha = 0.75) +
     geom_hline(yintercept = c(-0.1,0.1), linetype = "dashed") +
     stat_slabinterval(aes(fill = (site_centred*100)+50), alpha = 0.75) +
@@ -1847,7 +1865,7 @@ plot_muscle_model_slopes_SMD <- function(data, model) {
     ) +
     labs(
       x = "Site of Measurement (%)",
-      y = "Slope for Muscle Length (Standardised Mean Change)",
+      y = "Slope for Muscle Length (Standardized Mean Change)",
       fill = "Site of Measurement (%)",
       title = "Interaction between mean muscle length, site of measurement, and muscle group",
       subtitle = "Global grand mean and 95% quantile intervals presented for slopes at 25%, 50%, and 75% of centred site of measurement"
@@ -1898,7 +1916,7 @@ plot_muscle_action_model_preds_SMD <- function(data, model) {
     ) +
     labs(
       x = "Mean Muscle Length (%)",
-      y = "Standardised Mean Change",
+      y = "Standardized Mean Change",
       fill = "Site of Measurement (%)",
       title = "Interaction between mean muscle length, site of measurement, and muscle action",
       subtitle = "Global grand mean and 95% quantile intervals presented for predictions at 25%, 50%, and 75% of centred site of measurement"
@@ -1931,32 +1949,32 @@ plot_muscle_action_model_slopes_SMD <- function(data, model) {
     site_centred = rep(c(-0.25,0,0.25),4),
     muscle_action = rep(unique(data$muscle_action),each=3),
     rope_percent = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isometric")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isometric")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isometric")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isotonic")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isotonic")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isotonic")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isotonic+Isometric")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isotonic+Isometric")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isotonic+Isometric")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Concentric")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Concentric")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Concentric")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isometric")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isometric")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isometric")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isotonic")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isotonic")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isotonic")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isotonic+Isometric")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isotonic+Isometric")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isotonic+Isometric")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Concentric")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Concentric")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Concentric")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage
     ),
     pd = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isometric")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isometric")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isometric")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isotonic")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isotonic")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isotonic")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isotonic+Isometric")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isotonic+Isometric")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isotonic+Isometric")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Concentric")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Concentric")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Concentric")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isometric")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isometric")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isometric")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isotonic")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isotonic")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isotonic")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isotonic+Isometric")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isotonic+Isometric")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isotonic+Isometric")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Concentric")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Concentric")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Concentric")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage
     )
   )
   
@@ -1973,17 +1991,17 @@ plot_muscle_action_model_slopes_SMD <- function(data, model) {
   )
   
   slopes |>
-    ggplot(aes(x = (site_centred*100)+50, y = draw/2)) +
+    ggplot(aes(x = (site_centred*100)+50, y = draw*0.218)) +
     geom_hline(yintercept = 0, linetype = "dotted", alpha = 0.75) +
     geom_hline(yintercept = c(-0.1,0.1), linetype = "dashed") +
     stat_slabinterval(aes(fill = (site_centred*100)+50), alpha = 0.75) +
     # # add mean and qi
     geom_text(data = summary,
-              aes(x=(site_centred*100)+45, y=estimate/2, label=round(estimate/2,2)), size = 3) +
+              aes(x=(site_centred*100)+45, y=estimate*0.218, label=round(estimate*0.218,2)), size = 3) +
     geom_text(data = summary,
-              aes(x=(site_centred*100)+45, y=conf.low/2, label=round(conf.low/2,2)), size = 3) +
+              aes(x=(site_centred*100)+45, y=conf.low*0.218, label=round(conf.low*0.218,2)), size = 3) +
     geom_text(data = summary,
-              aes(x=(site_centred*100)+45, y=conf.high/2, label=round(conf.high/2,2)), size = 3) +
+              aes(x=(site_centred*100)+45, y=conf.high*0.218, label=round(conf.high*0.218,2)), size = 3) +
     # # add percent in rope
     annotate("rect", xmin = 10, xmax = 90, ymin = -1.625, ymax = -1.325, color = "black", fill = "white") +
     annotate("text", x=50, y=-1.4, label="Percentage of Posterior Distibution Within ROPE [-0.1,0.1]", size = 3) +
@@ -2004,7 +2022,7 @@ plot_muscle_action_model_slopes_SMD <- function(data, model) {
     ) +
     labs(
       x = "Site of Measurement (%)",
-      y = "Slope for Muscle Length (Standardised Mean Change)",
+      y = "Slope for Muscle Length (Standardized Mean Change)",
       fill = "Site of Measurement (%)",
       title = "Interaction between mean muscle length, site of measurement, and muscle action",
       subtitle = "Global grand mean and 95% quantile intervals presented for slopes at 25%, 50%, and 75% of centred site of measurement"
@@ -2060,7 +2078,7 @@ plot_muscle_length_manipulation_model_preds_SMD <- function(data, model) {
     ) +
     labs(
       x = "Mean Muscle Length (%)",
-      y = "Standardised Mean Change",
+      y = "Standardized Mean Change",
       fill = "Site of Measurement (%)",
       title = "Interaction between mean muscle length, site of measurement, and method for manipulating muscle length",
       subtitle = "Global grand mean and 95% quantile intervals presented for predictions at 25%, 50%, and 75% of centred site of measurement"
@@ -2098,20 +2116,20 @@ plot_muscle_length_manipulation_model_slopes_SMD <- function(data, model) {
     site_centred = rep(c(-0.25,0,0.25),2),
     muscle_length_manipulation = rep(unique(data$muscle_length_manipulation),each=3),
     rope_percent = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_length_manipulation == "Range of Motion")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_length_manipulation == "Range of Motion")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_length_manipulation == "Range of Motion")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_length_manipulation == "Exercise Selection")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_length_manipulation == "Exercise Selection")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_length_manipulation == "Exercise Selection")$draw/2, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_length_manipulation == "Range of Motion")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_length_manipulation == "Range of Motion")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_length_manipulation == "Range of Motion")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_length_manipulation == "Exercise Selection")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_length_manipulation == "Exercise Selection")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_length_manipulation == "Exercise Selection")$draw*0.218, range = c(-0.1, 0.1), ci = 1)$ROPE_Percentage
     ),
     pd = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_length_manipulation == "Range of Motion")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_length_manipulation == "Range of Motion")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_length_manipulation == "Range of Motion")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_length_manipulation == "Exercise Selection")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_length_manipulation == "Exercise Selection")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_length_manipulation == "Exercise Selection")$draw/2, range = c(0.1, Inf), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_length_manipulation == "Range of Motion")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_length_manipulation == "Range of Motion")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_length_manipulation == "Range of Motion")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_length_manipulation == "Exercise Selection")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_length_manipulation == "Exercise Selection")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_length_manipulation == "Exercise Selection")$draw*0.218, range = c(0.1, Inf), ci = 1)$ROPE_Percentage
     )
   )
   
@@ -2128,17 +2146,17 @@ plot_muscle_length_manipulation_model_slopes_SMD <- function(data, model) {
   )
   
   slopes |>
-    ggplot(aes(x = (site_centred*100)+50, y = draw/2)) +
+    ggplot(aes(x = (site_centred*100)+50, y = draw*0.218)) +
     geom_hline(yintercept = 0, linetype = "dotted", alpha = 0.75) +
     geom_hline(yintercept = c(-0.1,0.1), linetype = "dashed") +
     stat_slabinterval(aes(fill = (site_centred*100)+50), alpha = 0.75) +
     # # add mean and qi
     geom_text(data = summary,
-              aes(x=(site_centred*100)+45, y=estimate/2, label=round(estimate/2,2)), size = 3) +
+              aes(x=(site_centred*100)+45, y=estimate*0.218, label=round(estimate*0.218,2)), size = 3) +
     geom_text(data = summary,
-              aes(x=(site_centred*100)+45, y=conf.low/2, label=round(conf.low/2,2)), size = 3) +
+              aes(x=(site_centred*100)+45, y=conf.low*0.218, label=round(conf.low*0.218,2)), size = 3) +
     geom_text(data = summary,
-              aes(x=(site_centred*100)+45, y=conf.high/2, label=round(conf.high/2,2)), size = 3) +
+              aes(x=(site_centred*100)+45, y=conf.high*0.218, label=round(conf.high*0.218,2)), size = 3) +
     # # add percent in rope
     annotate("rect", xmin = 10, xmax = 90, ymin = -1.625, ymax = -1.325, color = "black", fill = "white") +
     annotate("text", x=50, y=-1.4, label="Percentage of Posterior Distibution Within ROPE [-0.1,0.1]", size = 3) +
@@ -2159,7 +2177,7 @@ plot_muscle_length_manipulation_model_slopes_SMD <- function(data, model) {
     ) +
     labs(
       x = "Site of Measurement (%)",
-      y = "Slope for Muscle Length (Standardised Mean Change)",
+      y = "Slope for Muscle Length (Standardized Mean Change)",
       fill = "Site of Measurement (%)",
       title = "Interaction between mean muscle length, site of measurement, and method for manipulating muscle length",
       subtitle = "Global grand mean and 95% quantile intervals presented for slopes at 25%, 50%, and 75% of centred site of measurement"
@@ -2249,20 +2267,20 @@ plot_upper_lower_model_slopes_lnRR <- function(data, model) {
     site_centred = rep(c(-0.25,0,0.25),2),
     body_region = rep(unique(data$body_region),each=3),
     rope_percent = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & body_region == "Lower")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & body_region == "Lower")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & body_region == "Lower")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & body_region == "Upper")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & body_region == "Upper")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & body_region == "Upper")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & body_region == "Lower")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & body_region == "Lower")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & body_region == "Lower")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & body_region == "Upper")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & body_region == "Upper")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & body_region == "Upper")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage
     ),
     pd = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & body_region == "Lower")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & body_region == "Lower")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & body_region == "Lower")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & body_region == "Upper")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & body_region == "Upper")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & body_region == "Upper")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & body_region == "Lower")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & body_region == "Lower")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & body_region == "Lower")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & body_region == "Upper")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & body_region == "Upper")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & body_region == "Upper")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage
     )
   )
   
@@ -2284,17 +2302,17 @@ plot_upper_lower_model_slopes_lnRR <- function(data, model) {
     )
   
   slopes |>
-    ggplot(aes(x = (site_centred*100)+50, y = draw/2)) +
+    ggplot(aes(x = (site_centred*100)+50, y = draw*0.218)) +
     geom_hline(yintercept = 0, linetype = "dotted", alpha = 0.75) +
     geom_hline(yintercept = c(-3,3), linetype = "dashed") +
     stat_slabinterval(aes(fill = (site_centred*100)+50), alpha = 0.75) +
     # # add mean and qi
     geom_text(data = summary,
-              aes(x=(site_centred*100)+45, y=estimate/2, label=round(estimate/2,2)), size = 3) +
+              aes(x=(site_centred*100)+45, y=estimate*0.218, label=round(estimate*0.218,2)), size = 3) +
     geom_text(data = summary,
-              aes(x=(site_centred*100)+45, y=conf.low/2, label=round(conf.low/2,2)), size = 3) +
+              aes(x=(site_centred*100)+45, y=conf.low*0.218, label=round(conf.low*0.218,2)), size = 3) +
     geom_text(data = summary,
-              aes(x=(site_centred*100)+45, y=conf.high/2, label=round(conf.high/2,2)), size = 3) +
+              aes(x=(site_centred*100)+45, y=conf.high*0.218, label=round(conf.high*0.218,2)), size = 3) +
     # # add percent in rope
     annotate("rect", xmin = 7.5, xmax = 92.5, ymin = -52.5, ymax = -35.83333, color = "black", fill = "white") +
     annotate("text", x=50, y=-40, label="Percentage of Posterior Distibution Within ROPE [-0.1,0.1]", size = 3) +
@@ -2430,68 +2448,68 @@ plot_muscle_model_slopes_lnRR <- function(data, model) {
     site_centred = rep(c(-0.25,0,0.25),10),
     muscle = rep(unique(data$muscle),each=3),
     rope_percent = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus Lateralis")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus Lateralis")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus Lateralis")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Front thigh")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Front thigh")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Front thigh")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Back thigh")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Back thigh")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Back thigh")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Biceps femoris Long Head")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Biceps femoris Long Head")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Biceps femoris Long Head")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Semitendinosus")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Semitendinosus")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Semitendinosus")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Rectus Femoris")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Rectus Femoris")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Rectus Femoris")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus Medialis")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus Medialis")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus Medialis")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus intermedius")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus intermedius")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus intermedius")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Elbow Flexors")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Elbow Flexors")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Elbow Flexors")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Triceps Brachii Long Head")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Triceps Brachii Long Head")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Triceps Brachii Long Head")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus Lateralis")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus Lateralis")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus Lateralis")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Front thigh")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Front thigh")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Front thigh")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Back thigh")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Back thigh")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Back thigh")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Biceps femoris Long Head")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Biceps femoris Long Head")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Biceps femoris Long Head")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Semitendinosus")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Semitendinosus")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Semitendinosus")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Rectus Femoris")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Rectus Femoris")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Rectus Femoris")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus Medialis")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus Medialis")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus Medialis")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus intermedius")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus intermedius")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus intermedius")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Elbow Flexors")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Elbow Flexors")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Elbow Flexors")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Triceps Brachii Long Head")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Triceps Brachii Long Head")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Triceps Brachii Long Head")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage
     ),
     pd = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus Lateralis")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus Lateralis")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus Lateralis")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Front thigh")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Front thigh")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Front thigh")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Back thigh")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Back thigh")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Back thigh")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Biceps femoris Long Head")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Biceps femoris Long Head")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Biceps femoris Long Head")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Semitendinosus")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Semitendinosus")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Semitendinosus")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Rectus Femoris")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Rectus Femoris")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Rectus Femoris")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus Medialis")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus Medialis")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus Medialis")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus intermedius")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus intermedius")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus intermedius")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Elbow Flexors")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Elbow Flexors")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Elbow Flexors")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Triceps Brachii Long Head")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Triceps Brachii Long Head")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Triceps Brachii Long Head")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus Lateralis")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus Lateralis")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus Lateralis")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Front thigh")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Front thigh")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Front thigh")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Back thigh")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Back thigh")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Back thigh")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Biceps femoris Long Head")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Biceps femoris Long Head")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Biceps femoris Long Head")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Semitendinosus")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Semitendinosus")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Semitendinosus")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Rectus Femoris")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Rectus Femoris")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Rectus Femoris")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus Medialis")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus Medialis")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus Medialis")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Vastus intermedius")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Vastus intermedius")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Vastus intermedius")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Elbow Flexors")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Elbow Flexors")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Elbow Flexors")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle == "Triceps Brachii Long Head")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle == "Triceps Brachii Long Head")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle == "Triceps Brachii Long Head")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage
     )
   )
   
@@ -2513,17 +2531,17 @@ plot_muscle_model_slopes_lnRR <- function(data, model) {
     )
   
   slopes |>
-    ggplot(aes(x = (site_centred*100)+50, y = draw/2)) +
+    ggplot(aes(x = (site_centred*100)+50, y = draw*0.218)) +
     geom_hline(yintercept = 0, linetype = "dotted", alpha = 0.75) +
     geom_hline(yintercept = c(-3,3), linetype = "dashed") +
     stat_slabinterval(aes(fill = (site_centred*100)+50), alpha = 0.75) +
     # # add mean and qi
     geom_text(data = summary,
-              aes(x=(site_centred*100)+45, y=estimate/2, label=round(estimate/2,2)), size = 3) +
+              aes(x=(site_centred*100)+45, y=estimate*0.218, label=round(estimate*0.218,2)), size = 3) +
     geom_text(data = summary,
-              aes(x=(site_centred*100)+45, y=conf.low/2, label=round(conf.low/2,2)), size = 3) +
+              aes(x=(site_centred*100)+45, y=conf.low*0.218, label=round(conf.low*0.218,2)), size = 3) +
     geom_text(data = summary,
-              aes(x=(site_centred*100)+45, y=conf.high/2, label=round(conf.high/2,2)), size = 3) +
+              aes(x=(site_centred*100)+45, y=conf.high*0.218, label=round(conf.high*0.218,2)), size = 3) +
     # # add percent in rope
     annotate("rect", xmin = 7.5, xmax = 92.5, ymin = -72.5, ymax = -55.83333, color = "black", fill = "white") +
     annotate("text", x=50, y=-60, label="Percentage of Posterior Distibution Within ROPE [-0.1,0.1]", size = 3) +
@@ -2633,32 +2651,32 @@ plot_muscle_action_model_slopes_lnRR <- function(data, model) {
     site_centred = rep(c(-0.25,0,0.25),4),
     muscle_action = rep(unique(data$muscle_action),each=3),
     rope_percent = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isometric")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isometric")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isometric")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isotonic")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isotonic")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isotonic")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isotonic+Isometric")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isotonic+Isometric")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isotonic+Isometric")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Concentric")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Concentric")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Concentric")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isometric")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isometric")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isometric")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isotonic")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isotonic")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isotonic")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isotonic+Isometric")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isotonic+Isometric")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isotonic+Isometric")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Concentric")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Concentric")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Concentric")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage
     ),
     pd = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isometric")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isometric")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isometric")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isotonic")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isotonic")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isotonic")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isotonic+Isometric")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isotonic+Isometric")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isotonic+Isometric")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Concentric")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Concentric")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Concentric")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isometric")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isometric")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isometric")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isotonic")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isotonic")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isotonic")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Isotonic+Isometric")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Isotonic+Isometric")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Isotonic+Isometric")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_action == "Concentric")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_action == "Concentric")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_action == "Concentric")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage
     )
   )
   
@@ -2680,17 +2698,17 @@ plot_muscle_action_model_slopes_lnRR <- function(data, model) {
     )
   
   slopes |>
-    ggplot(aes(x = (site_centred*100)+50, y = draw/2)) +
+    ggplot(aes(x = (site_centred*100)+50, y = draw*0.218)) +
     geom_hline(yintercept = 0, linetype = "dotted", alpha = 0.75) +
     geom_hline(yintercept = c(-3,3), linetype = "dashed") +
     stat_slabinterval(aes(fill = (site_centred*100)+50), alpha = 0.75) +
     # # add mean and qi
     geom_text(data = summary,
-              aes(x=(site_centred*100)+45, y=estimate/2, label=round(estimate/2,2)), size = 3) +
+              aes(x=(site_centred*100)+45, y=estimate*0.218, label=round(estimate*0.218,2)), size = 3) +
     geom_text(data = summary,
-              aes(x=(site_centred*100)+45, y=conf.low/2, label=round(conf.low/2,2)), size = 3) +
+              aes(x=(site_centred*100)+45, y=conf.low*0.218, label=round(conf.low*0.218,2)), size = 3) +
     geom_text(data = summary,
-              aes(x=(site_centred*100)+45, y=conf.high/2, label=round(conf.high/2,2)), size = 3) +
+              aes(x=(site_centred*100)+45, y=conf.high*0.218, label=round(conf.high*0.218,2)), size = 3) +
     # # add percent in rope
     annotate("rect", xmin = 7.5, xmax = 92.5, ymin = -72.5, ymax = -55.83333, color = "black", fill = "white") +
     annotate("text", x=50, y=-60, label="Percentage of Posterior Distibution Within ROPE [-0.1,0.1]", size = 3) +
@@ -2810,20 +2828,20 @@ plot_muscle_length_manipulation_model_slopes_lnRR <- function(data, model) {
     site_centred = rep(c(-0.25,0,0.25),2),
     muscle_length_manipulation = rep(unique(data$muscle_length_manipulation),each=3),
     rope_percent = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_length_manipulation == "Range of Motion")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_length_manipulation == "Range of Motion")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_length_manipulation == "Range of Motion")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_length_manipulation == "Exercise Selection")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_length_manipulation == "Exercise Selection")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_length_manipulation == "Exercise Selection")$draw/2, range = c(-3,3), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_length_manipulation == "Range of Motion")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_length_manipulation == "Range of Motion")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_length_manipulation == "Range of Motion")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_length_manipulation == "Exercise Selection")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_length_manipulation == "Exercise Selection")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_length_manipulation == "Exercise Selection")$draw*0.218, range = c(-3,3), ci = 1)$ROPE_Percentage
     ),
     pd = c(
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_length_manipulation == "Range of Motion")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_length_manipulation == "Range of Motion")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_length_manipulation == "Range of Motion")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_length_manipulation == "Exercise Selection")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_length_manipulation == "Exercise Selection")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage,
-      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_length_manipulation == "Exercise Selection")$draw/2, range = c(3, Inf), ci = 1)$ROPE_Percentage
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_length_manipulation == "Range of Motion")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_length_manipulation == "Range of Motion")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_length_manipulation == "Range of Motion")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == -0.25 & muscle_length_manipulation == "Exercise Selection")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0 & muscle_length_manipulation == "Exercise Selection")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage,
+      bayestestR::rope(filter(slopes, site_centred == 0.25 & muscle_length_manipulation == "Exercise Selection")$draw*0.218, range = c(3, Inf), ci = 1)$ROPE_Percentage
     )
   )
   
@@ -2845,17 +2863,17 @@ plot_muscle_length_manipulation_model_slopes_lnRR <- function(data, model) {
     )
   
   slopes |>
-    ggplot(aes(x = (site_centred*100)+50, y = draw/2)) +
+    ggplot(aes(x = (site_centred*100)+50, y = draw*0.218)) +
     geom_hline(yintercept = 0, linetype = "dotted", alpha = 0.75) +
     geom_hline(yintercept = c(-3,3), linetype = "dashed") +
     stat_slabinterval(aes(fill = (site_centred*100)+50), alpha = 0.75) +
     # # add mean and qi
     geom_text(data = summary,
-              aes(x=(site_centred*100)+45, y=estimate/2, label=round(estimate/2,2)), size = 3) +
+              aes(x=(site_centred*100)+45, y=estimate*0.218, label=round(estimate*0.218,2)), size = 3) +
     geom_text(data = summary,
-              aes(x=(site_centred*100)+45, y=conf.low/2, label=round(conf.low/2,2)), size = 3) +
+              aes(x=(site_centred*100)+45, y=conf.low*0.218, label=round(conf.low*0.218,2)), size = 3) +
     geom_text(data = summary,
-              aes(x=(site_centred*100)+45, y=conf.high/2, label=round(conf.high/2,2)), size = 3) +
+              aes(x=(site_centred*100)+45, y=conf.high*0.218, label=round(conf.high*0.218,2)), size = 3) +
     # # add percent in rope
     annotate("rect", xmin = 7.5, xmax = 92.5, ymin = -72.5, ymax = -55.83333, color = "black", fill = "white") +
     annotate("text", x=50, y=-60, label="Percentage of Posterior Distibution Within ROPE [-0.1,0.1]", size = 3) +
