@@ -1,66 +1,9 @@
 ---
-articletitle: |
-  Regional Hypertrophy with Resistance Training — Does Muscle Length Matter? A Systematic Review and Meta-Analysis
-shorttitle: "Regional Hypertrophy with Resistance Training — Does Muscle Length Matter?"
-format: 
-  sportrxiv-pdf:
-    include-in-header:
-      text: |
-       \usepackage[font=scriptsize]{caption}
-       \usepackage{lscape}
-        \newcommand{\blandscape}{\begin{landscape}}
-        \newcommand{\elandscape}{\end{landscape}}
-author:
-  - name: Dorian Varovic
-    affiliations:
-      - ref: 1
-    orcid: 0000-0002-1593-4717
-    corresponding: true
-    email: varovic.dorian@gmail.com
-  - name: Milo Wolf
-    affiliations:
-      - ref: 2
-    orcid: 0000-0002-9124-3977
-  - name: Brad J. Schoenfeld
-    affiliations:
-      - ref: 2
-    orcid: 0000-0003-4979-5783
-  - name: James Steele
-    affiliations:
-      - ref: 3
-    orcid: 0000-0002-8003-0757
-  - name: Jozo Grgic
-    affiliations:
-      - ref: 4
-      - ref: 5
-    orcid: 0000-0002-6929-2844
-  - name: Pavle Mikulic
-    affiliations:
-      - ref: 1
-    orcid: 0000-0003-1244-631X
-affiliations:
-      - id: 1
-        name: University of Zagreb Faculty of Kinesiology, Zagreb, Croatia
-      - id: 2
-        name: Department of Exercise Science and Recreation, Applied Muscle Development Lab, CUNY Lehman College, Bronx, NY
-      - id: 3
-        name: Steele Research Limited, UK
-      - id: 4
-        name: National University of Singapore, Healthy Longevity Translational Research Program, Yong Loo Lin School of Medicine, Singapore
-      - id: 5
-        name: National University Health System, Centre for Healthy Longevity, Singapore
+title: "Regional Hypertrophy with Resistance Training — Does Muscle Length Matter? A Systematic Review and Meta-Analysis"
+format: docx
 abstract: |
   The aim of this systematic review and meta-analysis was to examine how mean muscle length during resistance training (RT) influences regional muscle hypertrophy. We included studies that manipulated muscle length through range of motion (ROM) or exercise selection and evaluated regional muscle hypertrophy (i.e., changes at proximal, mid-belly, and/or distal sites). After systematically searching through three databases with additional secondary searches 12 studies were included in a meta-analysis. The meta-analysis was performed within the Bayesian meta-analytic framework. Standardized mean changes indicated trivial hypertrophic effects estimated with relatively high precision between proximal (25% muscle length; SMD: 0.04 [95%QI: -0.07, 0.15]; Exponentiated lnRR: 0.48% [95%QI: -1.99%, 3.13%]), mid-belly (50% muscle length; SMD: 0.07 [95%QI: -0.02, 0.15]; Exponentiated lnRR: 1.14% [95%QI: -0.84%, 3.13%]), and distal (75% muscle length; SMD: 0.09 [95%QI: -0.01, 0.19]; Exponentiated lnRR: 1.8% [95%QI: -0.52%, 4.26%]) sites. While the effects of training at longer muscle lengths showed an increasing trend from proximal to distal sites, the percentage of posterior distributions falling within ROPE was high from proximal to distal sites suggesting that effects are practically equivalent when contrasting “shorter” and “longer” mean muscle lengths at the typical differences employed in the current body of literature (i.e., an average difference of 21.8% mean muscle length). In summary, our results indicate that training at longer mean muscle length does not seem to produce greater regional muscle hypertrophy compared to shorter mean muscle lengths. However, due to small contrast in muscle lengths employed between conditions/groups, our findings should be considered limited to the contrasts typically employed in the literature.
-
-license-type: ccby # change if neccessary
-# year: 2025 # defaults to current year
-keywords: [muscle hypertrophy; muscle length; range of motion; resistance training] # optional
-# optional link to Supplementary Material:
-suppl-link: https://osf.io/c2657/ 
-reference-section-title: References
-printnote: "PREPRINT - NOT PEER REVIEWED" # if post print, include "POSTPRINT" then link to the published article
 bibliography: bibliography.bib  
-pdf-engine: xelatex
 ---
 
 ```{r}
@@ -423,3 +366,5 @@ No funding was received for this project.
 # Data and Supplementary Material Accessibility
 
 All extracted data and code utilised for data preparation and analyses are available in either the Open Science Framework page for this project <https://osf.io/c2657/> or the corresponding GitHub repository <https://github.com/jamessteeleii/ROM_regional_hypertrophy>. Other supplementary analyses and plots are also available there.
+
+# References
